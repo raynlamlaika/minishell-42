@@ -1,70 +1,107 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 17:29:38 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/03/11 09:45:18 by rlamlaik         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <string.h>
-#include <errno.h>
-#include <termios.h>
-#include <curses.h>
-#include <term.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include"minishell.h"
 
-int parssing(char *line)
+void append_token(t_token **head, t_token **last, t_token_type type, char *value)
 {
-    char**args;
-    
-    args = ft_split(line);
-    
+    t_token *new = malloc(sizeof(t_token));
 
-    
+    new->type = type;
+    if (value)
+    new->value = strdup(value);
+    else
+        new->value = NULL;
+    new->next = NULL;
+    if (!*head)
+        *head = new;
+    else
+        (*last)->next = new;
+    *last = new;
+}
+
+void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) 
+{
+    // here i need to handel cases like 'e''c''h''o' ""'"'''""""""""''''
+    int start = ++(*i);
+    while (input[*i] && input[*i] != quote)
+        (*i)++;
+    char *quoted_str = strndup(input + start, *i - start);
+    append_token(head, last, TOKEN_WORD, quoted_str);
+}
+
+void handle_word(t_token **head, t_token **last, char *input, int *i) 
+{
+    int start = *i;
+
+    while (input[*i] && !strchr(" |<>\"", input[*i]))  // Stop at spaces or operators
+        (*i)++;
+    char *word = strndup(input + start, *i - start);
+    append_token(head, last, TOKEN_WORD, word);
+    (*i)--;  // Adjust index
 }
 
 
-char* get_line(int ac, char**av, char**env)
+
+t_token *lexer(char *input)
 {
-    char *input;
+    int i = 0;
+    t_token *head = NULL;
+    t_token *last = NULL;
 
-    input = readline("Hell SHELLL|>");
-    if (!input)
-        return (printf("error in the read line function\n"), free(input), exit(1),NULL);
-    return (input);
-}
-
-
-int main(int ac, char**av, char**env)
-{
-    char *line;
-
-    while (1)
+    while (input[i])
     {
-        line = get_line(ac, av, env);
-        //exectute
-        printf("thisis the line%s\n",line);
-        free(line);
-        if (!line)
+        if (input[i] == ' ')
+            ;
+        else if (input[i] == '|')
+            append_token(&head, &last, TOKEN_PIPE, "|");
+        else if (input[i] == '<' && input[i + 1] == '<')
+            append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
+        else if (input[i] == '>' && input[i + 1] == '>')
+            append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
+        else if (input[i] == '<')
+            append_token(&head, &last, TOKEN_REDIR_IN, "<");
+        else if (input[i] == '>')
+            append_token(&head, &last, TOKEN_REDIR_OUT, ">");
+        else if (input[i] == '"') 
+            handle_quotes(&head, &last, input, &i, '"');  // Handle double quotes
+        else if (input[i] == '\'' || input[i] == '\"')
+            handle_quotes(&head, &last, input, &i, '\'');
+        else
+            handle_word(&head, &last, input, &i);
+        i++;
+    }
+    append_token(&head, &last, TOKEN_EOF, NULL);
+    return (head);
+}
+
+
+int main(int ac,char **av,char**env) {
+    char *line = NULL;
+    size_t len = 10;
+    ssize_t nread;
+    printf("minishell$");
+    int i = 1;
+    while(i)
+    {
+       
+        nread = getline(&line, &len, stdin);
+        if (nread == -1) 
+        {
+            perror("getline");
+            free(line);
+            return 1;
+        }
+        printf("the full line after parssing %s\n",line);
+        t_token *tokens =lexer(line);
+        while (tokens)
+        {
+            printf("Token Type: %d, Value: %s\n", tokens->type, tokens->value);
+            tokens = tokens->next;
+        }
+        printf("minishell$");
+        if(i >= 4)
             break;
+        i++;
     }
     free(line);
-    return (0);
+    return 0;
 }
-
-
-
