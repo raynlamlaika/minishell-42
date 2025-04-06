@@ -19,6 +19,7 @@ char    *handling_the_word(char *word, char sepa)
     buffer[bif] = '\0';
     return (strdup(buffer));
 }
+
 void append_token(t_token **head, t_token **last, t_token_type type, char *value)
 {
     t_token *new = malloc(sizeof(t_token));
@@ -97,15 +98,18 @@ t_token *lexer(char *input)
 }
 
 
+//func for commands
+
+
 int main(int ac,char **av,char**env) {
     char *line = NULL;
     size_t len = 10;
     ssize_t nread;
+    t_cmd *cmd = NULL;
     printf("minishell$");
     int i = 1;
     while(i)
     {
-       
         nread = getline(&line, &len, stdin);
         if (nread == -1) 
         {
@@ -113,13 +117,35 @@ int main(int ac,char **av,char**env) {
             free(line);
             return 1;
         }
-        printf("the full line after parssing %s\n",line);
+        printf("the full line after parssing ----->%s\n",line);
         t_token *tokens =lexer(line);
         while (tokens)
         {
-            printf("Token Type: %d, Value: %s\n", tokens->type, tokens->value);
+            cmd = malloc(sizeof(t_cmd));
+            printf ("this is tokens----------------->%s\n", tokens->value);
+            if (tokens->type == TOKEN_WORD)
+                take_word(tokens);
+            else if (tokens->type == TOKEN_WHITESPACE)
+            take_(tokens);
+            else if (tokens->type == TOKEN_REDIR_OUT)
+                ;
+            else if (tokens->type == TOKEN_REDIR_IN)
+                ;
+            else if (tokens->type == TOKEN_QUOTE)
+                ;
+            else if (tokens->type == TOKEN_PIPE)
+                ;
+            else if (tokens->type == TOKEN_HEREDOC)
+                ;
+            else if (tokens->type == TOKEN_EOF)
+                ;
+            else if(tokens->type == TOKEN_DQUOTE)
+                ;
+            else if (tokens->type == TOKEN_APPEND)
+                ;
             tokens = tokens->next;
         }
+
         printf("minishell$");
         if(i >= 4)
             break;

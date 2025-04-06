@@ -36,7 +36,6 @@ typedef enum e_token_type {
 } t_token_type;
 
 
-
 typedef struct s_token {
     t_token_type type;
     char *value;
@@ -44,6 +43,14 @@ typedef struct s_token {
 } t_token;
 
 
+typedef struct s_cmd {
+	char **args;         // array of strings: command + its arguments
+	char *infile;        // file for input redirection (< or <<)
+	char *outfile;       // file for output redirection (> or >>)
+	int append;          // 1 if >>, 0 if >
+	int heredoc;         // 1 if <<, 0 if <
+	struct s_cmd *next;  // pointer to the next command (if there is a pipe)
+} t_cmd;
 
 
 #endif
