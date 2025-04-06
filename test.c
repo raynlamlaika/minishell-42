@@ -1,1 +1,0 @@
-printf("dosent wobrkd)
