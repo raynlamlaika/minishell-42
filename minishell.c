@@ -41,15 +41,20 @@ void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 {
     int start = *i;
 
-    while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
+    printf("thiis \n");
+    while (input[*i])
+    { 
         (*i)++;
+        if (input[*i] && strchr(" |<>", input[*i]))
+            break;
+    }
     char *word = strndup(input + start, *i - start);
     //hahikhasha thandla : this word need to hande it
-    char *pppp = handling_the_word(word,quote);
-    printf ("hahiya lhandel----->%s \n", pppp);
+    // char *pppp = handling_the_word(word,quote);
+    // printf ("hahiya lhandel----->%s \n", pppp);
     append_token(head, last, TOKEN_WORD, word);
+    (*i)--;
 }
-
 void handle_word(t_token **head, t_token **last, char *input, int *i) 
 {
     int start = *i;
@@ -59,11 +64,10 @@ void handle_word(t_token **head, t_token **last, char *input, int *i)
     char *word = strndup(input + start, *i - start);
     //hahikhasha thandla : this word need to hande it
     char *pppp = handling_the_word(word,'"');
-    printf ("hahiya lhandel----->%s \n", pppp);
     append_token(head, last, TOKEN_WORD, word);
-    printf("handli lia hai %s \n", word);
     (*i)--;  // Adjust index
 }
+
 
 t_token *lexer(char *input)
 {
