@@ -40,13 +40,19 @@ void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 {
     int start = *i;
 
-    while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
+    printf("thiis \n");
+    while (input[*i])
+    { 
         (*i)++;
+        if (input[*i] && strchr(" |<>", input[*i]))
+            break;
+    }
     char *word = strndup(input + start, *i - start);
     //hahikhasha thandla : this word need to hande it
-    char *pppp = handling_the_word(word,quote);
-    printf ("hahiya lhandel----->%s \n", pppp);
+    // char *pppp = handling_the_word(word,quote);
+    // printf ("hahiya lhandel----->%s \n", pppp);
     append_token(head, last, TOKEN_WORD, word);
+    (*i)--;
 }
 
 void handle_word(t_token **head, t_token **last, char *input, int *i) 
@@ -58,9 +64,7 @@ void handle_word(t_token **head, t_token **last, char *input, int *i)
     char *word = strndup(input + start, *i - start);
     //hahikhasha thandla : this word need to hande it
     char *pppp = handling_the_word(word,'"');
-    printf ("hahiya lhandel----->%s \n", pppp);
     append_token(head, last, TOKEN_WORD, word);
-    printf("handli lia hai %s \n", word);
     (*i)--;  // Adjust index
 }
 
@@ -99,28 +103,25 @@ t_token *lexer(char *input)
 
 int main(int ac,char **av,char**env) {
     char *line = NULL;
-    size_t len = 10;
     ssize_t nread;
-    printf("minishell$");
     int i = 1;
+
     while(i)
     {
        
-        nread = getline(&line, &len, stdin);
-        if (nread == -1) 
+        line = readline("minishell$");
+        if (!line)
         {
-            perror("getline");
+            perror("readline faild");
             free(line);
             return 1;
         }
-        printf("the full line after parssing %s\n",line);
         t_token *tokens =lexer(line);
         while (tokens)
         {
             printf("Token Type: %d, Value: %s\n", tokens->type, tokens->value);
             tokens = tokens->next;
         }
-        printf("minishell$");
         if(i >= 4)
             break;
         i++;
