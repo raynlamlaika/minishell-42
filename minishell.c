@@ -41,28 +41,31 @@ void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 {
 	int start = *i;
 
-	while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
-		(*i)++;
-	char *word = strndup(input + start, *i - start);
-	//hahikhasha thandla : this word need to hande it
-	char *pppp = handling_the_word(word,quote);
-	// printf ("hahiya lhandel----->%s \n", pppp);
-	append_token(head, last, TOKEN_WORD, word);
+    while (input[*i])
+    { 
+        (*i)++;
+        if (input[*i] && strchr("\n", input[*i]))
+            break;
+    }
+    char *word = strndup(input + start, *i - start);
+    //hahikhasha thandla : this word need to hande it
+    // char *pppp = handling_the_word(word,quote);
+    // printf ("hahiya lhandel----->%s \n", pppp);
+    append_token(head, last, TOKEN_WORD, word);
+    (*i)--;
 }
 
 void handle_word(t_token **head, t_token **last, char *input, int *i) 
 {
 	int start = *i;
 
-	while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
-		(*i)++;
-	char *word = strndup(input + start, *i - start);
-	//hahikhasha thandla : this word need to hande it
-	char *pppp = handling_the_word(word,'"');
-	printf ("hahiya lhandel----->%s \n", pppp);
-	append_token(head, last, TOKEN_WORD, word);
-	// printf("handli lia hai %s \n", word);
-	(*i)--;  // Adjust index
+    while (input[*i] && !strchr(" |<>\n", input[*i]))  // Stop at spaces or operators
+        (*i)++;
+    char *word = strndup(input + start, *i - start);
+    //hahikhasha thandla : this word need to hande it
+    char *pppp = handling_the_word(word,'"');
+    append_token(head, last, TOKEN_WORD, word);
+    (*i)--;  // Adjust index
 }
 
 t_token *lexer(char *input)
@@ -71,33 +74,31 @@ t_token *lexer(char *input)
 	t_token *head = NULL;
 	t_token *last = NULL;
 
-	while (input[i])
-	{
-		if (input[i] == ' ')
-			;
-		else if (input[i] == '|')
-			append_token(&head, &last, TOKEN_PIPE, "|");
-		else if (input[i] == '<' && input[i + 1] == '<')
-			append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
-		else if (input[i] == '>' && input[i + 1] == '>')
-			append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
-		else if (input[i] == '<')
-			append_token(&head, &last, TOKEN_REDIR_IN, "<");
-		else if (input[i] == '>')
-			append_token(&head, &last, TOKEN_REDIR_OUT, ">");
-		else if (input[i] == '"')
-			handle_quotes(&head, &last, input, &i, '"');  // Handle double quotes
-		else if (input[i] == '\'')
-			handle_quotes(&head, &last, input, &i, '\'');
-		else
-			handle_word(&head, &last, input, &i);
-		i++;
-	}
-	append_token(&head, &last, TOKEN_EOF, NULL);
-	return (head);
+    while (input[i] && input[i] != '\n')
+    {
+        if (input[i] == ' ')
+            ;
+        else if (input[i] == '|')
+            append_token(&head, &last, TOKEN_PIPE, "|");
+        else if (input[i] == '<' && input[i + 1] == '<')
+            append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
+        else if (input[i] == '>' && input[i + 1] == '>')
+            append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
+        else if (input[i] == '<')
+            append_token(&head, &last, TOKEN_REDIR_IN, "<");
+        else if (input[i] == '>')
+            append_token(&head, &last, TOKEN_REDIR_OUT, ">");
+        else if (input[i] == '"')
+            handle_quotes(&head, &last, input, &i, '"');  // Handle double quotes
+        else if (input[i] == '\'')
+            handle_quotes(&head, &last, input, &i, '\'');
+        else
+            handle_word(&head, &last, input, &i);
+        i++;
+    }
+    append_token(&head, &last, TOKEN_EOF, NULL);
+    return (head);
 }
-
-
 //func for commands
 int is_redirection(t_token *tokens)
 {
@@ -159,7 +160,7 @@ int main(int ac,char **av,char**env) {
 		while (tokens)
 		{
 			cmd = malloc(sizeof(t_cmd));
-			// printf ("this is tokens----------------->%s\n", tokens->value);
+			printf ("this is tokens----------------->%s\n", tokens->value);
 			if (tokens->type == TOKEN_WORD)
 				;
 			else if (tokens->type == TOKEN_WHITESPACE)
@@ -183,7 +184,7 @@ int main(int ac,char **av,char**env) {
 			tokens = tokens->next;
 		}
 
-		// printf("minishell$");
+		printf("minishell$");
 		if(i >= 4)
 			break;
 		i++;
