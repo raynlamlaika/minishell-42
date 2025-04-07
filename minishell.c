@@ -3,158 +3,191 @@
 
 char    *handling_the_word(char *word, char sepa)
 {
-    char buffer[2024];
-    int i = 0;
-    int bif = 0;
+	char buffer[2024];
+	int i = 0;
+	int bif = 0;
 
-    while (word[i])
-    {
-        if (word[i] != sepa)
-        {
-            buffer[bif] = word[i];
-            bif++;
-        }
-        i++;
-    }
-    buffer[bif] = '\0';
-    return (strdup(buffer));
+	while (word[i])
+	{
+		if (word[i] != sepa)
+		{
+			buffer[bif] = word[i];
+			bif++;
+		}
+		i++;
+	}
+	buffer[bif] = '\0';
+	return (strdup(buffer));
 }
 
 void append_token(t_token **head, t_token **last, t_token_type type, char *value)
 {
-    t_token *new = malloc(sizeof(t_token));
+	t_token *new = malloc(sizeof(t_token));
 
-    new->type = type;
-    if (value)
-    new->value = strdup(value);
-    else
-        new->value = NULL;
-    new->next = NULL;
-    if (!*head)
-        *head = new;
-    else
-        (*last)->next = new;
-    *last = new;
+	new->type = type;
+	if (value)
+	new->value = strdup(value);
+	else
+		new->value = NULL;
+	new->next = NULL;
+	if (!*head)
+		*head = new;
+	else
+		(*last)->next = new;
+	*last = new;
 }
 
 void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) 
 {
-    int start = *i;
+	int start = *i;
 
-    printf("thiis \n");
-    while (input[*i])
-    { 
-        (*i)++;
-        if (input[*i] && strchr(" |<>", input[*i]))
-            break;
-    }
-    char *word = strndup(input + start, *i - start);
-    //hahikhasha thandla : this word need to hande it
-    // char *pppp = handling_the_word(word,quote);
-    // printf ("hahiya lhandel----->%s \n", pppp);
-    append_token(head, last, TOKEN_WORD, word);
-    (*i)--;
+	while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
+		(*i)++;
+	char *word = strndup(input + start, *i - start);
+	//hahikhasha thandla : this word need to hande it
+	char *pppp = handling_the_word(word,quote);
+	// printf ("hahiya lhandel----->%s \n", pppp);
+	append_token(head, last, TOKEN_WORD, word);
 }
+
 void handle_word(t_token **head, t_token **last, char *input, int *i) 
 {
-    int start = *i;
+	int start = *i;
 
-    while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
-        (*i)++;
-    char *word = strndup(input + start, *i - start);
-    //hahikhasha thandla : this word need to hande it
-    char *pppp = handling_the_word(word,'"');
-    append_token(head, last, TOKEN_WORD, word);
-    (*i)--;  // Adjust index
+	while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
+		(*i)++;
+	char *word = strndup(input + start, *i - start);
+	//hahikhasha thandla : this word need to hande it
+	char *pppp = handling_the_word(word,'"');
+	printf ("hahiya lhandel----->%s \n", pppp);
+	append_token(head, last, TOKEN_WORD, word);
+	// printf("handli lia hai %s \n", word);
+	(*i)--;  // Adjust index
 }
-
 
 t_token *lexer(char *input)
 {
-    int i = 0;
-    t_token *head = NULL;
-    t_token *last = NULL;
+	int i = 0;
+	t_token *head = NULL;
+	t_token *last = NULL;
 
-    while (input[i])
-    {
-        if (input[i] == ' ')
-            ;
-        else if (input[i] == '|')
-            append_token(&head, &last, TOKEN_PIPE, "|");
-        else if (input[i] == '<' && input[i + 1] == '<')
-            append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
-        else if (input[i] == '>' && input[i + 1] == '>')
-            append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
-        else if (input[i] == '<')
-            append_token(&head, &last, TOKEN_REDIR_IN, "<");
-        else if (input[i] == '>')
-            append_token(&head, &last, TOKEN_REDIR_OUT, ">");
-        else if (input[i] == '"')
-            handle_quotes(&head, &last, input, &i, '"');  // Handle double quotes
-        else if (input[i] == '\'')
-            handle_quotes(&head, &last, input, &i, '\'');
-        else
-            handle_word(&head, &last, input, &i);
-        i++;
-    }
-    append_token(&head, &last, TOKEN_EOF, NULL);
-    return (head);
+	while (input[i])
+	{
+		if (input[i] == ' ')
+			;
+		else if (input[i] == '|')
+			append_token(&head, &last, TOKEN_PIPE, "|");
+		else if (input[i] == '<' && input[i + 1] == '<')
+			append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
+		else if (input[i] == '>' && input[i + 1] == '>')
+			append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
+		else if (input[i] == '<')
+			append_token(&head, &last, TOKEN_REDIR_IN, "<");
+		else if (input[i] == '>')
+			append_token(&head, &last, TOKEN_REDIR_OUT, ">");
+		else if (input[i] == '"')
+			handle_quotes(&head, &last, input, &i, '"');  // Handle double quotes
+		else if (input[i] == '\'')
+			handle_quotes(&head, &last, input, &i, '\'');
+		else
+			handle_word(&head, &last, input, &i);
+		i++;
+	}
+	append_token(&head, &last, TOKEN_EOF, NULL);
+	return (head);
 }
 
 
 //func for commands
-
+int is_redirection(t_token *tokens)
+{
+	return (tokens->type == TOKEN_HEREDOC || tokens->type == TOKEN_APPEND ||
+		tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_REDIR_IN ||
+		tokens->type == TOKEN_PIPE);
+}
+void syntax(t_token *tokens)
+{
+	if (tokens && tokens->type == TOKEN_PIPE)
+	{
+		printf ("error syntax\n");
+		exit(1);
+	}
+	while (tokens)
+	{
+		// printf ("this is value-->   %s , and this is type-->  %u\n", tokens->value, tokens->type);
+		if (is_redirection(tokens))
+		{
+			if (!tokens->next)
+			{
+				printf("syntax error\n");
+				exit(1);
+			}
+			if (tokens->next->type == TOKEN_PIPE)
+			{
+				printf ("syntax error\n");
+				exit (1);
+			}
+			if (is_redirection(tokens->next))
+			{
+				printf ("syntax error\n");
+				exit(1);
+			}
+		}
+		tokens = tokens->next;
+	}
+}
 
 int main(int ac,char **av,char**env) {
-    char *line = NULL;
-    size_t len = 10;
-    ssize_t nread;
-    t_cmd *cmd = NULL;
-    printf("minishell$");
-    int i = 1;
-    while(i)
-    {
-        nread = getline(&line, &len, stdin);
-        if (nread == -1) 
-        {
-            perror("getline");
-            free(line);
-            return 1;
-        }
-        printf("the full line after parssing ----->%s\n",line);
-        t_token *tokens =lexer(line);
-        while (tokens)
-        {
-            cmd = malloc(sizeof(t_cmd));
-            printf ("this is tokens----------------->%s\n", tokens->value);
-            if (tokens->type == TOKEN_WORD)
-                take_word(tokens);
-            else if (tokens->type == TOKEN_WHITESPACE)
-            take_(tokens);
-            else if (tokens->type == TOKEN_REDIR_OUT)
-                ;
-            else if (tokens->type == TOKEN_REDIR_IN)
-                ;
-            else if (tokens->type == TOKEN_QUOTE)
-                ;
-            else if (tokens->type == TOKEN_PIPE)
-                ;
-            else if (tokens->type == TOKEN_HEREDOC)
-                ;
-            else if (tokens->type == TOKEN_EOF)
-                ;
-            else if(tokens->type == TOKEN_DQUOTE)
-                ;
-            else if (tokens->type == TOKEN_APPEND)
-                ;
-            tokens = tokens->next;
-        }
+	char *line = NULL;
+	size_t len = 10;
+	ssize_t nread;
+	t_cmd *cmd = NULL;
+	printf("minishell$");
+	int i = 1;
+	while(i)
+	{
+		nread = getline(&line, &len, stdin);
+		if (nread == -1) 
+		{
+			perror("getline");
+			free(line);
+			return 1;
+		}
+		// printf("the full line after parssing ----->%s\n",line);
+		t_token *tokens =lexer(line);
+		syntax(tokens);
+		while (tokens)
+		{
+			cmd = malloc(sizeof(t_cmd));
+			// printf ("this is tokens----------------->%s\n", tokens->value);
+			if (tokens->type == TOKEN_WORD)
+				;
+			else if (tokens->type == TOKEN_WHITESPACE)
+				;
+			else if (tokens->type == TOKEN_REDIR_OUT)
+				;
+			else if (tokens->type == TOKEN_REDIR_IN)
+				;
+			else if (tokens->type == TOKEN_QUOTE)
+				;
+			else if (tokens->type == TOKEN_PIPE)
+				;
+			else if (tokens->type == TOKEN_HEREDOC)
+				;
+			else if (tokens->type == TOKEN_EOF)
+				;
+			else if(tokens->type == TOKEN_DQUOTE)
+				;
+			else if (tokens->type == TOKEN_APPEND)
+				;
+			tokens = tokens->next;
+		}
 
-        printf("minishell$");
-        if(i >= 4)
-            break;
-        i++;
-    }
-    free(line);
-    return 0;
+		// printf("minishell$");
+		if(i >= 4)
+			break;
+		i++;
+	}
+	free(line);
+	return 0;
 }
