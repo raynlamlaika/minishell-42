@@ -41,11 +41,10 @@ void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 {
     int start = *i;
 
-    printf("thiis \n");
     while (input[*i])
     { 
         (*i)++;
-        if (input[*i] && strchr(" |<>", input[*i]))
+        if (input[*i] && strchr(" |<>\n", input[*i]))
             break;
     }
     char *word = strndup(input + start, *i - start);
@@ -59,7 +58,7 @@ void handle_word(t_token **head, t_token **last, char *input, int *i)
 {
     int start = *i;
 
-    while (input[*i] && !strchr(" |<>", input[*i]))  // Stop at spaces or operators
+    while (input[*i] && !strchr(" |<>\n", input[*i]))  // Stop at spaces or operators
         (*i)++;
     char *word = strndup(input + start, *i - start);
     //hahikhasha thandla : this word need to hande it
@@ -75,7 +74,7 @@ t_token *lexer(char *input)
     t_token *head = NULL;
     t_token *last = NULL;
 
-    while (input[i])
+    while (input[i] && input[i] != '\n')
     {
         if (input[i] == ' ')
             ;
@@ -101,8 +100,34 @@ t_token *lexer(char *input)
     return (head);
 }
 
+// sntax 
 
-//func for commands
+
+
+void syntax(t_token *tokens)
+{
+    t_token *tmp;
+    t_token *prev;
+
+    tmp = tokens;
+    prev = NULL;
+    while (tmp)
+    {
+        // if (prev)
+        //     printf("this is the node: |%s|  this is the prev: |%s|\n", tmp->value, prev->value);
+        if(tmp->type == TOKEN_PIPE && prev->type == TOKEN_PIPE)
+        {
+            //
+        }
+        if(tmp->type == TOKEN_REDIR_IN  || tmp->type == TOKEN_REDIR_OUT \
+            || tmp->type == TOKEN_HEREDOC || tmp->type == TOKEN_APPEND)
+        {
+
+        }
+        prev = tmp;
+        tmp = tmp->next;
+    }
+}
 
 
 int main(int ac,char **av,char**env) {
@@ -121,35 +146,36 @@ int main(int ac,char **av,char**env) {
             free(line);
             return 1;
         }
-        printf("the full line after parssing ----->%s\n",line);
+        //printf("the full line after parssing ----->%s\n",line);
         t_token *tokens =lexer(line);
-        while (tokens)
-        {
-            cmd = malloc(sizeof(t_cmd));
-            printf ("this is tokens----------------->%s\n", tokens->value);
-            if (tokens->type == TOKEN_WORD)
-                take_word(tokens);
-            else if (tokens->type == TOKEN_WHITESPACE)
-            take_(tokens);
-            else if (tokens->type == TOKEN_REDIR_OUT)
-                ;
-            else if (tokens->type == TOKEN_REDIR_IN)
-                ;
-            else if (tokens->type == TOKEN_QUOTE)
-                ;
-            else if (tokens->type == TOKEN_PIPE)
-                ;
-            else if (tokens->type == TOKEN_HEREDOC)
-                ;
-            else if (tokens->type == TOKEN_EOF)
-                ;
-            else if(tokens->type == TOKEN_DQUOTE)
-                ;
-            else if (tokens->type == TOKEN_APPEND)
-                ;
-            tokens = tokens->next;
-        }
-
+        //cheking the syntax right here
+        syntax(tokens);
+        // while (tokens)
+        // {
+        //     cmd = malloc(sizeof(t_cmd));
+        //     printf ("this is tokens----------------->%s\n", tokens->value);
+        //     if (tokens->type == TOKEN_WORD)
+        //         ;// take_word(tokens);
+        //     else if (tokens->type == TOKEN_WHITESPACE)
+        //         ;//take_(tokens);
+        //     else if (tokens->type == TOKEN_REDIR_OUT)
+        //         ;
+        //     else if (tokens->type == TOKEN_REDIR_IN)
+        //         ;
+        //     else if (tokens->type == TOKEN_QUOTE)
+        //         ;
+        //     else if (tokens->type == TOKEN_PIPE)
+        //         ;
+        //     else if (tokens->type == TOKEN_HEREDOC)
+        //         ;
+        //     else if (tokens->type == TOKEN_EOF)
+        //         ;
+        //     else if(tokens->type == TOKEN_DQUOTE)
+        //         ;
+        //     else if (tokens->type == TOKEN_APPEND)
+        //         ;
+        //     tokens = tokens->next;
+        // }
         printf("minishell$");
         if(i >= 4)
             break;
