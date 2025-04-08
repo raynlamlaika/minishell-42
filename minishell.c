@@ -111,6 +111,7 @@ int main(int ac,char **av,char**env) {
 		}
 		t_token *tokens =lexer(line);
 		syntax(tokens);
+		parse_tokens(tokens);
         // while (tokens)
         // {
         //     printf("this is the tokens :%s\n", tokens->value);
