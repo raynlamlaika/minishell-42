@@ -53,10 +53,16 @@ typedef struct s_cmd {
     struct s_cmd *next;      // For piped commands
 } t_cmd;
 
-// typedef struct s_list {
-// 	char			*value;
-// 	struct s_list 	*next;
-// } 					t_list;
+typedef struct s_list {
+	char			*value;
+	struct s_list 	*next;
+} 					t_list;
+
+
+t_token *lexer(char *input, int , t_token *last);
+void append_token(t_token **head, t_token **last, t_token_type type, char *value);
+void	handle_word(t_token **head, t_token **last, char *input, int *i);
+char	*ft_strchr(const char *str, int c);
 
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);

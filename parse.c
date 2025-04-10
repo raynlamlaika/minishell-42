@@ -58,8 +58,8 @@ void add_arg(t_cmd *type, char *value)
 			count++;
 	}
 	new_args = malloc(sizeof(char *) * (count + 2));
-	while (value)
-	// ...
+	// while (value)
+	// // ...
 }
 
 t_cmd	*parse_tokens(t_token *tokens)
