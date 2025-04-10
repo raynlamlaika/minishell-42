@@ -1,16 +1,17 @@
+
 #include "minishell.c"
 
-int	ft_strlen(char *s1)
+int	ft_strlen(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s1[i])
+	while (s[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	int		i;
 	char	*s2;

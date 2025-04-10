@@ -42,27 +42,31 @@ typedef struct s_token {
 	struct s_token *next;
 } t_token;
 
+typedef struct s_file {
+	char *infile;            // For <
+	char *outfile;           // For > or >>
+    int append;              // 1 if >>, 0 if >
+	struct s_file 	*next;
+} 					t_file;
 
 typedef struct s_cmd {
     char **args;             // Command and its arguments
-    char *infile;            // For <
-    char *outfile;           // For > or >>
-    int append;              // 1 if >>, 0 if >
-    int pipe_in;             // Set to 1 if receives input from previous pipe
-    int pipe_out;            // Set to 1 if output is piped to next command
+    // char *infile;            // For <
+    // char *outfile;           // For > or >>
+    // int append;              // 1 if >>, 0 if >
+    // int pipe_in;             // Set to 1 if receives input from previous pipe
+    // int pipe_out;            // Set to 1 if output is piped to next command
     struct s_cmd *next;      // For piped commands
+	t_file *file;
 } t_cmd;
 
-// typedef struct s_list {
-// 	char			*value;
-// 	struct s_list 	*next;
-// } 					t_list;
 
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
 int     is_redirection(t_token *tokens);
 void    syntax(t_token *tokens);
 t_cmd	*parse_tokens(t_token *tokens);
-
+char	*ft_strdup(char *s1);
+int		ft_strlen(char *s1);
 
 #endif
