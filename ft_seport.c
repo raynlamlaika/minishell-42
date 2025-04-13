@@ -11,35 +11,6 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strdup(char *s1)
-{
-	int		i;
-	char	*s2;
-
-	i = 0;
-	s2 = malloc((ft_strlen(s1) + 1) * (sizeof(char)));
-	if (!s2)
-		return (NULL);
-	while (s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
-
-t_list	*ft_lstnew(void *content)
-{
-	t_list	*head;
-
-	head = malloc(sizeof(t_list));
-	if (!head)
-		return (NULL);
-	head->value = content;
-	head->next = NULL;
-	return (head);
-}
 
 int	ft_lstsize(t_list *lst)
 {

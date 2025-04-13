@@ -1,22 +1,5 @@
 #include "minishell.h"
 
-char	*ft_strndup(char *s1, int n)
-{
-	int		i;
-	char	*s2;
-
-	s2 = malloc((1 + n) * (sizeof(char)));
-	if (!s2)
-	return (NULL);
-	i = 0;
-	while (i < n && s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
 
 int is_redirection(t_token *tokens)
 {
@@ -85,34 +68,6 @@ void	*ft_calloc(size_t count, size_t size)
 	return (s);
 }
 
-int	ft_strlen(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(char *s1)
-{
-	int		i;
-	char	*s2;
-
-	i = 0;
-	s2 = malloc((ft_strlen(s1) + 1) * (sizeof(char)));
-	if (!s2)
-		return (NULL);
-	while (s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
-
 void add_arg(t_cmd *type, char *value)
 {
 	int count = 0;
@@ -149,9 +104,15 @@ void print_cmds(t_cmd *cmd)
 {
 	int i;
 	int num = 1;
+	t_file *hh = cmd ->file;
 	while (cmd)
 	{
 		printf("\n--- Command %d ---\n", num++);
+        while (hh)
+        {
+            printf("this is %s \n", hh->infile);
+            hh = hh->next;  
+        }
 		if (cmd->file)
 		{
 			printf("infile: %s\n", cmd->file->infile);
@@ -246,9 +207,10 @@ t_cmd *parse_tokens(t_token *tokens)
 			cmd = new_cmd;
 			tokens = tokens->next;
 			file = new_file;
+			last_file = NULL;
 		}
 	}
-	print_cmds(start);
+	// print_cmds(start);
 	return (start);
 }
 

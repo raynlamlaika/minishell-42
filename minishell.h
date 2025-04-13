@@ -50,16 +50,29 @@ typedef struct s_file {
 } 					t_file;
 
 typedef struct s_cmd {
-    char **args;             // Command and its arguments
-    // char *infile;            // For <
-    // char *outfile;           // For > or >>
-    // int append;              // 1 if >>, 0 if >
-    // int pipe_in;             // Set to 1 if receives input from previous pipe
-    // int pipe_out;            // Set to 1 if output is piped to next command
-    struct s_cmd *next;      // For piped commands
+    char **args;
+    struct s_cmd *next;
 	t_file *file;
 } t_cmd;
 
+typedef struct s_env {
+	char *key;
+	char *value;
+	struct s_env *next;
+} t_env;
+
+
+void append_token(t_token **head, t_token **last, t_token_type type, char *value);
+void handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) ;
+void handle_word(t_token **head, t_token **last, char *input, int *i);
+t_token *lexer(char *input, t_token* last, int i);
+void	exectution(t_cmd *full,t_env** env);
+void	free_env_list(t_env *head);
+t_env	*linked_varibles(char **env);
+
+char	*ft_strndup(char *s1, int n);
+char	*ft_strchr(const char *str, int c);
+int		ft_strlen(char *s1);
 
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
@@ -68,5 +81,8 @@ void    syntax(t_token *tokens);
 t_cmd	*parse_tokens(t_token *tokens);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s1);
+int		ft_strncmp(const char *str1, const char *str2, size_t num);
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
