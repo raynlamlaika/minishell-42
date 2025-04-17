@@ -1,7 +1,6 @@
 
 #include"minishell.h"
 
-
 int main(int ac,char **av,char**env)
 {
 	char *line;
@@ -18,7 +17,7 @@ int main(int ac,char **av,char**env)
 		line = readline("minishell $> ");
 		if (!line) 
 		{
-			perror("readline");
+			perror("readFFFFline");
 			free(line);
 			return 1;
 		}
@@ -29,17 +28,17 @@ int main(int ac,char **av,char**env)
 		// 	tokens = tokens->next;
 		// }
 		env_list = linked_varibles(env);
+		// check_expeand();
+		// get_value(env_list, "PATHH"); it's just in check for the func check value 
 		syntax(tokens);
-		parse_tokens(tokens);
+		t_cmd *f = parse_tokens(tokens);
 		// here will be the expanding 
-		
-		// exectution(f, &env_list);
+		exectution(f, env_list);
 		// the expande
-		if(i >= 4)
-			break;
+		// if(i >= 4)
+		// 	break;
 		i++;
 	}
 	free(line);
 	return 0;
 }
-

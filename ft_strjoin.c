@@ -6,55 +6,37 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 20:47:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/12 16:03:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:00:43 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*check(char const *s1, char const *s2)
-{
-	char	*p;
-
-	if (!s1)
-	{
-		p = ft_strdup(s2);
-		return (p);
-	}
-	if (!s2)
-	{
-		p = ft_strdup(s1);
-		return (p);
-	}
-	else
-		return (0);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
-	char	*ptr;
+	int		j;
+	char	*s_everyone;
 
-	if (!s1 && !s2)
-		return (0);
-	if ((!s1 && s2) || (!s2 && s1))
-		return (check(s1, s2));
-	i = ft_strlen(s1)+ ft_strlen(s2);
-	ptr = (char *) malloc((i + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
 	i = 0;
+	j = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	s_everyone
+		= (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	if (!s_everyone)
+		return (NULL);
 	while (s1[i])
 	{
-		ptr[i] = s1[i];
+		s_everyone[i] = s1[i];
 		i++;
 	}
-	while (*s2)
-	{
-		ptr[i] = *s2;
-		i++;
-		s2++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	while (s2[j])
+		s_everyone[i++] = s2[j++];
+	s_everyone[i] = '\0';
+	return (s_everyone);
 }

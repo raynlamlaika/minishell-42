@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 11:16:55 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:57:10 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,25 @@ t_env *linked_varibles(char **env)
 	return (head);
 }
 
+char *get_value(t_env *linked_env, char *input)
+{
+	char *value;
+	int i;
+
+	i = ft_strlen(input) + 1;
+	while (linked_env)
+	{
+		if (ft_strncmp(linked_env->key, input,i) == 0)
+		{
+			printf("this is the VALUE :%s\n", linked_env->value);
+			break ;
+		}
+		linked_env = linked_env->next;
+	}
+	value = input;
+	return (value);
+}
+
 void print_env_list(t_env *head)
 {
 	while (head)
@@ -130,3 +149,4 @@ void	free_env_list(t_env *head)
 		free(tmp);
 	}
 }
+

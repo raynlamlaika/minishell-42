@@ -153,9 +153,17 @@ t_cmd *parse_tokens(t_token *tokens)
 			else if (tokens->type == TOKEN_REDIR_IN && tokens->next)
 			{
 				if (!last_file)
+				{
 					file->infile = tokens->next->value;
+					last_file = file;
+				}
 				else
-					last_file->infile = tokens->next->value;
+				{
+					t_file *new_file = ft_calloc(1, sizeof(t_file));
+					last_file->next = new_file;
+					last_file = new_file;
+					new_file->infile = tokens->next->value;
+				}
 				tokens = tokens->next;
 			}
 			else if (tokens->type == TOKEN_REDIR_OUT && tokens->next)
@@ -213,6 +221,3 @@ t_cmd *parse_tokens(t_token *tokens)
 	// print_cmds(start);
 	return (start);
 }
-
-
-

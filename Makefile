@@ -1,7 +1,8 @@
 NAME = minishell
 
-SRC = minishell.c parse.c  tokens.c ft_strndup.c ft_strdup.c ft_strchr.c envr.c
-BSRC = 
+SRC = parse.c  tokens.c ft_strndup.c ft_strdup.c ft_strchr.c envr.c ft_strncmp.c \
+		ft_strjoin.c  execution.c ft_split_h.c  ft_strrchr.c 
+# BSRC = 
 
 OBJ = $(SRC:.c=.o)
 # BOBJ = $(BSRC:.c=.o)
@@ -15,21 +16,22 @@ HEADER = minishell.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -lreadline   $(CFLAGS) $^ -o $(NAME)
+	$(CC) -lreadline $(CFLAGS) $^ -o $(NAME)
 
-bonus: $(BOBJ)
-	$(CC) $(CFLAGS) $^ -o $(NAME)
+# bonus: $(BOBJ)
+# 	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bonus/%.o: bonus/%.c $(HEADERB)
-	$(CC) $(CFLAGS) -Ibonus -c $< -o $@
+# bonus/%.o: bonus/%.c $(HEADERB)
+# 	$(CC) $(CFLAGS) -Ibonus -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(BOBJ)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+

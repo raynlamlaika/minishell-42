@@ -6,12 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:57:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/12 15:59:49 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:27:33 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.c"
-
 
 static size_t	count_word(char const *str, char c)
 {
