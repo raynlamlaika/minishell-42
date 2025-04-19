@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRC = parse.c  tokens.c ft_strndup.c ft_strdup.c ft_strchr.c envr.c ft_strncmp.c \
-		ft_strjoin.c  execution.c ft_split_h.c  ft_strrchr.c 
+		ft_strjoin.c  execution.c ft_split_h.c  ft_strrchr.c handle_signal.c
 # BSRC = 
 
 OBJ = $(SRC:.c=.o)
