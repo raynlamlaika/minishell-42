@@ -22,6 +22,7 @@ int main(int ac,char **av,char**env)
 			return 1;
 		}
 		tokens = lexer(line, last, 0);
+		
 		// while (tokens)
 		// {
 		// 	printf("thsis %s\n", tokens->value);

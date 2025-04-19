@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/17 16:59:54 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/19 02:56:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,6 @@ char **takepaths(t_env *env_lnk)
 	return (path);
 }
 
-
-
-void	pipecheck(int *pipefd)
-{
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipex");
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	forkfaild(pid_t pid, int*pipefd)
-{
-	if (pid == -1)
-	{
-		perror("pipex");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(EXIT_FAILURE);
-	}
-}
 // this it will be changed to check also for the buildin
 char	*pick(char**path, char*cmd)
 {
@@ -125,122 +104,6 @@ char	*pick(char**path, char*cmd)
 	return (NULL);
 }
 
-
-int	first_command(int infile, char **paths, int *pipfd, char**arg)
-{
-	char	*path;
-
-	if (infile < 0)
-		exit(1);
-	if (dup2(infile, STDIN_FILENO) == -1)
-		return (perror("pipex"), exit(1), 0);
-	close(infile);
-	if (dup2(pipfd[1], STDOUT_FILENO) == -1)
-		return (perror("pipex"), close(pipfd[1]), exit(1), 0);
-	close(pipfd[1]);
-	close(pipfd[0]);
-	path = pick(paths, arg[0]);
-	if (!path)
-		return (perror("pipex"), close(infile), exit(1), 0);
-	execve(path, arg, NULL);
-	exit(1);
-	return (1);
-}
-
-int	executing(int prev_pipe, char**cmd, char**paths, int outfile)
-{
-	char	*path;
-
-	if (dup2(prev_pipe, STDIN_FILENO) == -1)
-		return (perror("pipex"), 0);
-	close(prev_pipe);
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		return (perror("pipex"), close(prev_pipe), 0);
-	close(outfile);
-	path = pick(paths, cmd[0]);
-	if (!path)
-		return (perror("pipex"), close(prev_pipe), close(outfile), exit(1), 0);
-	if (execve(path, cmd, NULL) == -1)
-	{
-		perror("pipex");
-		exit(1);
-	}
-	return (0);
-}
-
-void	handelprevpipe(int *pipefd, int *prev_pipe)
-{
-	close(pipefd[1]);
-	close(*prev_pipe);
-	*prev_pipe = pipefd[0];
-}
-
-t_cmd*	loop_childs(int *prev_pipe, char**paths, t_cmd *args, int inf)
-{
-	// t_cmd	*last;
-	pid_t	pid;
-	int		pipfd[2];
-	t_cmd	*curr;
-	int i = 0;
-	
-	curr = args;
-
-	while (curr->next)
-	{
-
-		pipecheck(pipfd);
-		printf("this is the prev pip %d and outf  %d\n", inf, prev_pipe[0]);
-		pid = fork();
-		forkfaild(pid, pipfd);
-		if (pid == 0)
-		{
-			if ( i == 0) // take the first cmd
-				first_command(inf, paths, pipfd, args->args);
-			if (i > 0)// others
-			{
-				close(pipfd[0]);
-				exit(1);
-				executing(*prev_pipe, args->args, paths, pipfd[1]);
-			}
-		}
-		else
-			handelprevpipe(pipfd, prev_pipe);
-		i++;
-		// printf("this is the args %s\n", curr->args[0]);
-		curr = curr->next;
-	}
-	return (curr);
-}
-
-int	last_child(int prvpipe, char**cmd, char**paths, int outf)
-{
-	char	*path;
-
-	printf("this is the prev pip %d and outf%d\n", prvpipe, outf);
-	if (fork() == 0)
-	{
-		if (dup2(prvpipe, STDIN_FILENO) == -1)
-			return (perror("pipex"), 0);
-		close(prvpipe);
-		if (dup2(outf, STDOUT_FILENO) == -1)
-			return (perror("pipex"), close(prvpipe), 0);
-		close(outf);
-		path = pick(paths, cmd[0]);
-		if (!path)
-			return (perror("pipex"), close(prvpipe), close(outf), exit(1), 0);
-		if (execve(path, cmd, NULL) == -1)
-		{
-			perror("pipex");
-			exit(1);
-		}
-	}
-	return (0);
-}
-
-
-
-
-
 void print_file_list(t_file *file)
 {
     while (file)
@@ -266,96 +129,180 @@ void print_cmd_list(t_cmd *cmd)
     }
 }
 
-int open_outf(t_file* current)
-{
-	int fd;
+void get_redirections(int *inf, int *outf,t_cmd* full)
+{	
+	t_file* files;
 
-	fd = 0;
-	while (current)
+	files = full->file;
+	*inf = -1;
+	*outf = -1;
+	while(files)
 	{
-		if (!current->outfile)
+		if(files->infile)
 		{
-			// printf("WE WILL USE THE STDIN/OUT this is the fd %d\n", fd);
-			return -5;
+			*inf = open(files->infile, O_RDONLY);
+			if (*inf < 0)
+			{
+				perror("infile open failed");
+				exit(EXIT_FAILURE);
+			}
 		}
-		else if (current->append)
-			fd = open(current->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else
-			fd = open(current->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		printf("OUUUUUUUTening input file: %s number %d\n", current->outfile, fd);
-		if (fd == -1)
+		else if(files->outfile)
 		{
-			perror("Failed to open file");
-			return (0); // or exit status will be handeled here
+			if(files->append)
+				*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (*outf < 0)
+			{
+				perror("outfile open failed");
+				exit(EXIT_FAILURE);
+			}
 		}
-		if (current->next)
-			close(fd);
-		current = current->next;
+		files = files->next;
 	}
-	//we  will open the last file 
-	return (fd);
 }
 
-int open_infile(t_file *current)
+void	pipecheck(int *pipefd)
 {
-	int fd = 0;
-
-	while (current)
+	if (pipe(pipefd) == -1)
 	{
-		if (!current->infile)
-		{
-			// printf("No infile specified, using STDIN\n");
-			// current = current->next;
-			return (-5);
-		}
-		fd = open(current->infile, O_RDONLY);
-		printf("Opening input file: %s number %d\n", current->infile, fd);
-		if (fd == -1)
-		{
-			perror("Failed to open input file");
-			return (0); // You can handle this however you want
-		}
-		if (current->next)
-			close(fd);
-		current = current->next;
+		perror("pipex");
+		exit(EXIT_FAILURE);
 	}
-	return (fd); // return the last valid input fd to dup2 to STDIN
+}
+
+void	forkfaild(pid_t pid, int*pipefd)
+{
+	if (pid == -1)
+	{
+		perror("pipex");
+		close(pipefd[0]);
+		close(pipefd[1]);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	handelprevpipe(int *pipefd, int *prev_pipe)
+{
+	close(pipefd[1]);
+	close(*prev_pipe);
+	*prev_pipe = pipefd[0];
+}
+
+
+
+void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path)
+{
+	int	inf, outf;
+	char **args = cmd->args;
+	(void)env;
+	get_redirections(&inf, &outf, cmd);
+
+	pid_t pid = fork();
+	if (pid == -1)
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		if (inf != -1)
+		{
+			dup2(inf, STDIN_FILENO);
+			close(inf);
+		}
+		if (outf != -1)
+		{
+			dup2(outf, STDOUT_FILENO);
+			close(outf);
+		}
+		char *bin = pick(path, args[0]);
+		if (!bin)
+		{
+			perror("command not found");
+			exit(127);
+		}
+		execve(bin, args, NULL);
+		perror("execve failed");
+		exit(126);
+	}
+	else
+	{
+		int status;
+		waitpid(pid, &status, 0);
+	}
 }
 
 
 void exectution(t_cmd *full, t_env *env)
 {
-	// int     inf, outf;
-	// char    **path;
-	// int     i = 0;
+	int 	inf, outf;
+	char    **path;
+	pid_t	pid;
+	int		pipefd[2];
+	char**	cmd;
+	int	perv_pipe = -1;
 
-	(void) full;
-	(void)env;
-	// path = takepaths(env);
-	// if (!path)
-	// 	return ; // or handle error
+	path = takepaths(env);
+	if (!path)
+	{
+		write(1, "there is no path\n", 17);
+		exit(1);
+	}
 
-	// while (full->next) // process all commands except the last
-	// {
-	// 	hedel_red(full);
-	// 	inf = open_infile(full);
-	// 	outf = open_outf(full);
+	if (full->next)
+	{
+		while(full)
+		{
+			pipecheck(pipefd);
+			pid = fork();
+			forkfaild(pid, pipefd);
+			if (pid == 0)
+			{
+				get_redirections(&inf, &outf, full);
 
-	// 	if (inf != -1)
-	// 		dup2(inf, STDIN_FILENO);
-	// 	if (outf != -1)
-	// 		dup2(outf, STDOUT_FILENO);
+				if (inf != -1)
+				{
+					dup2(inf, STDIN_FILENO);
+					close(inf);
+				}
+				else if (perv_pipe != -1)
+					dup2(perv_pipe, STDIN_FILENO);
 
-	// 	if (i == 0)
-	// 		first_command(full, path, env); // first command logic
-	// 	else
-	// 		executing(full, path, env);     // middle commands
+				if (outf != -1)
+				{
+					dup2(outf, STDOUT_FILENO);
+					close(outf);
+				}
+				else if (full->next)
+					dup2(pipefd[1], STDOUT_FILENO);
 
-	// 	i++;
-	// 	full = full->next;
-	// }
+				close(pipefd[0]);
+				close(pipefd[1]);
 
-	// // last command
-	// last_command(full, path, env);
+				cmd = full->args;
+				char *pathh = pick(path, cmd[0]);
+				if (!pathh)
+				{
+					perror("command not found");
+					exit(127);
+				}
+				execve(pathh, cmd, NULL);
+				perror("execve failed");
+				exit(126);
+			}
+			else
+			{
+				handelprevpipe(pipefd, &perv_pipe);
+			}
+			full = full->next;
+		}
+
+		int status;
+		while (wait(&status) > 0)
+			;
+	}
+	else
+		execute_single_cmd(full, env, path);
 }
-

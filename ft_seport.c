@@ -43,3 +43,4 @@ int	ft_strlen(char *s)
 // 		last = last->next;
 // 	last->next = new;
 // }
+

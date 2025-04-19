@@ -52,6 +52,7 @@ typedef struct s_file
 	struct s_file 	*next;
 } 					t_file;
 
+
 typedef struct s_cmd
 {
     char **args;
