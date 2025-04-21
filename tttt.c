@@ -63,7 +63,7 @@ char *get_next_line(int fd)
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    while (1)
+    while (0)
     {
         if (buffer_pos >= read_size)
         {

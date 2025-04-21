@@ -8,44 +8,41 @@ int is_redirection(t_token *tokens)
 		tokens->type == TOKEN_PIPE);
 }
 
-void syntax(t_token *tokens)
+void	syntax(t_token *tokens, int exit_s)
 {
-	if (!tokens || tokens->type == TOKEN_PIPE)
+	if (!tokens || is_redirection(tokens) || tokens->type == TOKEN_PIPE)
 	{
-		printf ("error syntax\n");
-		exit(1);
+		exit_s = 2;
+		printf("syntax error\n");
+		return ;
 	}
-	while(tokens)
+
+	while (tokens)
 	{
 		if (is_redirection(tokens))
 		{
-			if (!tokens->next)
+			if (!tokens->next || tokens->next->type == TOKEN_EOF ||
+				tokens->next->type == TOKEN_PIPE ||is_redirection(tokens->next))
 			{
+				exit_s = 2;
 				printf("syntax error\n");
-				exit(1);
-			}
-			if (tokens->next->type == TOKEN_PIPE)
-			{
-				printf ("syntax error\n");
-				exit (1);
-			}
-			if (is_redirection(tokens->next))
-			{
-				printf ("syntax error\n");
-				exit(1);
+				return ;
 			}
 		}
+
 		if (tokens->type == TOKEN_PIPE)
 		{
-			if (tokens->next->type == TOKEN_EOF)
+			if (!tokens->next || tokens->next->type == TOKEN_EOF)
 			{
-				printf("syntax errr\n");
-				exit(1);
+				exit_s = 2;
+				printf("syntax error\n");
+				return ;
 			}
 		}
 		tokens = tokens->next;
 	}
 }
+
 
 void	*ft_calloc(size_t count, size_t size)
 {
