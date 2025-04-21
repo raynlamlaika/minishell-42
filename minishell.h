@@ -83,7 +83,7 @@ char 	*get_value(t_env *linked_env, char *input);
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
 int     is_redirection(t_token *tokens);
-void    syntax(t_token *tokens);
+void    syntax(t_token *tokens, int exit_s);
 t_cmd	*parse_tokens(t_token *tokens);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s1);
