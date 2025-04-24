@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 int is_redirection(t_token *tokens)
 {
 	return (tokens->type == TOKEN_HEREDOC || tokens->type == TOKEN_APPEND ||
@@ -25,7 +24,7 @@ void	syntax(t_token *tokens, int exit_s)
 				tokens->next->type == TOKEN_PIPE ||is_redirection(tokens->next))
 			{
 				exit_s = 2;
-				printf("syntax error\n");
+				printf("syntax errorn");
 				return ;
 			}
 		}
@@ -42,7 +41,6 @@ void	syntax(t_token *tokens, int exit_s)
 		tokens = tokens->next;
 	}
 }
-
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -68,10 +66,11 @@ void	*ft_calloc(size_t count, size_t size)
 void add_arg(t_cmd *type, char *value)
 {
 	int count = 0;
-	int i = 0;
-	int j = 0;
+	int i;
+	int j;
 	char **new_args;
 
+	count = 0;
 	if (type->args)
 	{
 		while (type->args[count])
@@ -80,6 +79,7 @@ void add_arg(t_cmd *type, char *value)
 	new_args = malloc(sizeof(char *) * (count + 2));
 	if (!new_args)
 		return;
+	i = 0;
 	while (i < count)
 	{
 		new_args[i] = ft_strdup(type->args[i]);
@@ -199,6 +199,22 @@ t_cmd *parse_tokens(t_token *tokens)
 				}
 				tokens = tokens->next;
 			}
+			else if (tokens->type == TOKEN_HEREDOC && tokens->next)
+			{
+				if(!last_file)
+				{
+					file->here_doc = tokens->next->value;
+					last_file = file;
+				}
+				else
+				{
+					t_file *new_file = ft_calloc(1, sizeof(t_file));
+					last_file->next = new_file;
+					last_file = new_file;
+					new_file->here_doc = tokens->next->value;
+				}
+				tokens = tokens->next;
+			}
 			tokens = tokens->next;
 		}
 
@@ -215,6 +231,6 @@ t_cmd *parse_tokens(t_token *tokens)
 			last_file = NULL;
 		}
 	}
-	// print_cmds(start);
+	//print_cmds(start);
 	return (start);
 }
