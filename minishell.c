@@ -18,7 +18,7 @@ int main(int ac,char **av,char**env)
 		line = readline("minishell $> ");
 		if (!line) 
 		{
-			perror("readFFFFline");
+			perror("readline");
 			free(line);
 			return 1;
 		}

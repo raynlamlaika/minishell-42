@@ -49,9 +49,23 @@ typedef struct s_file
 	char *infile;
 	char *outfile;
     int append;
+	char* here_doc ; //if yes 1 no 0
 	struct s_file 	*next;
 } 					t_file;
 
+// norm
+// pwd | exit
+// perpare the here doc
+// check syntax heredoc 
+// is tty
+
+
+
+// builtn
+// norm;
+// herdoc _ exec
+// expand 
+// handel quotes
 
 typedef struct s_cmd
 {
