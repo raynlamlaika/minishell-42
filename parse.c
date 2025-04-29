@@ -52,7 +52,7 @@ void	*ft_calloc(size_t count, size_t size)
 	p = size * count;
 	if (size && p / size != count)
 		return (0);
-	s = (char *)malloc(size * count);
+	s = (char *)ft_malloc(size * count, 1);
 	if (!s)
 		return (NULL);
 	while (i < (size * count))
@@ -76,7 +76,7 @@ void add_arg(t_cmd *type, char *value)
 		while (type->args[count])
 			count++;
 	}
-	new_args = malloc(sizeof(char *) * (count + 2));
+	new_args = ft_malloc(sizeof(char *) * (count + 2), 1);
 	if (!new_args)
 		return;
 	i = 0;
@@ -231,6 +231,9 @@ t_cmd *parse_tokens(t_token *tokens)
 			last_file = NULL;
 		}
 	}
+<<<<<<< HEAD
 	//print_cmds(start);
+=======
+>>>>>>> 5f351dcb938caff00b5d87ca975504cdefb0efa9
 	return (start);
 }

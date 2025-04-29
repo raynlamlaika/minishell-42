@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 15:57:10 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:14:08 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char *handling_qoutes(char *word, char sepa)
 			count++;
 		i++;
 	}
-	result = malloc(count + 1);
+	result = ft_malloc(count + 1, 1);
 	if (!result)
 		return NULL;
 
@@ -46,7 +46,7 @@ char *handling_qoutes(char *word, char sepa)
 
 char *take_key(char **env, int i, int j)
 {
-	char *key = malloc(i + 1);
+	char *key = ft_malloc(i + 1, 1);
 	if (!key) return NULL;
 	strncpy(key, env[j], i);
 	key[i] = '\0';
@@ -57,7 +57,7 @@ char *take_value(char **env, int i, int j)
 {
 	i++; // skip '='
 	int len = strlen(env[j] + i);
-	char *value = malloc(len + 1);
+	char *value = ft_malloc(len + 1, 1);
 	if (!value) return NULL;
 	strcpy(value, env[j] + i);
 	return value;
@@ -65,7 +65,7 @@ char *take_value(char **env, int i, int j)
 
 t_env *new_node(char *key, char *value)
 {
-	t_env *node = malloc(sizeof(t_env));
+	t_env *node = ft_malloc(sizeof(t_env), 1);
 	if (!node) return NULL;
 	node->key = key;
 	node->value = value;

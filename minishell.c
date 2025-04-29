@@ -20,29 +20,22 @@ int main(int ac,char **av,char**env)
 		{
 			perror("readline");
 			free(line);
+			ft_malloc(0, 0);
 			return 1;
 		}
 		add_history(line);
 		tokens = lexer(line, last, 0);
-	
-		// while (tokens)
-		// {
-		// 	printf("thsis %s\n", tokens->value);
-		// 	tokens = tokens->next;
-		// }
 		env_list = linked_varibles(env);
-		// check_expeand();
-		// get_value(env_list, "PATHH"); it's just in check for the func check value 
+		expand(tokens, env_list);
 		syntax(tokens, exit_s);
-		//faild in the syntax 
-		t_cmd *f = parse_tokens(tokens);
-		// here will be the expanding 
+		t_cmd *f =  parse_tokens(tokens);
+		heredoc(f->file, env_list);
 		exectution(f, env_list);
-		// the expande
-		// if(i >= 4)
-		// 	break;
+		free(line);
 		i++;
 	}
 	free(line);
+	ft_malloc(0, 0);
 	return (exit_s);
 }
+
