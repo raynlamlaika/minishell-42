@@ -20,6 +20,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 // representation of the deffrent type of token
 
 typedef enum e_token_type
@@ -49,13 +52,13 @@ typedef struct s_file
 	char *infile;
 	char *outfile;
     int append;
+	char* here_doc ; //if yes 1 no 0
 	struct s_file 	*next;
 } 					t_file;
 
-
 typedef struct s_cmd
 {
-    char **args;
+	char **args;
     struct s_cmd *next;
 	t_file *file;
 } t_cmd;
@@ -67,14 +70,31 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
+typedef struct s_gc_collector
+{
+    void *ptr;
+    struct s_gc_collector *next;
+}t_gc_collector;
+
+// garbge collecter
+
+int	heredoc(t_file *files, t_env *paths);
+char	*get_next_line(int fd);
+
+void    *ft_malloc(size_t size, int flag);
+int	ft_isalpha(int c);
+void print_env_list(t_env *head);
+
 void	handle_word(t_token **head, t_token **last, char *input, int *i);
 t_token *lexer(char *input, t_token* last, int i);
 void	exectution(t_cmd *full,t_env*env);
 void	free_env_list(t_env *head);
 t_env	*linked_varibles(char **env);
 
+void    expand(t_token *token, t_env *env);
 
 void print_cmds(t_cmd *cmd);
+char *handling_qoutes(char *word, char sepa);
 
 char	*ft_strndup(char *s1, int n);
 char	*ft_strchr(const char *str, int c);
@@ -92,5 +112,5 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 
 
-
+//ft_ft_malloc 
 #endif

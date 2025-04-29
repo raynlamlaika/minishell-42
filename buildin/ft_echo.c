@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 17:24:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/22 12:43:31 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ void ft_echo(char **args)
     flag = 0;
     if (!args)
         ;
-    // check the first param
-    printf("caek charekc %s %d\n",args[i] ,ft_strncmp(args[i], "echo", 4));
     if (ft_strncmp(args[i] , "echo", 4) == 0)
         i++;
     else
-        exit(1);
+        exit(1); // have in errr
     i++;
     if (ft_strncmp(args[i] , "-n", 3) == 0)
         flag = 5;

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/19 02:56:51 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:39:08 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char **takepaths(t_env *env_lnk)
 	{
 		helper = path[enc];
 		path[enc] = ft_strjoin(path[enc], "/");
-		free(helper);
+		// free(helper);
 		enc++;
 	}
 	return (path);
@@ -98,7 +98,7 @@ char	*pick(char**path, char*cmd)
 		realpath = ft_strjoin(path[pass], cmd);
 		if (access(realpath, X_OK) == 0)
 			return (realpath);
-		free(realpath);
+		// free(realpath);
 		pass++;
 	}
 	return (NULL);
@@ -190,8 +190,6 @@ void	handelprevpipe(int *pipefd, int *prev_pipe)
 	*prev_pipe = pipefd[0];
 }
 
-
-
 void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path)
 {
 	int	inf, outf;
@@ -234,7 +232,6 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path)
 	}
 }
 
-
 void exectution(t_cmd *full, t_env *env)
 {
 	int 	inf, outf;
@@ -260,6 +257,7 @@ void exectution(t_cmd *full, t_env *env)
 			forkfaild(pid, pipefd);
 			if (pid == 0)
 			{
+				// check if buildin
 				get_redirections(&inf, &outf, full);
 
 				if (inf != -1)

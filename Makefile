@@ -1,9 +1,11 @@
 NAME = minishell
 
 SRC = parse.c  tokens.c ft_strndup.c ft_strdup.c ft_strchr.c envr.c ft_strncmp.c \
-		ft_strjoin.c  execution.c ft_split_h.c  ft_strrchr.c handle_signal.c
-# BSRC = 
+		ft_strjoin.c  execution.c ft_split_h.c  ft_strrchr.c handle_signal.c expand.c gnl.c ft_heredoc.c\
+		ft_malloc.c
 
+# BSRC = 
+DEP= minishell.c
 OBJ = $(SRC:.c=.o)
 # BOBJ = $(BSRC:.c=.o)
 

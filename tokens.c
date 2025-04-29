@@ -14,11 +14,11 @@
 
 void	append_token(t_token **head, t_token **last, t_token_type type, char *value)
 {
-	t_token *new = malloc(sizeof(t_token));
+	t_token *new = ft_malloc(sizeof(t_token), 1);
 
 	new->type = type;
 	if (value)
-	new->value = strdup(value);
+	new->value = ft_strdup(value);
 	else
 		new->value = NULL;
 	new->next = NULL;
@@ -32,14 +32,18 @@ void	append_token(t_token **head, t_token **last, t_token_type type, char *value
 void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) 
 {
 	int	start = *i;
+	int j = 1;
 
-	if (quote == '\'')
-		printf("singale quote\n");
 	while (input[*i])
 	{ 
 		(*i)++;
 		if (input[*i] && ft_strchr("\n", input[*i]))
 			break;
+		else if (input[*i] == quote && ft_strchr("><| \n",input[(*i) + j]))
+		{
+			(*i)++;
+			break;
+		}
 	}
 	char *word = ft_strndup(input + start, *i - start);
 	append_token(head, last, TOKEN_WORD, word);
@@ -103,4 +107,3 @@ t_token	*lexer(char *input, t_token* last, int i)
 	}
 	return (append_token(&head, &last, TOKEN_EOF, NULL), head);
 }
-
