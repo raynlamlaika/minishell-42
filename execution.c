@@ -6,13 +6,10 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/23 22:27:25 by abouabba         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/27 18:39:08 by rlamlaik         ###   ########.fr       */
->>>>>>> 5f351dcb938caff00b5d87ca975504cdefb0efa9
+/*   Updated: 2025/04/29 15:47:02 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 

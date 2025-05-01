@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/28 14:16:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:30:05 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	lines(int fd, char *limiter)
 {
     char	*next;
 
+    printf("yooooo\n");
     while (1)
     {
         write(1, "pipex_heredoc >> ", 17);
@@ -97,35 +98,19 @@ static void	lines(int fd, char *limiter)
     }
 }
         
-int	heredoc(t_file *files, t_env * paths)
-    {
-    char	*limiter;
-            int		pipfd[2];
-            int		newpip[2];
-            
-    (void)paths;
-    while (files)
-    {
-        if (files->here_doc)
-        {
-            printf("this");
-            if (pipe(pipfd) == -1)
-        	    return (perror("pipe"), 1);
-            limiter = files->here_doc;
-            
-            lines(pipfd[1], limiter);
-            close(pipfd[1]);
-            if (pipe(newpip) == -1)
-        	    return (perror("pipe"), 1);
-        }
-        files = files->next;
-        // if (fork() == 0)
-        //     exit(1);
-        // 	// executing(pipfd[0], cmd, paths, newpip[1]);
-        // close(pipfd[0]);
-        // close(newpip[1]);
-    }
-    return (0);
+int	heredoc(char* limiter)
+{
+    int		pipfd[2];
+    int		newpip[2];
+    pipe(pipfd);
+    printf("passsed\n");
+    lines(pipfd[1], limiter);
+    close(pipfd[1]);
+    if (pipe(newpip) == -1)
+        ;//check fail
+    else if (pipe(pipfd) == -1)
+        return (0);
+    return (pipfd[0]);
 }
     
     

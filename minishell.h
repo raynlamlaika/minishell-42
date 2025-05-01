@@ -52,11 +52,10 @@ typedef struct s_file
 	char *infile;
 	char *outfile;
     int append;
-	char* here_doc ; //if yes 1 no 0
+	int here_doc;
 	struct s_file 	*next;
 } 					t_file;
 
-<<<<<<< HEAD
 // norm
 // pwd | exit
 // perpare the here doc
@@ -70,9 +69,6 @@ typedef struct s_file
 // herdoc _ exec
 // expand 
 // handel quotes
-
-=======
->>>>>>> 5f351dcb938caff00b5d87ca975504cdefb0efa9
 typedef struct s_cmd
 {
 	char **args;
@@ -95,7 +91,8 @@ typedef struct s_gc_collector
 
 // garbge collecter
 
-int	heredoc(t_file *files, t_env *paths);
+int	heredoc(char* limiter);
+
 char	*get_next_line(int fd);
 
 void    *ft_malloc(size_t size, int flag);
@@ -112,7 +109,7 @@ void    expand(t_token *token, t_env *env);
 
 void print_cmds(t_cmd *cmd);
 char *handling_qoutes(char *word, char sepa);
-
+void	handle_signal(int sig);
 char	*ft_strndup(char *s1, int n);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(char *str, int c);
@@ -120,7 +117,7 @@ char 	*get_value(t_env *linked_env, char *input);
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
 int     is_redirection(t_token *tokens);
-void    syntax(t_token *tokens, int exit_s);
+void    syntax(t_token *tokens, int *exit_s);
 t_cmd	*parse_tokens(t_token *tokens);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s1);
