@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_h.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:57:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 17:27:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:38:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static char	**intotowdarray(char const*s, char c, char**p, size_t*index)
 		if (*s != c && *s != '\0')
 		{
 			words = lenght(s, c);
-			p[*index] = (char *) malloc(sizeof(char) * (words + 1));
+			p[*index] = (char *) ft_malloc(sizeof(char) * (words + 1), 1);
 			if (!p)
 			{
 				while ((*index) > 0)
@@ -107,7 +107,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_word(s, c);
-	p = (char **) malloc(sizeof(char *) * (1 + words));
+	p = (char **) ft_malloc(sizeof(char *) * (1 + words), 1);
 	if (!p)
 		return (NULL);
 	index = 0;

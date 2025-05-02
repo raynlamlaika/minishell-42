@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/23 22:27:25 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:27:35 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char **takepaths(t_env *env_lnk)
 	{
 		helper = path[enc];
 		path[enc] = ft_strjoin(path[enc], "/");
-		free(helper);
+		// free(helper);
 		enc++;
 	}
 	return (path);
@@ -98,7 +98,7 @@ char	*pick(char**path, char*cmd)
 		realpath = ft_strjoin(path[pass], cmd);
 		if (access(realpath, X_OK) == 0)
 			return (realpath);
-		free(realpath);
+		// free(realpath);
 		pass++;
 	}
 	return (NULL);
@@ -138,16 +138,23 @@ void get_redirections(int *inf, int *outf,t_cmd* full)
 	*outf = -1;
 	while(files)
 	{
-		if(files->infile)
+		if(files->infile || files->here_doc)
 		{
-			*inf = open(files->infile, O_RDONLY);
-			if (*inf < 0)
+			if (files->here_doc)
 			{
-				perror("infile open failed");
-				exit(EXIT_FAILURE);
+				*inf = files->here_doc;
+			}
+			else
+			{
+				*inf = open(files->infile, O_RDONLY);
+				if (*inf < 0)
+				{
+					perror("infile open failed");
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
-		else if(files->outfile)
+		if(files->outfile)
 		{
 			if(files->append)
 				*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -159,6 +166,7 @@ void get_redirections(int *inf, int *outf,t_cmd* full)
 				exit(EXIT_FAILURE);
 			}
 		}
+
 		files = files->next;
 	}
 }
@@ -191,51 +199,98 @@ void	handelprevpipe(int *pipefd, int *prev_pipe)
 }
 
 
+int	is_passed(char *str, char *sec)
+{
+	int	i;
 
-void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path)
+	i = 0;
+	while (str[i] || sec[i])
+	{
+		if (str[i] != sec[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	search_search(char *str)
+{
+	if (is_passed(str, "echo") || is_passed(str, "cd") || \
+		is_passed(str, "pwd") || is_passed(str, "export") || \
+		is_passed(str, "unset") || is_passed(str, "env") || is_passed(str, "exit"))
+		return (1);
+	else
+		return (0);
+}
+
+int	buildin(t_cmd *cmd, t_env *env, int exit_s)
+{
+	if (is_passed(cmd->args[0], "echo"))
+		ft_echo(cmd->args, exit_s);
+	else if (is_passed(cmd->args[0], "exit"))
+		ft_exit();
+	else if (is_passed(cmd->args[0], "export"))
+		ft_export(cmd->args, env);
+	else if (is_passed(cmd->args[0], "cd"))
+		ft_cd(cmd->args);
+	else if (is_passed(cmd->args[0], "pwd"))
+		ft_pwd();
+	else if (is_passed(cmd->args[0], "env"))
+		ft_env(env);
+	else if (is_passed(cmd->args[0], "unset"))
+		ft_unset(cmd->args, env);
+	else
+		return (write(2, "Error\n", 7), 0);
+	return (1);
+}
+
+void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 {
 	int	inf, outf;
 	char **args = cmd->args;
-	(void)env;
 	get_redirections(&inf, &outf, cmd);
-
-	pid_t pid = fork();
-	if (pid == -1)
+	
+	if (search_search(cmd->args[0]))
+		buildin(cmd,env, exit_s);
+	else if (!search_search(cmd->args[0]))
 	{
-		perror("fork failed");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		if (inf != -1)
+		pid_t pid = fork();
+		if (pid == -1)
 		{
-			dup2(inf, STDIN_FILENO);
-			close(inf);
+			perror("fork failed");
+			exit(EXIT_FAILURE);
 		}
-		if (outf != -1)
+		if (pid == 0)
 		{
-			dup2(outf, STDOUT_FILENO);
-			close(outf);
+			if (inf != -1)
+			{
+				dup2(inf, STDIN_FILENO);
+				close(inf);
+			}
+			if (outf != -1)
+			{
+				dup2(outf, STDOUT_FILENO);
+				close(outf);
+			}
+			char *bin = pick(path, args[0]);
+			if (!bin)
+			{
+				perror("command not found");
+				exit(127);
+			}
+			execve(bin, args, env->env_v);
+			perror("execve failed");
+			exit(126);
 		}
-		char *bin = pick(path, args[0]);
-		if (!bin)
+		else
 		{
-			perror("command not found");
-			exit(127);
+			int status;
+			waitpid(pid, &status, 0);
 		}
-		execve(bin, args, NULL);
-		perror("execve failed");
-		exit(126);
-	}
-	else
-	{
-		int status;
-		waitpid(pid, &status, 0);
 	}
 }
 
-
-void exectution(t_cmd *full, t_env *env)
+void exectution(t_cmd *full, t_env *env, int exit_s)
 {
 	int 	inf, outf;
 	char    **path;
@@ -261,7 +316,7 @@ void exectution(t_cmd *full, t_env *env)
 			if (pid == 0)
 			{
 				get_redirections(&inf, &outf, full);
-
+				
 				if (inf != -1)
 				{
 					dup2(inf, STDIN_FILENO);
@@ -280,22 +335,27 @@ void exectution(t_cmd *full, t_env *env)
 
 				close(pipefd[0]);
 				close(pipefd[1]);
-
-				cmd = full->args;
-				char *pathh = pick(path, cmd[0]);
-				if (!pathh)
+				if (search_search(full->args[0]))
 				{
-					perror("command not found");
-					exit(127);
+
+					
 				}
-				execve(pathh, cmd, NULL);
-				perror("execve failed");
-				exit(126);
+				else
+				{
+					cmd = full->args;
+					char *pathh = pick(path, cmd[0]);
+					if (!pathh)
+					{
+						perror("command not found");
+						exit(127);
+					}
+					execve(pathh, cmd, env->env_v);
+					perror("execve failed");
+					exit(126);
+				}
 			}
 			else
-			{
 				handelprevpipe(pipefd, &perv_pipe);
-			}
 			full = full->next;
 		}
 
@@ -304,5 +364,5 @@ void exectution(t_cmd *full, t_env *env)
 			;
 	}
 	else
-		execute_single_cmd(full, env, path);
+		execute_single_cmd(full, env, path, exit_s);
 }

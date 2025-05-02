@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:17:14 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 16:55:26 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:13:43 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strdup(char*source)
 	char	*sp;
 
 	o = 0;
-	sp = (char *) malloc((ft_strlen(source) + 1) * sizeof(char));
+	sp = (char *) ft_malloc((ft_strlen(source) + 1) * sizeof(char), 1);
 	if (!sp)
 		return (NULL);
 	while (source[o])

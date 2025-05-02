@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:09:39 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/13 16:43:12 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:13:37 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strndup(char *s1, int n)
 	int		i;
 	char	*s2;
 
-	s2 = malloc((1 + n) * (sizeof(char)));
+	s2 = ft_malloc((1 + n) * (sizeof(char)), 1);
 	if (!s2)
 		return (NULL);
 	i = 0;
