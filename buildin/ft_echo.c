@@ -6,22 +6,23 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/22 12:43:31 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:48:21 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-void ft_echo(char **args)
+void ft_echo(char **args, int exit_s)
 {
     int i;
     int j = 0;
-    char p;
+    // char p;
     int flag;
 
     i = 0;
     // p = '\n';
+    printf("evigbfkjrfbvnkrfg\n");
     flag = 0;
     if (!args)
         ;
@@ -32,6 +33,8 @@ void ft_echo(char **args)
     i++;
     if (ft_strncmp(args[i] , "-n", 3) == 0)
         flag = 5;
+    if (args[i][i] == '?')
+        printf("%d\n", exit_s);
     i++;
     while (args[i])
     {

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/27 18:14:08 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:48:00 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char *handling_qoutes(char *word, char sepa)
 		}
 		i++;
 	}
+
 	result[j] = '\0';
 	return (result);
 }
@@ -55,7 +56,7 @@ char *take_key(char **env, int i, int j)
 
 char *take_value(char **env, int i, int j)
 {
-	i++; // skip '='
+	i++;
 	int len = strlen(env[j] + i);
 	char *value = ft_malloc(len + 1, 1);
 	if (!value) return NULL;
@@ -106,6 +107,7 @@ t_env *linked_varibles(char **env)
 		}
 		j++;
 	}
+	head->env_v = env;
 	return (head);
 }
 

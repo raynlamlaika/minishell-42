@@ -1,117 +1,12 @@
 
 #include "../minishell.h"
 
-int	ft_strlen(char *s1)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i])
-		i++;
-	return (i);
-}
-
 int	ft_isdigit(int c)
 {
 	if (c >= 48 && c <= 57)
 		return (1);
 	return (0);
 }
-
-int	ft_isalpha(int c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-// void    ft_export(char **args, t_env *env)
-// {
-//     int i;
-//     char *str;
-//     char *key;
-//     int j = 0;
-//     int len;
-//     int l = 0;
-
-//     len  = 0;
-//     i = 0;
-//     if (ft_strncmp(&args[j][i] ,"export", ft_strlen(&args[j][i])))
-//         write(2, "EROOORRR\n", 1);
-//     i++;
-//     while (args[i][j])
-//     {
-//         if (ft_strchr(args[i], '='))
-//         {
-//             j = 0;
-//             while (args[i][j])
-//             {
-//                 while (ft_isalpha(args[i][j]) || ft_isdigit(args[i][j]) || args[i][j] == '"' || args[i][j] == '\'')
-//                 {
-//                     len++;
-//                     j++;
-//                 }
-//                 str = ft_malloc(len);
-//                 while (len  > l)
-//                 {
-//                     str[l] = args[i][l];
-//                     l++;
-//                 }
-//                 str[l] = '\0';
-//                 l = 0;
-//                 if (args[i][j] == '=')
-//                     j++;
-//                 else if (args[i][j] == '+')
-//                 {
-//                     j++;
-//                     len++;
-//                     if (args[i][j] == '=')
-//                         j++;
-//                     else
-//                         {write(1, "error\n", 6); break;}
-//                 }
-//                 else 
-//                 {
-//                     write(2, "erooooor\n", 10);
-//                     break;
-//                 }
-//                 len++;
-//                 while (!(args[i][j] == ' ') && args[i][j] || args[i][j]== '\'' || args[i][j]== '\"')
-//                 {
-//                     j++;
-//                     l++;
-//                 }
-//                 key = ft_malloc(l);
-//                 l = 0;
-//                 while (!(args[i][len] == ' ') && args[i][len] || args[i][len]== '\'' || args[i][len]== '\"')
-//                 {
-//                     key[l] = args[i][len];
-//                     l++;
-//                     len++;
-//                 }
-//                 key[l] = '\0';
-//                 printf("---->this is the key |%s| thiss The value |%s|\n", key, str);
-//                 t_env *new_node = ft_malloc(sizeof(t_env));
-//                 new_node->key = key;
-//                 new_node->value = str;
-//                 env->next = new_node;
-//                 exit(0);
-//             }
-//         }
-//         else
-//         {
-//             while (args[i][j])
-//             {
-//                 if (ft_isalpha(args[i][j]))
-//                     j++;
-//                 else 
-//                     {write(2, "errrorrr\n", 10); break;}
-//             }
-//         }
-//         i++;
-//     }
-// }
-
 
 
 void    ft_export(char **args, t_env *env)
@@ -177,14 +72,14 @@ void    ft_export(char **args, t_env *env)
                     break;
                 }
                 len++;
-                while (!(args[i][j] == ' ') && args[i][j] || args[i][j]== '\'' || args[i][j]== '\"')
+                while (!(args[i][j] == ' ') && (args[i][j] || args[i][j]== '\'' || args[i][j]== '\"'))
                 {
                     j++;
                     l++;
                 }
                 key = ft_malloc(l, 1);
                 l = 0;
-                while (!(args[i][len] == ' ') && args[i][len] || args[i][len]== '\'' || args[i][len]== '\"')
+                while (!(args[i][len] == ' ') && (args[i][len] || args[i][len]== '\'' || args[i][len]== '\"'))
                 {
                     key[l] = args[i][len];
                     l++;
@@ -221,15 +116,4 @@ void    ft_export(char **args, t_env *env)
         }
         i++;
     }
-}
-
-int main(int ac, char**av, char**env)
-{   
-    t_env *o = linked_varibles(env);
-    char *p[] = {"export", "hhkk+=hhh", NULL};
-    ft_export(p, o);
-    print_env_list(o);
-
-
-
 }

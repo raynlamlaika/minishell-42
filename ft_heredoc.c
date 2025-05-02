@@ -6,63 +6,12 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/28 14:16:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:47:08 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int	last_cmmd(char **av, char **paths, int *pipfd)
-// {
-    // 	int		outfile;
-    // 	char	**cmd;
-    // 	char	*path;
-    
-    // 	outfile = open(av[5], O_CREAT | O_APPEND | O_RDWR, 0644);
-    // 	if (outfile == -1)
-    // 		return (perror("pipex"), 0);
-    // 	if (dup2(pipfd[0], STDIN_FILENO) == -1)
-    // 		return (close(pipfd[0]), close(outfile), 0);
-    // 	if (dup2(outfile, STDOUT_FILENO) == -1)
-    // 		return (close(outfile), close(pipfd[0]), 0);
-    // 	close(pipfd[0]);
-    // 	close(outfile);
-    // 	cmd = split(av[4]);
-    // 	path = pick(paths, cmd[0]);
-    // 	if (!path)
-    // 		return (perror("pipex"), clean_2(cmd), 0);
-    // 	if (execve(path, cmd, NULL) == -1)
-    // 	{
-        // 		perror("pipex");
-        // 		clean_2(cmd);
-        // 		exit(1);
-        // 	}
-        // 	return (0);
-        // }
-        
-        // if (ac < 6)
-        // 	return (perror("pipex"), 1);
-        // limiter = av[2];
-        // if (pipe(pipfd) == -1)
-        // 	return (perror("pipe"), 1);
-        // lines(pipfd[1], limiter);
-        // close(pipfd[1]);
-        // if (pipe(newpip) == -1)
-        // 	return (perror("pipe"), 1);
-        // if (fork() == 0)
-        // 	executing(pipfd[0], av[3], paths, newpip[1]);
-        // close(pipfd[0]);
-        // close(newpip[1]);
-        // if (fork() == 0)
-        // 	last_cmmd(av, paths, newpip);
-        // close(pipfd[0]);
-        // close(newpip[0]);
-        // close(newpip[1]);
-        // clean_2(paths);
-        // wait(NULL);
-        //}
-        
-        
         
 static int	search_search(char *next, char *limiter)
 {
@@ -96,41 +45,18 @@ static void	lines(int fd, char *limiter)
         free(next);
     }
 }
-        
-int	heredoc(t_file *files, t_env * paths)
+
+int heredoc(char *limiter)
+{
+    int pipfd[2];
+
+    if (pipe(pipfd) == -1)
     {
-    char	*limiter;
-            int		pipfd[2];
-            int		newpip[2];
-            
-    (void)paths;
-    while (files)
-    {
-        if (files->here_doc)
-        {
-            printf("this");
-            if (pipe(pipfd) == -1)
-        	    return (perror("pipe"), 1);
-            limiter = files->here_doc;
-            
-            lines(pipfd[1], limiter);
-            close(pipfd[1]);
-            if (pipe(newpip) == -1)
-        	    return (perror("pipe"), 1);
-        }
-        files = files->next;
-        // if (fork() == 0)
-        //     exit(1);
-        // 	// executing(pipfd[0], cmd, paths, newpip[1]);
-        // close(pipfd[0]);
-        // close(newpip[1]);
+        perror("pipe");
+        return (-1);
     }
-    return (0);
+    lines(pipfd[1], limiter);
+    close(pipfd[1]);
+    return pipfd[0];
 }
-    
-    
-    
-    
-    
-    
-    
+
