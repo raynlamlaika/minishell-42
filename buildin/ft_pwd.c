@@ -1,12 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/04 23:47:21 by abouabba          #+#    #+#             */
+/*   Updated: 2025/05/04 23:47:26 by abouabba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	ft_pwd(void)
 {
-	char	path[PATH_MAX];
+	char	cwd[4096];
+	char	*pwd;
 
-	if (getcwd(path, sizeof(path)) != NULL)
-		printf ("%s\n", path);
+	if (getcwd(cwd, sizeof(cwd)))
+		printf("%s\n", cwd);
 	else
-	perror("ft_pwd");
+	{
+		pwd = getenv("PWD");
+		if (pwd)
+			printf("%s\n", pwd);
+		else
+			perror("pwd");
+	}
 }

@@ -1,49 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
+/*   Updated: 2025/05/05 00:10:23 by abouabba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-char	*global_var(char set_it, char *pwd_var)
+void	update_pwd(char *oldpwd, char *newpwd)
 {
-	static char	*pwd___;
-
-	if (set_it)
-		pwd___ = pwd_var;
-	return (pwd___);
+	if (oldpwd)
+		setenv("OLDPWD", oldpwd, 1);
+	else
+		setenv("OLDPWD", "", 1);
+	if (newpwd)
+	{
+		setenv("PWD", newpwd, 1);
+		free(newpwd);
+	}
 }
 
-int ft_cd(char **args)
+void	ft_cd_2(char *target, char *oldpwd, char *newpwd)
 {
-	const char	*path_____;
-    char		cwd[PATH_MAX];
+	char	*temp;
+	int		len;
+
+	temp = NULL;
+	len = 0;
+	if (target[0] == '/')
+		newpwd = strdup(target);
+	else if (oldpwd)
+	{
+		len = strlen(oldpwd);
+		if (oldpwd[len - 1] == '/')
+			temp = ft_strdup(oldpwd);
+		else
+			temp = ft_strjoin(oldpwd, "/");
+		newpwd = ft_strjoin(temp, target);
+		free(temp);
+	}
+	update_pwd(oldpwd, newpwd);
+}
+
+void	ft_cd(char **args)
+{
+	char	*oldpwd;
+	char	*newpwd;
+	char	*target;
+
+	newpwd = NULL;
+	oldpwd = getenv("PWD");
 	if (!args[1] || strcmp(args[1], "~") == 0)
 	{
-		path_____ = getenv("HOME");
-		if (!path_____)
+		target = getenv("HOME");
+		if (!target)
 		{
-			perror("cd: HOME not set");
-			return (1);
+			printf("cd: HOME not set\n");
+			return ;
 		}
-	}
-	else if (strcmp(args[1], "-") == 0)
-	{
-		path_____ = getenv("OLDPWD");
-		if (!path_____)
-		{
-			perror("cd: OLDPWD not set");
-			return (1);
-		}
-		printf ("%s\n", path_____);
 	}
 	else
-		path_____ = args[1];
-
-	if (chdir(path_____) != 0)
+		target = args[1];
+	if (chdir(target) != 0)
 	{
 		perror("cd");
-		return (1);
+		return ;
 	}
-	if (getcwd(cwd, sizeof(cwd)))
-	{
-        setenv("OLDPWD", getenv("PWD"), 1);
-        setenv("PWD", cwd, 1);
-	}
-	return (0);
+	ft_cd_2(target, oldpwd, newpwd);
 }
