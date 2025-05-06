@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/05 00:10:23 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:41:54 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_cd_2(char *target, char *oldpwd, char *newpwd)
 {
 	char	*temp;
 	int		len;
+	char	*cwd;
 
 	temp = NULL;
 	len = 0;
@@ -44,6 +45,12 @@ void	ft_cd_2(char *target, char *oldpwd, char *newpwd)
 		newpwd = ft_strjoin(temp, target);
 		free(temp);
 	}
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+    	perror("cd: error retrieving current directory");
+	else
+    	free(cwd);
+
 	update_pwd(oldpwd, newpwd);
 }
 

@@ -16,7 +16,7 @@ void	syntax_2(t_token **tokens, int *exit_s)
 			|| is_redirection((*tokens)->next))
 		{
 			*exit_s = 2;
-			printf("syntax error\n");
+			printf("minishell: syntax error near unexpected token `newline'\n");
 			return ;
 		}
 	}
@@ -25,7 +25,7 @@ void	syntax_2(t_token **tokens, int *exit_s)
 		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
 		{
 			*exit_s = 2;
-			printf("syntax error\n");
+			printf("minishell: syntax error near unexpected token `newline'\n");
 			return ;
 		}
 	}
@@ -33,10 +33,15 @@ void	syntax_2(t_token **tokens, int *exit_s)
 
 void	syntax(t_token *tokens, int *exit_s)
 {
-	if (!tokens || tokens->type == TOKEN_PIPE)
+	if (!tokens || !tokens->value)
 	{
 		*exit_s = 2;
-		printf("syntax error\n");
+		return ;
+	}
+	if (tokens->type == TOKEN_PIPE)
+	{ 
+		*exit_s = 2;
+		printf("minishell: syntax error near unexpected token `|'\n");
 		return ;
 	}
 	while (tokens)
