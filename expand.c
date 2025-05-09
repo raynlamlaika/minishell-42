@@ -6,11 +6,37 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/02 10:47:40 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:53:09 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_token *create_token(char *value)
+{
+    t_token *new = malloc(sizeof(t_token));
+    if (!new)
+        return NULL;
+
+    new->value = ft_strdup(value);
+    if (!new->value)
+    {
+        free(new);
+        return NULL;
+    }
+    new->type = TOKEN_WORD;
+    // new->quoted = 0;
+    new->next = NULL;
+    return new;
+}
+
+void insert_token_after(t_token *current, t_token *new_token)
+{
+    if (!current || !new_token)
+        return;
+    new_token->next = current->next;
+    current->next = new_token;
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -21,85 +47,172 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char *ft_replace(char *check, t_env *env)
 {
-	size_t	i;
-	char	*string;
+    while (env)
+    {
+        if (ft_strcmp(env->key, check) == 0)
+        {
+            free(check);
+            return ft_strdup(env->value);
+        }
+        env = env->next;
+    }
+    free(check);
+    return ft_strdup("");
+}
 
-	if (!s)
-		return (NULL);
-	i = ft_strlen(s);
-	if (start >= i)
-		return (ft_strdup(""));
-	if (i - start < len)
-		len = i - start;
-	string = (char *)malloc((1 + len) * sizeof(char));
-	if (!string)
-		return (NULL);
-	i = 0;
-	while (s[start] && len > 0)
-	{
-		string[i++] = s[start++];
-		len--;
-	}
-	string[i] = '\0';
-	return (string);
+char *ft_substr(char *s, unsigned int start, size_t end)
+{
+    if (!s || end <= start)
+        return NULL;
+
+    size_t slen = ft_strlen(s);
+    if (start >= slen)
+        return ft_strdup("");
+
+    if (end > slen)
+        end = slen;
+
+    size_t len = end - start;
+
+    char *substr = malloc(len + 1); // allocate exact space
+    if (!substr)
+        return NULL;
+
+    size_t i = 0;
+    while (i < len)
+        substr[i++] = s[start++];
+    substr[i] = '\0';
+
+    return substr;
 }
 
 int	ft_isalpha(int c)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-char* ft_replace(char* check, t_env *env)
-{
-    while(env->key)
-    {
-        if (ft_strncmp(env->key, check, ft_strlen(check)) == 0)
-        {
-            free(check);
-            return(env->value);
-        }
-        env = env->next;
-    }
-    return(NULL);
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 int	ft_isalnum(int c)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
-		return (1);
-	return (0);
+	return (ft_isalpha(c) || (c >= '0' && c <= '9'));
 }
 
-// char *take_replace(int i, char *input, int *help, t_env *env)
-// {
-//     char* check;
-//     int  o = i;
-//     int alloc = 0;
-//     int y = 0;
-//     o++;
-//     i++;
-//     while (ft_isalnum(input[o]))
-//     {
-//         alloc++;
-//         o++;
-//     }
-//     check =  malloc(alloc);
-//     while (y < alloc)
-//     {
-//         check[y] =  input[i];
-//         y++;
-//         i++;
-//     }
-//     *help = i;
-//     char *tt = ft_replace(check, env);
-//     if (tt)
-//         return (tt);
-//     return(check);
-// }
+
+char *ft_strjoin_free(char *s1, char *s2)
+{
+    char *res = ft_strjoin(s1, s2);
+    free(s1);
+    if (s2 && s2 != s1)
+        free(s2);
+    return res;
+}
+
+void replace_token(char **token_value, char *exp)
+{
+    if (!token_value || !exp)
+        return;
+    free(*token_value);
+    *token_value = ft_strdup(exp);
+    if (!*token_value)
+    {
+        perror("replace_token: strdup failed");
+        exit(EXIT_FAILURE);
+    }
+}
+
+int size_take_expand(char*string ,int  size, t_env *env)
+{
+    int i;
+    int help;
+    i = 0;
+    help = 0; 
+    while (ft_isalpha(string[size]))
+    {
+        i++;
+        size++;
+    }
+    help = size - i;
+    char * sub = ft_substr(string, help, size);
+    return (12);
+}
+int ft_size_help(char *string, t_env *env)
+{
+    int size;
+    int env_size;
+
+    env_size= 0;
+    size = 0;
+    while(string[size])
+    {
+        if (string[size] == '$')
+        {
+            size++; //skip the dollar sign
+            if (ft_isalpha(string[size]))
+                env_size = size_take_expand(string , size, env);
+        }
+        size++;
+    }
+    return size;
+}
+
+char* ft_take(char* string ,int *i, t_env *env)
+{
+    int help;
+    char *search;
+    char * result;
+    
+    help = *i;
+    while (ft_isalpha(string[help]) || ft_isdigit(string[help]))
+    {
+        help++;
+    }
+    search = ft_substr(string, *i, help);
+    result = ft_replace(search, env);
+    *i = help;
+    return (result); // ls"$a"$a  ls"youssef    lagzouli"youssef lagzouli
+}
+
+
+char* take_token(char *string, t_env *env)
+{
+    int i = 0, quote = 0, a= 0;
+    char* result = malloc(20); //(ft_size_help(string, env));
+    char *tmp;
+    int t;
+    if (!result)
+        write(2, "eroor\n", 6);
+
+    while (string[i])
+    {
+        if ((string[i] == '\'' || string[i] == '"') && quote == 0)
+            quote = string[i];
+        else if (string[i] == quote)
+            quote = 0;  
+        if (string[i] == '$' && quote != '\'')
+        {
+            i++;
+            if(ft_isalpha(string[i]) || ft_isdigit(string[i]) || string[i] == '_')// dijjet alpha _
+            {
+                t = 0;
+                tmp = ft_take(string, &i, env);
+                while(tmp[t])
+                    result[a++] = tmp[t++];
+          
+            }
+            else
+            {
+                if (string[i] == '$' || string[i] == '?')
+                    result[a++] = '$';
+                
+            }
+        }
+        else
+            result[a++] = string[i++];
+    }
+    // printf("the resu %s\n", result);
+    return(result);
+}
 
 char *take_replace(int i, char *input, int *help, t_env *env)
 {
@@ -128,143 +241,72 @@ char *take_replace(int i, char *input, int *help, t_env *env)
     return val;
 }
 
-char *take_first(int i, char *input)
+char *s_split(char *result, t_token *token)
 {
-    int back = 0;
-    char *ppp = malloc(i);
-    while (i > back)
-    {
-        ppp[back] = input[back];
-        back++;
-    }
-    ppp[back] = '\0';
-    return(ppp);
-}
-
-char *last_t(int help, char *input)
-{
-    int alloc = 0;
-    char *last;
-    int i =  help;
-    
-    while(input[help])
-    {
-        alloc++;
-        help++;
-    }
-    last =malloc(alloc);
-    alloc = 0;
-    while (input[i])
-    {
-        last[alloc] = input[i];
-        alloc++;
-        i++;
-    }
-    return(last);
-    
-}
-
-char* ft_can(char *rplt, char* first, char*last)
-{
-    char *uuu;
-    char*res;
-    
-    uuu = ft_strjoin(first, rplt);
-    res = ft_strjoin(uuu, last);
-    return (res);
-}
-
-char *ft_strjoin_free(char *s1, char *s2)
-{
-    char *res = ft_strjoin(s1, s2);
-    free(s1);
-    if (s2 != NULL && s2 != s1) free(s2); // only if s2 was dynamically allocated
-    return res;
-}
-char *remove_outer_quotes(char *s)
-{
-    if (!s || ft_strlen(s) < 2)
-        return ft_strdup(s);
-
-    char first = s[0];
-    char last = s[ft_strlen(s) - 1];
-
-    if ((first == '\'' && last == '\'') || (first == '"' && last == '"'))
-        return ft_substr(s, 1, ft_strlen(s) - 2);
-
-    return ft_strdup(s);
-}
-
-
-char *take_expand(char *input, t_env *env)
-{
+    char *str;
     int i = 0;
-    int start = 0;
-    char quote = 0;
-    char *result = ft_strdup("");
+    int n = 0;
+    int m = 0;
+    int y = 0;
+    int a= 0;
+    str = malloc(77);
 
-    while (input[i])
+    while (result[i])
     {
-        if ((input[i] == '\'' || input[i] == '"') && quote == 0)
-            quote = input[i];
-        else if (input[i] == quote)
-            quote = 0;
-
-        if (input[i] == '$' && quote != '\'') // skip $ expansion in single quotes
+        a = 0;
+        while(result[i])
         {
-            if (i > start)
-                result = ft_strjoin_free(result, ft_substr(input, start, i - start));
-
-            int help;
-            char *repl = take_replace(i, input, &help, env);
-            result = ft_strjoin_free(result, repl);
-            i = help;
-            start = i;
+            if(result[i] == '\"' && m % 2 == 0)
+            {
+                n++;
+                y = n;
+            }
+            if(result[i] == '\'' && n % 2 == 0)
+            {
+                m++;
+                y = m;
+            }
+            if (y % 2 != 0)
+            {
+                str[a++] = result[i++];
+            }
+            else
+            {
+                str[a++] = result[i++];
+                if(result[i] == ' ')
+                {
+                    while(result[i] == ' ')
+                        i++;
+                    break ;
+                }
+            }
         }
-        else
-            i++;
+        str[a] = '\0';
+        printf("-------{%s}\n",str);
+        
+        str = malloc(42);
     }
-
-    if (i > start)
-        result = ft_strjoin_free(result, ft_substr(input, start, i - start));
-
+    // exit(1);
     return result;
 }
 
 
 
-void replace_token(char **token_value, char *exp)
-{
-    if (!token_value || !exp)
-        return;
-    if (*token_value)
-        free(*token_value);
-    *token_value = ft_strdup(exp);
-    if (!*token_value) {
-        perror("replace_token: strdup failed");
-        exit(EXIT_FAILURE);
-    }
-}
+
+
 
 void expand(t_token *token, t_env *env)
 {
     char *exp;
     char *cleaned;
-
+    int i =0;
     while (token && token->value)
     {
         if (ft_strchr(token->value, '$'))
         {
-            exp = take_expand(token->value, env);
-            if (exp)
-            {
-                // cleaned = handling_qoutes(exp, '"');
-                // char *final = handling_qoutes(cleaned, '\'');
-                // free(cleaned);
-                replace_token(&token->value, exp);
-                // free(final); // replace_token made a copy
-                free(exp);
-            }
+            char * result = take_token(token->value, env);
+            s_split(result, token);
+            
         }
         else
         {

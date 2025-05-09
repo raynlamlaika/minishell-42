@@ -7,37 +7,57 @@ int is_redirection(t_token *tokens)
 		tokens->type == TOKEN_PIPE);
 }
 
-void	syntax(t_token *tokens, int *exit_s)
+void	syntax_2(t_token **tokens, int *exit_s)
 {
-	if (!tokens || is_redirection(tokens) || tokens->type == TOKEN_PIPE)
+	if (is_redirection(*tokens))
+	{
+		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF
+			|| (*tokens)->next->type == TOKEN_PIPE
+			|| is_redirection((*tokens)->next))
+		{
+			*exit_s = 2;
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return ;
+		}
+	}
+	if ((*tokens)->type == TOKEN_PIPE)
+	{
+		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
+		{
+			*exit_s = 2;
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return ;
+		}
+	}
+}
+
+void	syntax(t_token *tokens, int *exit_s, int max_here_doc)
+{
+	if (!tokens || !tokens->value)
 	{
 		*exit_s = 2;
-		printf("syntax error\n");
 		return ;
 	}
-
+	if (tokens->type == TOKEN_PIPE)
+	{ 
+		*exit_s = 2;
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return ;
+	}
 	while (tokens)
 	{
-		if (is_redirection(tokens))
+		if (tokens->type ==  TOKEN_HEREDOC)
 		{
-			if (!tokens->next || tokens->next->type == TOKEN_EOF ||
-				tokens->next->type == TOKEN_PIPE ||is_redirection(tokens->next))
+			max_here_doc++;
+			if (max_here_doc > 16)
 			{
-				*exit_s = 2;
-				printf("syntax errorn\n");
-				return ;
+				printf("bash: maximum here-document count exceeded\n");
+				exit(2);
 			}
 		}
-
-		if (tokens->type == TOKEN_PIPE)
-		{
-			if (!tokens->next || tokens->next->type == TOKEN_EOF)
-			{
-				*exit_s = 2;
-				printf("syntax error\n");
-				return ;
-			}
-		}
+		syntax_2(&tokens, exit_s);
+		if (*exit_s == 2)
+			return ;
 		tokens = tokens->next;
 	}
 }
@@ -63,12 +83,41 @@ void	*ft_calloc(size_t count, size_t size)
 	return (s);
 }
 
+void print_cmds(t_cmd *cmd)
+{
+	int i;
+	int num = 1;
+	t_file *hh = cmd ->file;
+	while (cmd)
+	{
+		printf("\n--- Command %d ---\n", num++);
+        while (hh)
+        {
+            printf("this is %s \n", hh->infile);
+            hh = hh->next;  
+        }
+		if (cmd->file)
+		{
+			printf("infile: %s\n", cmd->file->infile);
+			printf("outfile: %s\n", cmd->file->outfile);
+		}
+		printf("append: %d\n", cmd->file->append);
+		i = 0;
+		while (cmd->args && cmd->args[i])
+		{
+			printf("arg[%d]: %s\n", i, cmd->args[i]);
+			i++;
+		}
+		cmd = cmd->next;
+	}
+}
+
 void add_arg(t_cmd *type, char *value)
 {
-	int count = 0;
-	int i;
-	int j;
-	char **new_args;
+	int		count;
+	int		i;
+	int		j;
+	char	**new_args;
 
 	count = 0;
 	if (type->args)
@@ -78,7 +127,7 @@ void add_arg(t_cmd *type, char *value)
 	}
 	new_args = ft_malloc(sizeof(char *) * (count + 2), 1);
 	if (!new_args)
-		return;
+		return ;
 	i = 0;
 	while (i < count)
 	{
@@ -97,311 +146,144 @@ void add_arg(t_cmd *type, char *value)
 	type->args = new_args;
 }
 
-void	token_infile(t_token *tokens, t_file *file)
+void	token_infile(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file	*last_file;
-	t_file	*new_file;
+	t_file *new_file;
 
-	last_file = NULL;
-	new_file = ft_calloc(1, sizeof(t_file));
-	if (!new_file)
-		return ;
-	if (!last_file)
+	if (!*last_file)
 	{
 		file->infile = tokens->next->value;
-		last_file = file;
+		*last_file = file;
 	}
 	else
 	{
-		last_file->next = new_file;
-		last_file = new_file;
+		new_file = ft_calloc(1, sizeof(t_file));
+		(*last_file)->next = new_file;
+		*last_file = new_file;
 		new_file->infile = tokens->next->value;
 	}
-	tokens = tokens->next;
 }
 
-void	token_outfile(t_file *file, t_token *tokens)
+void	token_outfile(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file	*last_file;
-	t_file	*new_file;
+	t_file *new_file;
 
-	last_file = NULL;
-	new_file = ft_calloc(1, sizeof(t_file));
-	if (!new_file)
-		return ;
-	if (!last_file)
+	if (!*last_file)
 	{
 		file->outfile = tokens->next->value;
 		file->append = 0;
-		last_file = file;
+		*last_file = file;
 	}
 	else
 	{
-		last_file->next = new_file;
-		last_file = new_file;
+		new_file = ft_calloc(1, sizeof(t_file));
+		(*last_file)->next = new_file;
+		*last_file = new_file;
 		new_file->outfile = tokens->next->value;
 		new_file->append = 0;
 	}
-	tokens = tokens->next;
 }
 
-void	token_append(t_file *file, t_token *tokens)
+void	token_append(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file	*new_file;
-	t_file	*last_file;
-
-	last_file = NULL;
-	new_file = ft_calloc(1, sizeof(t_file));
-	if (!last_file)
+	t_file *new_file;
+	if (!*last_file)
 	{
 		file->outfile = tokens->next->value;
 		file->append = 1;
-		last_file = file;
+		*last_file = file;
 	}
 	else
 	{
-		last_file->next = new_file;
-		last_file = new_file;
+		new_file = ft_calloc(1, sizeof(t_file));
+		(*last_file)->next = new_file;
+		*last_file = new_file;
 		new_file->outfile = tokens->next->value;
 		new_file->append = 1;
 	}
-	tokens = tokens->next;
 }
 
-void	token_heredoc(t_file *file, t_token *tokens)
+void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env)
 {
-	t_file *last_file;
 	t_file *new_file;
 
-	last_file = NULL;
-	new_file = ft_calloc(1, sizeof(t_file));
-	if(!last_file)
+	if(!*last_file)
 	{
-		file->here_doc = heredoc(tokens->next->value);
-		last_file = file;
+		file->here_doc = heredoc(tokens->next->value, env);
+		*last_file = file;
 	}
 	else
 	{
-		last_file->next = new_file;
-		last_file = new_file;
-		new_file->here_doc = heredoc(tokens->next->value);
+		new_file = ft_calloc(1, sizeof(t_file));
+		(*last_file)->next = new_file;
+		*last_file = new_file;
+		new_file->here_doc = heredoc(tokens->next->value, env);
 	}
-	tokens = tokens->next;
 }
 
-// t_cmd *parse_tokens(t_token *tokens)
-// {
-// 	t_cmd	*cmd;
-// 	t_file	*file;
-// 	t_file	*last_file;
-// 	t_cmd	*start;
-// 	t_file	*new_file;
-// 	t_cmd	*new_cmd;
+t_token	*parse_tokens_helper(t_cmd *cmd, t_token *tokens, t_file **last_file, t_file *file, t_env *env)
+{
+	if (tokens->type == TOKEN_WORD)
+		add_arg(cmd, tokens->value);
+	else if (tokens->type == TOKEN_REDIR_IN && tokens->next)
+	{
+		token_infile(last_file, file, tokens);
+		tokens = tokens->next;
+	}
+	else if (tokens->type == TOKEN_REDIR_OUT && tokens->next)
+	{
+		token_outfile(last_file, file, tokens);
+		tokens = tokens->next;
+	}
+	else if (tokens->type == TOKEN_APPEND && tokens->next)
+	{
+		token_append(last_file, file, tokens);
+		tokens = tokens->next;
+	}
+	else if (tokens->type == TOKEN_HEREDOC && tokens->next)
+	{
+		token_heredoc(last_file, file, tokens, env);
+		tokens = tokens->next;
+	}
+	return (tokens->next);
+}
 
-// 	file = ft_calloc(1, sizeof(t_file));
-// 	cmd = ft_calloc(1, sizeof(t_cmd));
-// 	new_file = ft_calloc(1, sizeof(t_file));
-// 	if (!file | !cmd)
-// 		return (NULL);
-// 	last_file = NULL;
-// 	start = cmd;
-// 	cmd->file = file;
-// 	while (tokens)
-// 	{
-// 		while (tokens && tokens->type != TOKEN_PIPE)
-// 		{
-// 			if (tokens->type == TOKEN_WORD)
-// 				add_arg(cmd, tokens->value);
-// 			else if (tokens->type == TOKEN_REDIR_IN && tokens->next)
-// 			{
-// 				// token_infile(tokens, file);
-// 				if (!last_file)
-// 				{
-// 					file->infile = tokens->next->value;
-// 					last_file = file;
-// 				}
-// 				else
-// 				{
-// 					last_file->next = new_file;
-// 					last_file = new_file;
-// 					new_file->infile = tokens->next->value;
-// 				}
-// 				tokens = tokens->next;
-// 			}
-// 			else if (tokens->type == TOKEN_REDIR_OUT && tokens->next)
-// 			{
-// 				// token_outfile(file, tokens);
-// 				if (!last_file)
-// 				{
-// 					file->outfile = tokens->next->value;
-// 					file->append = 0;
-// 					last_file = file;
-// 				}
-// 				else
-// 				{
-// 					last_file->next = new_file;
-// 					last_file = new_file;
-// 					new_file->outfile = tokens->next->value;
-// 					new_file->append = 0;
-// 				}
-// 				tokens = tokens->next;
-// 			}
-// 			else if (tokens->type == TOKEN_APPEND && tokens->next)
-// 			{
-// 				// token_append(file, tokens);
-// 				if (!last_file)
-// 				{
-// 					file->outfile = tokens->next->value;
-// 					file->append = 1;
-// 					last_file = file;
-// 				}
-// 				else
-// 				{
-// 					last_file->next = new_file;
-// 					last_file = new_file;
-// 					new_file->outfile = tokens->next->value;
-// 					new_file->append = 1;
-// 				}
-// 				tokens = tokens->next;
-// 			}
-// 			else if (tokens->type == TOKEN_HEREDOC && tokens->next)
-// 			{
-// 				// token_heredoc(file, tokens);
-// 				if(!last_file)
-// 				{
-// 					file->here_doc = heredoc(tokens->next->value);
-// 					printf("helooooo %d\n", file->here_doc);
-// 					last_file = file;
-// 				}
-// 				else
-// 				{
-// 					last_file->next = new_file;
-// 					last_file = new_file;
-// 					new_file->here_doc = heredoc(tokens->next->value);
-// 					printf("helooooo %d\n", file->here_doc);
-// 				}
-// 				tokens = tokens->next;
-// 			}
-// 		}
-// 		if (tokens && tokens->type == TOKEN_PIPE)
-// 		{
-// 			new_cmd = ft_calloc(1, sizeof(t_cmd));
-// 			new_cmd->file = new_file;
-// 			cmd->next = new_cmd;
-// 			cmd = new_cmd;
-// 			tokens = tokens->next;
-// 			file = new_file;
-// 			last_file = NULL;
-// 		}
-// 	}
-// 	// print_cmds(start);
-// 	return (start);
-// }
+void	parse_tokens_utils(t_file **file, t_token **tokens, t_file **last_file, t_cmd **cmd)
+{
+	t_cmd	*new_cmd;
+	t_file	*new_file;
 
-t_cmd *parse_tokens(t_token *tokens)
+	new_cmd = ft_calloc(1, sizeof(t_cmd));
+	new_file = ft_calloc(1, sizeof(t_file));
+	if (!new_cmd || !new_file)
+		return;
+	new_cmd->file = new_file;
+	(*cmd)->next = new_cmd;
+	*cmd = new_cmd;
+	*tokens = (*tokens)->next;
+	*file = new_file;
+	*last_file = NULL;
+}
+
+t_cmd *parse_tokens(t_token *tokens, t_env *env)
 {
 	t_cmd *cmd;
 	t_file *file;
-	t_file *last_file = NULL;
+	t_file *last_file;
 
 	file = ft_calloc(1, sizeof(t_file));
-	if (!file)
-		return (NULL);
 	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
+	if (!cmd || !file)
 		return (NULL);
 	t_cmd *start = cmd;
 	cmd->file = file;
-
+	last_file = NULL;
 	while (tokens)
 	{
 		while (tokens && tokens->type != TOKEN_PIPE)
-		{
-			if (tokens->type == TOKEN_WORD)
-				add_arg(cmd, tokens->value);
-			else if (tokens->type == TOKEN_REDIR_IN && tokens->next)
-			{
-				if (!last_file)
-				{
-					file->infile = tokens->next->value;
-					last_file = file;
-				}
-				else
-				{
-					t_file *new_file = ft_calloc(1, sizeof(t_file));
-					last_file->next = new_file;
-					last_file = new_file;
-					new_file->infile = tokens->next->value;
-				}
-				tokens = tokens->next;
-			}
-			else if (tokens->type == TOKEN_REDIR_OUT && tokens->next)
-			{
-				if (!last_file)
-				{
-					file->outfile = tokens->next->value;
-					file->append = 0;
-					last_file = file;
-				}
-				else
-				{
-					t_file *new_file = ft_calloc(1, sizeof(t_file));
-					last_file->next = new_file;
-					last_file = new_file;
-					new_file->outfile = tokens->next->value;
-					new_file->append = 0;
-				}
-				tokens = tokens->next;
-			}
-			else if (tokens->type == TOKEN_APPEND && tokens->next)
-			{
-				if (!last_file)
-				{
-					file->outfile = tokens->next->value;
-					file->append = 1;
-					last_file = file;
-				}
-				else
-				{
-					t_file *new_file = ft_calloc(1, sizeof(t_file));
-                    last_file->next = new_file;
-                    last_file = new_file;
-                    new_file->outfile = tokens->next->value;
-                    new_file->append = 1;
-				}
-				tokens = tokens->next;
-			}
-			else if (tokens->type == TOKEN_HEREDOC && tokens->next)
-			{
-				if(!last_file)
-				{
-					file->here_doc = heredoc(tokens->next->value);
-					last_file = file;
-				}
-				else
-				{
-					t_file *new_file = ft_calloc(1, sizeof(t_file));
-					last_file->next = new_file;
-					last_file = new_file;
-					new_file->here_doc = heredoc(tokens->next->value);
-				}
-				tokens = tokens->next;
-			}
-			tokens = tokens->next;
-		}
-
+			tokens = parse_tokens_helper(cmd, tokens, &last_file, file, env);
 		if (tokens && tokens->type == TOKEN_PIPE)
-		{
-			t_cmd *new_cmd = ft_calloc(1, sizeof(t_cmd));
-			t_file *new_file = ft_calloc(1, sizeof(t_file));
-
-			new_cmd->file = new_file;
-			cmd->next = new_cmd;
-			cmd = new_cmd;
-			tokens = tokens->next;
-			file = new_file;
-			last_file = NULL;
-		}
+			parse_tokens_utils(&file, &tokens, &last_file, &cmd);
 	}
 	return (start);
 }

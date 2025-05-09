@@ -50,6 +50,7 @@ void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 	(*i)--;
 }
 
+
 void	handle_word(t_token **head, t_token **last, char *input, int *i)
 {
 	int start = *i;
@@ -107,3 +108,17 @@ t_token	*lexer(char *input, t_token* last, int i)
 	}
 	return (append_token(&head, &last, TOKEN_EOF, NULL), head);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

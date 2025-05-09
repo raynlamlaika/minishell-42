@@ -1,25 +1,51 @@
 
 #include "../minishell.h"
 
-void ft_unset(char **args, t_env *env)
+void remove_node(t_env **head, const char *key_to_remove)
 {
-    int  i = 0;
-    int j = 0;
-    if (ft_strncmp("unset", &args[i][j], ft_strlen(args[i])))
-        i++;
-    else 
-        {write(1, "this is isn\'t unset\n", 21);exit(1);}
+	t_env *current = *head;
+	t_env *prev = NULL;
 
-    if (args[i])
-    {
-        while (env->value)
-        {
-            if (ft_strncmp(env->value, args[i], ft_strlen(args[i])))
-            {
-                // remove the node right here
-                
-            }
-            env = env->next;
-        }
-    }
+	while (current)
+	{
+		if (strcmp(current->key, key_to_remove) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*head = current->next;
+
+			free(current->key);
+			free(current->value);
+			if (current->env_v)
+			{
+				for (int i = 0; current->env_v[i]; i++)
+					free(current->env_v[i]);
+				free(current->env_v);
+			}
+			free(current);
+			return;
+		}
+		prev = current;
+		current = current->next;
+		if (!current)
+			break;
+	}
 }
+
+void ft_unset(char **args, t_env **env_list)
+{
+	int i = 1;
+	while (args[i])
+	{
+		if (ft_strncmp(args[i], "_", 2) == 0)
+		{
+			printf("manayatak asa7bi\n");
+			i++;
+			continue;
+		}
+		remove_node(env_list, args[i]);
+		i++;
+	}
+}
+

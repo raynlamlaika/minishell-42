@@ -6,16 +6,20 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/02 10:47:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:42:32 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+
 
 void takes_cmds(t_cmd *cmd_list)
-{
-    int cmd_index = 0;
+{ this one just for debuging
+    int cmd_index;
     int i;
+
+	cmd_index = 0;
     while (cmd_list)
     {
         printf("Command # %d:\n", cmd_index);
@@ -44,13 +48,40 @@ void takes_cmds(t_cmd *cmd_list)
     }
 }
 
+void print_file_list(t_file *file)
+{
+    while (file)
+    {
+        printf("Infile: %s --->", file->infile);
+        printf("Outfile: %s ---->", file->outfile);
+        printf("Append: %d\n", file->append);
+        file = file->next;
+		}
+		}
+		void print_cmd_list(t_cmd *cmd)
+		{
+			while (cmd)
+			{
+				if (cmd->file)
+					print_file_list(cmd->file);
+				else
+					printf("No files attached.\n");
+		
+				cmd = cmd->next;
+				printf("\n");
+			}
+		}
+*/ 
+	
+
 char **takepaths(t_env *env_lnk)
 {
 	char	**path;
-	char	*take = NULL;
+	char	*take;
 	char	*helper;
-	int 	enc;
+	int		enc;
 
+	take = NULL;
 	while (env_lnk)
 	{
 		if (ft_strncmp(env_lnk->key,"PATH", 5) == 0)
@@ -68,7 +99,6 @@ char **takepaths(t_env *env_lnk)
 	{
 		helper = path[enc];
 		path[enc] = ft_strjoin(path[enc], "/");
-		// free(helper);
 		enc++;
 	}
 	return (path);
@@ -98,36 +128,12 @@ char	*pick(char**path, char*cmd)
 		realpath = ft_strjoin(path[pass], cmd);
 		if (access(realpath, X_OK) == 0)
 			return (realpath);
-		// free(realpath);
+
 		pass++;
 	}
 	return (NULL);
 }
 
-void print_file_list(t_file *file)
-{
-    while (file)
-    {
-        printf("Infile: %s --->", file->infile);
-        printf("Outfile: %s ---->", file->outfile);
-        printf("Append: %d\n", file->append);
-        file = file->next;
-    }
-}
-
-void print_cmd_list(t_cmd *cmd)
-{
-    while (cmd)
-    {
-        if (cmd->file)
-            print_file_list(cmd->file);
-        else
-            printf("No files attached.\n");
-
-        cmd = cmd->next;
-        printf("\n");
-    }
-}
 
 void get_redirections(int *inf, int *outf,t_cmd* full)
 {	
@@ -141,32 +147,23 @@ void get_redirections(int *inf, int *outf,t_cmd* full)
 		if(files->infile || files->here_doc)
 		{
 			if (files->here_doc)
-			{
 				*inf = files->here_doc;
-			}
 			else
 			{
 				*inf = open(files->infile, O_RDONLY);
 				if (*inf < 0)
-				{
-					perror("infile open failed");
-					exit(EXIT_FAILURE);
-				}
+					printf("ambiguous redirect\n");
 			}
 		}
 		if(files->outfile)
 		{
 			if(files->append)
-				*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
-				*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			*outf =  open(files->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (*outf < 0)
-			{
-				perror("outfile open failed");
-				exit(EXIT_FAILURE);
-			}
+				printf("ambiguous redirect\n");
 		}
-
 		files = files->next;
 	}
 }
@@ -174,10 +171,7 @@ void get_redirections(int *inf, int *outf,t_cmd* full)
 void	pipecheck(int *pipefd)
 {
 	if (pipe(pipefd) == -1)
-	{
 		perror("pipex");
-		exit(EXIT_FAILURE);
-	}
 }
 
 void	forkfaild(pid_t pid, int*pipefd)
@@ -187,7 +181,6 @@ void	forkfaild(pid_t pid, int*pipefd)
 		perror("pipex");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
 	}
 }
 
@@ -223,14 +216,14 @@ int	search_search(char *str)
 		return (0);
 }
 
-int	buildin(t_cmd *cmd, t_env *env, int exit_s)
+void	buildin(t_cmd *cmd, t_env *env, int exit_s)
 {
 	if (is_passed(cmd->args[0], "echo"))
 		ft_echo(cmd->args, exit_s);
 	else if (is_passed(cmd->args[0], "exit"))
-		ft_exit();
-	else if (is_passed(cmd->args[0], "export"))
-		ft_export(cmd->args, env);
+		ft_exit(cmd->args, exit_s);
+	// else if (is_passed(cmd->args[0], "export"))
+	// 	ft_export(cmd->args, env);
 	else if (is_passed(cmd->args[0], "cd"))
 		ft_cd(cmd->args);
 	else if (is_passed(cmd->args[0], "pwd"))
@@ -238,28 +231,27 @@ int	buildin(t_cmd *cmd, t_env *env, int exit_s)
 	else if (is_passed(cmd->args[0], "env"))
 		ft_env(env);
 	else if (is_passed(cmd->args[0], "unset"))
-		ft_unset(cmd->args, env);
-	else
-		return (write(2, "Error\n", 7), 0);
-	return (1);
+		ft_unset(cmd->args, &env);
 }
 
 void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 {
-	int	inf, outf;
-	char **args = cmd->args;
+	int		inf;
+	int		outf;
+	char	**args;
+	int		status;
+
+	args = cmd->args;
 	get_redirections(&inf, &outf, cmd);
-	
-	if (search_search(cmd->args[0]))
+	if (!cmd->args || !cmd->args[0])
+		;
+	else if (search_search(cmd->args[0]))
 		buildin(cmd,env, exit_s);
 	else if (!search_search(cmd->args[0]))
 	{
 		pid_t pid = fork();
 		if (pid == -1)
-		{
 			perror("fork failed");
-			exit(EXIT_FAILURE);
-		}
 		if (pid == 0)
 		{
 			if (inf != -1)
@@ -283,10 +275,7 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 			exit(126);
 		}
 		else
-		{
-			int status;
 			waitpid(pid, &status, 0);
-		}
 	}
 }
 
@@ -298,14 +287,11 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 	int		pipefd[2];
 	char**	cmd;
 	int	perv_pipe = -1;
-
+	int status;
+	
 	path = takepaths(env);
 	if (!path)
-	{
 		write(1, "there is no path\n", 17);
-		exit(1);
-	}
-
 	if (full->next)
 	{
 		while(full)
@@ -316,7 +302,6 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 			if (pid == 0)
 			{
 				get_redirections(&inf, &outf, full);
-				
 				if (inf != -1)
 				{
 					dup2(inf, STDIN_FILENO);
@@ -335,31 +320,34 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 
 				close(pipefd[0]);
 				close(pipefd[1]);
-				if (search_search(full->args[0]))
+				if (full->args)
 				{
-
-					
-				}
-				else
-				{
-					cmd = full->args;
-					char *pathh = pick(path, cmd[0]);
-					if (!pathh)
+					if (search_search(full->args[0]) == 1)
 					{
-						perror("command not found");
-						exit(127);
+						buildin(full,env, exit_s);
+						exit(1);
 					}
-					execve(pathh, cmd, env->env_v);
-					perror("execve failed");
-					exit(126);
+					else
+					{
+						cmd = full->args;
+						char *pathh = pick(path, cmd[0]);
+						if (!pathh)
+						{
+							perror("command not found");
+							exit(127);
+						}
+						execve(pathh, cmd, env->env_v);
+						perror("execve failed");
+						exit(126);
+					}
 				}
+				else if (!full->args)
+					return ;
 			}
 			else
 				handelprevpipe(pipefd, &perv_pipe);
 			full = full->next;
 		}
-
-		int status;
 		while (wait(&status) > 0)
 			;
 	}

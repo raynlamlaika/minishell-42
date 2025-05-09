@@ -4,6 +4,7 @@
 int main(int ac,char **av,char**env)
 {
 	static int exit_s;
+	static int here_doc;
 	char *line;
 	t_token *tokens;
 	t_token* last = NULL;
@@ -13,7 +14,8 @@ int main(int ac,char **av,char**env)
 
 	ac =1;
 	int i = 1;
-	if (isatty(STDIN_FILENO))
+	env_list = linked_varibles(env);
+	if (1)
 	{
 		while(i)
 		{
@@ -24,16 +26,18 @@ int main(int ac,char **av,char**env)
 				perror("readline");
 				free(line);
 				ft_malloc(0, 0);
-				return 1;
+				return (1);
 			}
 			add_history(line);
 			tokens = lexer(line, last, 0);
-			env_list = linked_varibles(env);
+			if (tokens)
+			{
+				syntax(tokens, &exit_s, here_doc);
+			}
 			expand(tokens, env_list);
-			syntax(tokens, &exit_s);
+			t_cmd *f =  parse_tokens(tokens,env_list);
 			if (exit_s == 0)
 			{
-				t_cmd *f =  parse_tokens(tokens);
 				exectution(f, env_list, exit_s);
 				free(line);
 			}
