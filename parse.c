@@ -31,18 +31,18 @@ void	syntax_2(t_token **tokens, int *exit_s)
 	}
 }
 
-void	syntax(t_token *tokens, int *exit_s, int max_here_doc)
+int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 {
 	if (!tokens || !tokens->value)
 	{
 		*exit_s = 2;
-		return ;
+		return (1);
 	}
 	if (tokens->type == TOKEN_PIPE)
 	{ 
 		*exit_s = 2;
 		printf("minishell: syntax error near unexpected token `|'\n");
-		return ;
+		return (1);
 	}
 	while (tokens)
 	{
@@ -57,9 +57,10 @@ void	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 		}
 		syntax_2(&tokens, exit_s);
 		if (*exit_s == 2)
-			return ;
+			return (0);
 		tokens = tokens->next;
 	}
+	return (0);
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -139,9 +140,9 @@ void add_arg(t_cmd *type, char *value)
 	if (type->args)
 	{
 		j = 0;
-		while (type->args[j])
-			free(type->args[j++]);
-		free(type->args);
+		// while (type->args[j])
+		// 	free(type->args[j++]);
+		// free(type->args);
 	}
 	type->args = new_args;
 }

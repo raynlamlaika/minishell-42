@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:57:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/07 11:27:41 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/10 01:43:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	**intotowdarray(char const*s, char c, char**p, size_t*index)
 			if (!p)
 			{
 				while ((*index) > 0)
-					free(p[(*index)--]);
+					//ft_freep[(*index)--]);
 				free (p);
 				return (0);
 			}

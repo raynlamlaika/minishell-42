@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/07 11:27:41 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:19:05 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char *handling_qoutes(char *word, char sepa)
 
 char *take_key(char **env, int i, int j)
 {
-	char *key = ft_malloc(i + 1, 1);
+	char *key = malloc(i + 1);
 	if (!key) return NULL;
 	strncpy(key, env[j], i);
 	key[i] = '\0';
@@ -58,7 +58,7 @@ char *take_value(char **env, int i, int j)
 {
 	i++;
 	int len = strlen(env[j] + i);
-	char *value = ft_malloc(len + 1, 1);
+	char *value = malloc(len + 1);
 	if (!value) return NULL;
 	strcpy(value, env[j] + i);
 	return value;
@@ -66,7 +66,7 @@ char *take_value(char **env, int i, int j)
 
 t_env *new_node(char *key, char *value)
 {
-	t_env *node = ft_malloc(sizeof(t_env), 1);
+	t_env *node = malloc(sizeof(t_env));
 	if (!node) return NULL;
 	node->key = key;
 	node->value = value;
@@ -107,6 +107,7 @@ t_env *linked_varibles(char **env)
 		}
 		j++;
 	}
+	
 	head->env_v = env;
 	return (head);
 }

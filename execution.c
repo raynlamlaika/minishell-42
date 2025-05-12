@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/09 19:42:32 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/12 05:10:46 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void print_file_list(t_file *file)
 */ 
 	
 
-char **takepaths(t_env *env_lnk)
+char **takepaths(t_env **env)
 {
 	char	**path;
 	char	*take;
@@ -82,11 +82,15 @@ char **takepaths(t_env *env_lnk)
 	int		enc;
 
 	take = NULL;
+	t_env *env_lnk ;
+	env_lnk = *env;
+	if (!env_lnk || !env_lnk->key)
+		return (write(2, "waaaaaaaaaa\n", 12),NULL);
 	while (env_lnk)
 	{
-		if (ft_strncmp(env_lnk->key,"PATH", 5) == 0)
+		if (ft_strcmp(env_lnk->key,"PATH") == 0)
 		{
-			take = env_lnk->value;
+			take = ft_strdup(env_lnk->value);
 			break ;
 		}
 		env_lnk = env_lnk->next;
@@ -152,7 +156,10 @@ void get_redirections(int *inf, int *outf,t_cmd* full)
 			{
 				*inf = open(files->infile, O_RDONLY);
 				if (*inf < 0)
-					printf("ambiguous redirect\n");
+				{
+					printf("bash:%s  : No such file or directory\n", files->infile);
+					*inf = -5;
+				}	
 			}
 		}
 		if(files->outfile)
@@ -216,22 +223,23 @@ int	search_search(char *str)
 		return (0);
 }
 
-void	buildin(t_cmd *cmd, t_env *env, int exit_s)
+void	buildin(t_cmd *cmd, t_env **env, int exit_s)
 {
 	if (is_passed(cmd->args[0], "echo"))
 		ft_echo(cmd->args, exit_s);
-	else if (is_passed(cmd->args[0], "exit"))
+	if (is_passed(cmd->args[0], "exit"))
 		ft_exit(cmd->args, exit_s);
-	// else if (is_passed(cmd->args[0], "export"))
-	// 	ft_export(cmd->args, env);
+	else if (is_passed(cmd->args[0], "export"))
+		ft_export(cmd->args, env);
 	else if (is_passed(cmd->args[0], "cd"))
 		ft_cd(cmd->args);
 	else if (is_passed(cmd->args[0], "pwd"))
 		ft_pwd();
 	else if (is_passed(cmd->args[0], "env"))
-		ft_env(env);
+		ft_env(*env);
 	else if (is_passed(cmd->args[0], "unset"))
-		ft_unset(cmd->args, &env);
+		ft_unset(cmd->args, env);
+	exit_s = 0;
 }
 
 void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
@@ -242,11 +250,12 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 	int		status;
 
 	args = cmd->args;
+
 	get_redirections(&inf, &outf, cmd);
 	if (!cmd->args || !cmd->args[0])
 		;
 	else if (search_search(cmd->args[0]))
-		buildin(cmd,env, exit_s);
+		buildin(cmd, &env, exit_s);
 	else if (!search_search(cmd->args[0]))
 	{
 		pid_t pid = fork();
@@ -275,24 +284,33 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 			exit(126);
 		}
 		else
+		{
 			waitpid(pid, &status, 0);
+			exit_s = WEXITSTATUS(status);	
+		}
+		if (WIFEXITED(status))
+		{
+			int exit_status = WEXITSTATUS(status);
+			exit_s = exit_status;
+			printf("Child exited with status %d\n", exit_status);
+		}
 	}
 }
 
 void exectution(t_cmd *full, t_env *env, int exit_s)
 {
 	int 	inf, outf;
-	char    **path;
+	char    **path = NULL;
 	pid_t	pid;
 	int		pipefd[2];
 	char**	cmd;
 	int	perv_pipe = -1;
 	int status;
-	
-	path = takepaths(env);
+	int count  = 0;
+	path = takepaths(&env);
 	if (!path)
 		write(1, "there is no path\n", 17);
-	if (full->next)
+	if (full->next )
 	{
 		while(full)
 		{
@@ -317,14 +335,13 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 				}
 				else if (full->next)
 					dup2(pipefd[1], STDOUT_FILENO);
-
 				close(pipefd[0]);
 				close(pipefd[1]);
 				if (full->args)
 				{
 					if (search_search(full->args[0]) == 1)
 					{
-						buildin(full,env, exit_s);
+						buildin(full,&env, exit_s);
 						exit(1);
 					}
 					else
@@ -345,11 +362,23 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 					return ;
 			}
 			else
+			{
 				handelprevpipe(pipefd, &perv_pipe);
+				count++;
+			}
 			full = full->next;
 		}
-		while (wait(&status) > 0)
-			;
+		while (count > 0)
+		{
+			wait(&status);
+			count--;
+			if (WIFEXITED(status))
+			{
+				int exit_status = WEXITSTATUS(status);
+				exit_s = exit_status;
+				printf("Child exited with status %d\n", exit_status);
+			}
+		}
 	}
 	else
 		execute_single_cmd(full, env, path, exit_s);

@@ -88,15 +88,19 @@ typedef struct s_gc_collector
     struct s_gc_collector *next;
 }t_gc_collector;
 
-int	heredoc(char* limiter, t_env *env);
 
+
+int	heredoc(char* limiter, t_env *env);
+void    ft_export(char **args, t_env **env);
 char	*get_next_line(int fd);
 // char	*ft_handel_qoute(char *exp);
-void    *ft_malloc(size_t size, int flag);
+// void    *ft_malloc(size_t size, int flag);
+void	*ft_malloc(unsigned int size, int flag);
+
 int	ft_isalpha(int c);
 void print_env_list(t_env *head);
 void	ft_exit(char **args, int exit_status);
-
+char *ft_handel_qoute(char *exp);
 void	handle_word(t_token **head, t_token **last, char *input, int *i);
 t_token *lexer(char *input, t_token* last, int i);
 void	exectution(t_cmd *full,t_env*env, int exit_s);
@@ -114,7 +118,7 @@ char 	*get_value(t_env *linked_env, char *input);
 void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
 void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
 int     is_redirection(t_token *tokens);
-void    syntax(t_token *tokens, int *exit_s, int max_here_doc);
+int    syntax(t_token *tokens, int *exit_s, int max_here_doc);
 t_cmd	*parse_tokens(t_token *tokens, t_env *env);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s1);
@@ -132,5 +136,6 @@ char 	**ft_env(t_env *env);
 void	ft_pwd(void);
 void ft_echo(char **args, int exit_s);
 
+void print_env_list(t_env *head);
 
 #endif

@@ -21,7 +21,7 @@
 //             {
 //                 before = ft_substr(input, start, i - start);
 //                 printf("this si first |%s|\n", before);
-//                 result = ft_strjoin_free(result, before);
+//                 result = ft_strjoin_//ft_freeresult, before);
 //             }
 //             // printf("thi sis the right things |%s|\n", result);
 //             // printf("---------------------%s\n", result);
@@ -36,7 +36,7 @@
 //                 {
 //                     if (*result == '\0')
 //                     {
-//                         result = ft_strjoin_free(result, ft_strdup(words[0]));
+//                         result = ft_strjoin_//ft_freeresult, ft_strdup(words[0]));
 //                     }
 //                     else
 //                     {
@@ -55,12 +55,12 @@
 //                 }
                 
 //                 free_str_array(words);
-//                 free(repl);
+//                 //ft_freerepl);
 //                 i++;
 //             }
 //             else
 //             {
-//                 result = ft_strjoin_free(result, repl);
+//                 result = ft_strjoin_//ft_freeresult, repl);
 //             }
             
 //             i = help;
@@ -77,7 +77,7 @@
 //     {
 //         char *last = ft_substr(input, start, i - start);
 //         // printf("this is the result beffor %s|||| %s\n", result ,last);
-//         result = ft_strjoin_free(result, last);
+//         result = ft_strjoin_//ft_freeresult, last);
 //     }
 //     return result;
 // }
@@ -104,7 +104,7 @@
 //             if (i > start)
 //             {
 //                 before = ft_substr(input, start, i - start);
-//                 result = ft_strjoin_free(result, before);
+//                 result = ft_strjoin_//ft_freeresult, before);
 //             }
 
 //             // Expand the variable
@@ -114,15 +114,15 @@
 //             // If we're inside quotes, just concatenate
 //             if (quote != 0)
 //             {
-//                 result = ft_strjoin_free(result, repl);
-//                 // free(repl);
+//                 result = ft_strjoin_//ft_freeresult, repl);
+//                 // //ft_freerepl);
 //             }
 //             else
 //             {
 //                 // For unquoted expansion, handle word splitting carefully
 //                 char *combined = ft_strjoin(result, repl);
-//                 // free(result);
-//                 // free(repl);
+//                 // //ft_freeresult);
+//                 // //ft_freerepl);
 //                 result = combined;
 //             }
             
@@ -139,7 +139,7 @@
 //     if (i > start)
 //     {
 //         char *last = ft_substr(input, start, i - start);
-//         result = ft_strjoin_free(result, last);
+//         result = ft_strjoin_//ft_freeresult, last);
 //     }
 
 //     // Only create new tokens if we're not in a quoted context
@@ -150,7 +150,7 @@
 //         if (words[0])
 //         {
 //             // First word goes to current token
-//             free(result);
+//             //ft_freeresult);
 //             result = ft_strdup(words[0]);
             
 //             // Additional words become new tokens
@@ -194,7 +194,7 @@
 //             if (i > start)
 //             {
 //                 before = ft_substr(input, start, i - start);
-//                 result = ft_strjoin_free(result, before);
+//                 result = ft_strjoin_//ft_freeresult, before);
 //             }
 
 //             int end_pos;
@@ -203,8 +203,8 @@
 //             // Always preserve exact content inside double quotes
 //             if (in_dquotes || quote == '"')
 //             {
-//                 result = ft_strjoin_free(result, repl);
-//                 // free(repl);
+//                 result = ft_strjoin_//ft_freeresult, repl);
+//                 // //ft_freerepl);
 //             }
 //             else
 //             {
@@ -212,7 +212,7 @@
 //                 char **words = ft_split(repl, ' ');
 //                 if (words[0])
 //                 {
-//                     result = ft_strjoin_free(result, ft_strdup(words[0]));
+//                     result = ft_strjoin_//ft_freeresult, ft_strdup(words[0]));
 //                     for (int j = 1; words[j]; j++)
 //                     {
 //                         new_token = create_token(words[j]);
@@ -221,7 +221,7 @@
 //                     }
 //                 }
 //                 // free_str_array(words);
-//                 // free(repl);
+//                 // //ft_freerepl);
 //             }
             
 //             i = end_pos;
@@ -236,7 +236,7 @@
 //     if (i > start)
 //     {
 //         char *last = ft_substr(input, start, i - start);
-//         // result = ft_strjoin_free(result, last);
+//         // result = ft_strjoin_//ft_freeresult, last);
 //     }
 
 //     // If we ended in double quotes, don't split the result
@@ -245,7 +245,7 @@
 //         char **words = ft_split(result, ' ');
 //         if (words[0])
 //         {
-//             // free(result);
+//             // //ft_freeresult);
 //             result = ft_strdup(words[0]);
 //             for (int j = 1; words[j]; j++)
 //             {

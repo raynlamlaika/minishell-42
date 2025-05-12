@@ -11,9 +11,7 @@ int	ft_isdigit(int c)
 void ft_print_env(t_env *env)
 {
     if (!env)
-    {
         printf("pointer i think kipointi 3la lakhar ole null\n");
-    }
     while (env)
     {
         printf("%s=%s\n",env->key, env->value);
@@ -24,108 +22,129 @@ void ft_print_env(t_env *env)
     return ;
 }
 
-void    ft_export(char **args, t_env *env)
+void add_to_env_list(t_env **env_list, t_env *new_node)
+{
+	t_env *last;
+
+	if (!*env_list)
+	{
+		*env_list = new_node;
+		return;
+	}
+	last = *env_list;
+	while (last->next)
+		last = last->next;
+	last->next = new_node;
+}
+
+t_env* creat_node_env(char *key, char *value)
+{
+    t_env *new;
+
+    new = ft_malloc(sizeof(t_env), 1);
+    new->key= key;
+    new->value = value;
+    return(new);
+}
+
+// char *take_key_exp(char *str,int j)
+// {
+//     int k = j + 1;
+//     char *result = malloc(k);
+//     result[k] = '\0';
+//     j--;
+//     while (j > 0)
+//     {
+//         result[j] = str[j];
+//         printf("%c\n", result[j]);
+//         j--;
+//     }
+//     printf("thid id |%s|\n", result);
+//     return (result);
+// }
+
+char *take_key_exp(char *str, int j)
+{
+    int i = 0;
+    if (j <= 0)
+        return NULL;
+
+    char *result = malloc(j + 1);
+    if (!result)
+        return NULL;
+
+    while( i < j)
+    {
+        result[i] = str[i];
+        i++;
+    }
+    result[j] = '\0';
+
+    return result;
+}
+
+
+void    ft_export(char **args, t_env **env)
 {
     int i;
-    char *str;
-    char *key;
-    bool appand = false ;
-    int j = 0;
-    int len;
-    int l = 0;
-    t_env *p = env;
+    int j;
+    char* str;
 
-    len  = 0;
     i = 0;
+    j = 0;
 
-    if (ft_strncmp(&args[j][i], "export", ft_strlen("export")) != 0)
+    if (ft_strcmp(args[i], "export") == 0)
     {
-        write(2, "EROOORRR\n", 9);
-        return;
+        i++;
+        if (!args[i])
+            ft_env(*env);
     }
-    printf("helooo\n");
-    i++;
-    while (args[i])
+
+    if (ft_strchr(args[i], '='))
     {
-        if (ft_strchr(args[i], '='))
+        j= 0;
+        while (args[i][j])
         {
-            j = 0;
-            while (args[i][j])
+            if (ft_isalpha(args[i][j]))
+                j++;
+            else
             {
-                while (ft_isdigit(args[i][j]) || args[i][j] == '"' || args[i][j] == ' ')//ft_isalpha(args[i][j]) || 
-                {
-                    len++;
-                    j++;
-                }
-                str = ft_malloc(len, 1);
-                while (len  > l)
-                {
-                    str[l] = args[i][l];
-                    l++;
-                }
-                str[l] = '\0';
-                l = 0;
-                if (args[i][j] == '=')
-                    j++;
-                else if (args[i][j] == '+')
-                {
-                    j++;
-                    len++;
-                    if (args[i][j] == '=')
-                    {
-                        j++;
-                        appand = true;
-                    }
-                    else
-                        {write(1, "error\n", 6); break;}
-                }
-                else 
-                {
-                    write(2, "erooooor\n", 9);
-                    break;
-                }
-                len++;
-                while ((args[i][j] || args[i][j]== '\'' || args[i][j]== '\"'))
-                {
-                    j++;
-                    l++;
-                }
-                key = ft_malloc(l, 1);
-                l = 0;
-                while (!(args[i][len] == ' ') && (args[i][len] || args[i][len]== '\'' || args[i][len]== '\"'))
-                {
-                    key[l] = args[i][len];
-                    l++;
-                    len++;
-                }
-                key[l] = '\0';
-                t_env *new_node = ft_malloc(sizeof(t_env), 1);
-                new_node->value = key;
-                new_node->key = str;
-                new_node->next = NULL;
-                t_env *tmp = env;
-                while (tmp->next)
-                    tmp = tmp->next;
-                tmp->next = new_node;
+                printf("export : `%c`: not a valid identifier\n", args[i][j]);
+                break ;
             }
-        }
-        else
-        {
-            j = 0;
-            while (args[i][j])
+            if (args[i][j] == '=')
             {
-                if (1)//ft_isalpha(args[i][j])
-                    j++;
-                else 
-                {
-                    write(2, "error: invalid identifier\n", 27);
-                    break;
-                }
+                char *key = take_key_exp(args[i], j);
+                char *value = take_value(args[i], j);
+            }
+            if (args[i][j] == '\0')
+            {
+                printf("this is the line of key :%d\n", j);
             }
         }
         i++;
     }
-    ft_print_env(p);
+    // printf("will be added to the env\n");
+    str = ft_malloc(ft_strlen(args[i]), 1);
+    while (args[i])
+    {
+        j= 0;
+        while (args[i][j])
+        {
+            if (ft_isalpha(args[i][j]))
+                j++;
+            else
+            {
+                printf("export :`%c': not a valid identifier\n", args[i][j]);
+                break ;
+            }
+            if (args[i][j] == '\0')
+            {
+                printf("this is the line of key :%d\n", j);
+            }
+        }
+        i++;
+    }
 }
 
 

@@ -14,8 +14,11 @@ int env_list_size(t_env *env)
 // Function to create the array of strings in [key=value] format
 char **env_arr(t_env *env)
 {
+    if (!env || !env->key)
+        return (NULL);
     int size = env_list_size(env);
-    char **array = malloc(sizeof(char *) * (size + 1)); // +1 for NULL terminator
+
+    char **array = ft_malloc(sizeof(char *) * (size + 1), 1); // +1 for NULL terminator
     if (!array)
         return NULL;
     
@@ -24,13 +27,13 @@ char **env_arr(t_env *env)
     {
         // Calculate required length: [ + key + = + value + ] + \0
         int len = strlen(env->key) + strlen(env->value) + 4;
-        array[i] = malloc(len);
+        array[i] = ft_malloc(len, 1);
         if (!array[i])
         {
             // free previously allocated memory if allocation fails
             while (i > 0)
-                free(array[--i]);
-            free(array);
+                //ft_freearray[--i]);
+            //ft_freearray);
             return NULL;
         }
         // snprintf(array[i], len, "[%s=%s]", env->key, env->value);
@@ -45,10 +48,9 @@ char **env_arr(t_env *env)
 
 char** ft_env(t_env *env)
 {
-    if (!env)
-    {
-        printf("pointer i think kipointi 3la lakhar ole null\n");
-    }
+    if (!env || (!env->key && !env->value))
+        return NULL;
+        
     while (env)
     {
         printf("%s=%s\n",env->key, env->value);

@@ -1,6 +1,31 @@
 
 #include "../minishell.h"
 
+// void remove_node(t_env **head, const char *key_to_remove)
+// {
+// 	t_env *current = *head;
+// 	t_env *prev = NULL;
+
+// 	while (current)
+// 	{
+// 		if (ft_strcmp(current->key, key_to_remove) == 0)
+// 		{
+// 			printf("%s ht \n", key_to_remove);
+
+// 			if (prev)
+// 				prev->next = current->next;
+// 			else
+// 				*head = current->next;
+// 			return;
+// 		}
+// 		prev = current;
+// 		current = current->next;
+// 		if (!current)
+// 			break;
+// 	}
+//}
+
+
 void remove_node(t_env **head, const char *key_to_remove)
 {
 	t_env *current = *head;
@@ -8,30 +33,26 @@ void remove_node(t_env **head, const char *key_to_remove)
 
 	while (current)
 	{
-		if (strcmp(current->key, key_to_remove) == 0)
+		// printf("Comparing '%s' with '%s'\n", current->key, key_to_remove);
+		if (ft_strcmp(current->key, key_to_remove) == 0)
 		{
 			if (prev)
 				prev->next = current->next;
 			else
 				*head = current->next;
 
-			free(current->key);
-			free(current->value);
-			if (current->env_v)
-			{
-				for (int i = 0; current->env_v[i]; i++)
-					free(current->env_v[i]);
-				free(current->env_v);
-			}
-			free(current);
+			// free(current->key);
+			// free(current->value);
+			// free(current);
+			printf("Removed: %s\n", key_to_remove);
 			return;
 		}
 		prev = current;
 		current = current->next;
-		if (!current)
-			break;
 	}
+	// printf("Key '%s' not found\n", key_to_remove);
 }
+
 
 void ft_unset(char **args, t_env **env_list)
 {
@@ -47,5 +68,5 @@ void ft_unset(char **args, t_env **env_list)
 		remove_node(env_list, args[i]);
 		i++;
 	}
+	// print_env_list(*env_list);
 }
-

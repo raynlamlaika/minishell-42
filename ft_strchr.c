@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:15:00 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/03 17:44:54 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/10 08:03:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strchr(const char *str, int c)
 	char	*ptr;
 	char	x;
 
+	if (!str)
+		return(NULL);
 	ptr = (char *)str;
 	x = (char)c;
 	i = 0;

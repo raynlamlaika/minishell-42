@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/07 13:35:34 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/10 01:43:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	update_pwd(char *oldpwd, char *newpwd)
 	if (newpwd)
 	{
 		setenv("PWD", newpwd, 1);
-		free(newpwd);
+		//ft_freenewpwd);
 	}
 }
 
@@ -43,13 +43,13 @@ void	ft_cd_2(char *target, char *oldpwd, char *newpwd)
 		else
 			temp = ft_strjoin(oldpwd, "/");
 		newpwd = ft_strjoin(temp, target);
-		free(temp);
+		//ft_freetemp);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
     	perror("cd: error retrieving current directory");
 	else
-    	free(cwd);
+    	//ft_freecwd);
 
 	update_pwd(oldpwd, newpwd);
 }

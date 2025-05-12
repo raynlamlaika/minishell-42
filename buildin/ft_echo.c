@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/09 21:01:16 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/12 04:28:23 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,31 @@ void ft_echo(char **args, int exit_s)
         exit(127);
     }
     if (ft_strcmp(args[i] , "echo") == 0)
-    i++;
+        i++;
     else
+        return ;
     if (ft_strncmp(args[i] , "-n", 2) == 0)
-    flag = 5;
+        flag = 5;
     while (args[i])
     {
         int j = 0;
-        if (ft_strncmp(args[i] , "$?", 2) == 0)
+        if (args[i][j])
         {
-            // hANDEL "$?H44H4HH4"
-            printf("%d", exit_s);
-            if (args[i][j + 2])
+            while(args[i][j])
             {
-                j = 2;
-                while(args[i][j])
+                if (args[i][j]  == '$')
                 {
-                    printf("%c", args[i][j]);
-                    j++;
+                    if (args[i][++j] == '?')
+                        printf("%d", exit_s);
+                    else
+                        j++;
                 }
-                printf(" ");
+                else 
+                    printf("%c", args[i][j]);
+                j++;
             }
+            printf(" ");
+            
         }
         else
             printf("%s ", args[i]);

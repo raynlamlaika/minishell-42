@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 23:47:18 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/07 11:27:41 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/10 01:43:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	freedd(char **point)
 {
 	if (*point)
 	{
-		free(*point);
+		//ft_free*point);
 		*point = NULL;
 	}
 }
