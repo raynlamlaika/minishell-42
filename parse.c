@@ -1,13 +1,77 @@
 #include "minishell.h"
 
-int is_redirection(t_token *tokens)
+// int is_redirection(t_token *tokens)
+// {
+// 	return (tokens->type == TOKEN_HEREDOC || tokens->type == TOKEN_APPEND ||
+// 		tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_REDIR_IN ||
+// 		tokens->type == TOKEN_PIPE);
+// }
+
+// int	syntax_2(t_token **tokens, int *exit_s)
+// {
+// 	if (is_redirection(*tokens))
+// 	{
+// 		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF
+// 			|| (*tokens)->next->type == TOKEN_PIPE
+// 			|| is_redirection((*tokens)->next))
+// 		{
+// 			*exit_s = 2;
+// 			printf("minishell: syntax error near unexpected token `newline'\n");
+// 			return (1);
+// 		}
+// 	}
+// 	if ((*tokens)->type == TOKEN_PIPE)
+// 	{
+// 		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
+// 		{
+// 			*exit_s = 2;
+// 			printf("minishell: syntax error near unexpected token `newline'\n");
+// 			return (1);
+// 		}
+// 	}
+// 	return(0);
+// }
+
+// int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
+// {
+// 	if (!tokens || !tokens->value)
+// 	{
+// 		*exit_s = 2;
+// 		return (0);
+// 	}
+// 	if (tokens->type == TOKEN_PIPE)
+// 	{ 
+// 		*exit_s = 2;
+// 		printf("minishell: syntax error near unexpected token `|'\n");
+// 		return (1);
+// 	}
+// 	while (tokens)
+// 	{
+// 		if (tokens->type ==  TOKEN_HEREDOC)
+// 		{
+// 			max_here_doc++;
+// 			if (max_here_doc > 16)
+// 			{
+// 				printf("bash: maximum here-document count exceeded\n");
+// 				exit(2);
+// 			}
+// 		}
+// 		return (syntax_2(&tokens, exit_s));
+// 		tokens = tokens->next;
+// 	}
+// 	return (0);
+// }
+
+int	is_redirection(t_token *tokens)
 {
-	return (tokens->type == TOKEN_HEREDOC || tokens->type == TOKEN_APPEND ||
-		tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_REDIR_IN ||
-		tokens->type == TOKEN_PIPE);
+	return (tokens->type == TOKEN_HEREDOC
+		|| tokens->type == TOKEN_APPEND
+		|| tokens->type == TOKEN_REDIR_OUT
+		|| tokens->type == TOKEN_REDIR_IN);
+	// Note: TOKEN_PIPE is not a redirection. Removed it.
 }
 
-void	syntax_2(t_token **tokens, int *exit_s)
+int	syntax_2(t_token **tokens, int *exit_s)
 {
 	if (is_redirection(*tokens))
 	{
@@ -17,18 +81,20 @@ void	syntax_2(t_token **tokens, int *exit_s)
 		{
 			*exit_s = 2;
 			printf("minishell: syntax error near unexpected token `newline'\n");
-			return ;
+			return (1);
 		}
 	}
 	if ((*tokens)->type == TOKEN_PIPE)
 	{
-		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
+		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF
+			|| (*tokens)->next->type == TOKEN_PIPE)
 		{
 			*exit_s = 2;
-			printf("minishell: syntax error near unexpected token `newline'\n");
-			return ;
+			printf("minishell: syntax error near unexpected token `|'\n");
+			return (1);
 		}
 	}
+	return (0);
 }
 
 int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
@@ -36,17 +102,17 @@ int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 	if (!tokens || !tokens->value)
 	{
 		*exit_s = 2;
-		return (1);
+		return (0);
 	}
 	if (tokens->type == TOKEN_PIPE)
-	{ 
+	{
 		*exit_s = 2;
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	while (tokens)
 	{
-		if (tokens->type ==  TOKEN_HEREDOC)
+		if (tokens->type == TOKEN_HEREDOC)
 		{
 			max_here_doc++;
 			if (max_here_doc > 16)
@@ -55,9 +121,8 @@ int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 				exit(2);
 			}
 		}
-		syntax_2(&tokens, exit_s);
-		if (*exit_s == 2)
-			return (0);
+		if (syntax_2(&tokens, exit_s))
+			return (1);
 		tokens = tokens->next;
 	}
 	return (0);
@@ -117,7 +182,7 @@ void add_arg(t_cmd *type, char *value)
 {
 	int		count;
 	int		i;
-	int		j;
+	// int		j;
 	char	**new_args;
 
 	count = 0;
@@ -139,7 +204,8 @@ void add_arg(t_cmd *type, char *value)
 	new_args[count + 1] = NULL;
 	if (type->args)
 	{
-		j = 0;
+		// j = 0;
+		;
 		// while (type->args[j])
 		// 	free(type->args[j++]);
 		// free(type->args);
@@ -211,6 +277,8 @@ void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env
 	if(!*last_file)
 	{
 		file->here_doc = heredoc(tokens->next->value, env);
+		if (here_doc_helper == 20)
+			return ;
 		*last_file = file;
 	}
 	else
@@ -219,6 +287,8 @@ void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env
 		(*last_file)->next = new_file;
 		*last_file = new_file;
 		new_file->here_doc = heredoc(tokens->next->value, env);
+		if (here_doc_helper == 20)
+			return ;
 	}
 }
 
@@ -244,6 +314,8 @@ t_token	*parse_tokens_helper(t_cmd *cmd, t_token *tokens, t_file **last_file, t_
 	else if (tokens->type == TOKEN_HEREDOC && tokens->next)
 	{
 		token_heredoc(last_file, file, tokens, env);
+		if (here_doc_helper == 20)
+			return NULL;
 		tokens = tokens->next;
 	}
 	return (tokens->next);
@@ -282,7 +354,11 @@ t_cmd *parse_tokens(t_token *tokens, t_env *env)
 	while (tokens)
 	{
 		while (tokens && tokens->type != TOKEN_PIPE)
+		{
 			tokens = parse_tokens_helper(cmd, tokens, &last_file, file, env);
+			if (here_doc_helper == 20)
+				return(NULL) ;
+		}
 		if (tokens && tokens->type == TOKEN_PIPE)
 			parse_tokens_utils(&file, &tokens, &last_file, &cmd);
 	}

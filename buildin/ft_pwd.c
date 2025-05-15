@@ -11,6 +11,7 @@ void	ft_pwd(void)
 	else
 	{
 		pwd = getenv("PWD");
+		printf ("pwd >> %s\n\n", pwd);
 		if (pwd)
 			printf("%s\n", pwd);
 		else

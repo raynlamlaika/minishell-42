@@ -6,81 +6,20 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/12 05:10:46 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:25:12 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-
-
-void takes_cmds(t_cmd *cmd_list)
-{ this one just for debuging
-    int cmd_index;
-    int i;
-
-	cmd_index = 0;
-    while (cmd_list)
-    {
-        printf("Command # %d:\n", cmd_index);
-        t_file *file = cmd_list->file;
-        while (file)
-        {
-            if (file->infile)
-                printf("  Infile:  %s\n", file->infile);
-            if (file->outfile)
-                printf("  Outfile: %s %s\n",
-                       file->append ? "(append)" : "(truncate)",
-                       file->outfile);
-            file = file->next;
-            
-		    printf("append: %d\n", cmd_list->file->append);
-		    i = 0;
-		    while (cmd_list->args && cmd_list->args[i])
-		    {
-			    printf("arg[%d]: %s\n", i, cmd_list->args[i]);
-			    i++;
-		    }
-        }
-
-        cmd_list = cmd_list->next;
-        cmd_index++;
-    }
-}
-
-void print_file_list(t_file *file)
-{
-    while (file)
-    {
-        printf("Infile: %s --->", file->infile);
-        printf("Outfile: %s ---->", file->outfile);
-        printf("Append: %d\n", file->append);
-        file = file->next;
-		}
-		}
-		void print_cmd_list(t_cmd *cmd)
-		{
-			while (cmd)
-			{
-				if (cmd->file)
-					print_file_list(cmd->file);
-				else
-					printf("No files attached.\n");
-		
-				cmd = cmd->next;
-				printf("\n");
-			}
-		}
-*/ 
-	
 
 char **takepaths(t_env **env)
 {
 	char	**path;
 	char	*take;
-	char	*helper;
+	// char	*helper;
 	int		enc;
 
+	// helper = NULL;
 	take = NULL;
 	t_env *env_lnk ;
 	env_lnk = *env;
@@ -101,7 +40,7 @@ char **takepaths(t_env **env)
 	enc = 0;
 	while (path[enc])
 	{
-		helper = path[enc];
+		// helper = path[enc];
 		path[enc] = ft_strjoin(path[enc], "/");
 		enc++;
 	}
@@ -126,7 +65,7 @@ char	*pick(char**path, char*cmd)
 		return (NULL);
 	}
 	if (!path)
-		return (perror("pipex"), exit(1), NULL);
+		return (NULL);
 	while (path[pass])
 	{
 		realpath = ft_strjoin(path[pass], cmd);
@@ -181,14 +120,17 @@ void	pipecheck(int *pipefd)
 		perror("pipex");
 }
 
-void	forkfaild(pid_t pid, int*pipefd)
+int	forkfaild(pid_t pid, int*pipefd)
 {
+	int i = 0;
 	if (pid == -1)
 	{
-		perror("pipex");
+		perror("minishell");
 		close(pipefd[0]);
 		close(pipefd[1]);
+		i++;
 	}
+	return (i);
 }
 
 void	handelprevpipe(int *pipefd, int *prev_pipe)
@@ -223,26 +165,26 @@ int	search_search(char *str)
 		return (0);
 }
 
-void	buildin(t_cmd *cmd, t_env **env, int exit_s)
+void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 {
 	if (is_passed(cmd->args[0], "echo"))
-		ft_echo(cmd->args, exit_s);
+		ft_echo(cmd->args, *exit_s);
 	if (is_passed(cmd->args[0], "exit"))
-		ft_exit(cmd->args, exit_s);
+		ft_exit(cmd->args, *exit_s);
 	else if (is_passed(cmd->args[0], "export"))
 		ft_export(cmd->args, env);
 	else if (is_passed(cmd->args[0], "cd"))
-		ft_cd(cmd->args);
+		ft_cd(cmd->args, *env);
 	else if (is_passed(cmd->args[0], "pwd"))
 		ft_pwd();
 	else if (is_passed(cmd->args[0], "env"))
 		ft_env(*env);
 	else if (is_passed(cmd->args[0], "unset"))
 		ft_unset(cmd->args, env);
-	exit_s = 0;
+	*exit_s = 0;
 }
 
-void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
+void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int *exit_s)
 {
 	int		inf;
 	int		outf;
@@ -276,7 +218,13 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 			char *bin = pick(path, args[0]);
 			if (!bin)
 			{
+				execve(args[0], args, env->env_v);
 				perror("command not found");
+				exit(127);
+			}
+			if (args[0][0] == '\0')
+			{
+				printf("minishell: : command not found\n");
 				exit(127);
 			}
 			execve(bin, args, env->env_v);
@@ -284,20 +232,13 @@ void	execute_single_cmd(t_cmd *cmd, t_env *env, char **path, int exit_s)
 			exit(126);
 		}
 		else
-		{
 			waitpid(pid, &status, 0);
-			exit_s = WEXITSTATUS(status);	
-		}
 		if (WIFEXITED(status))
-		{
-			int exit_status = WEXITSTATUS(status);
-			exit_s = exit_status;
-			printf("Child exited with status %d\n", exit_status);
-		}
+			*exit_s = WEXITSTATUS(status);
 	}
 }
 
-void exectution(t_cmd *full, t_env *env, int exit_s)
+void exectution(t_cmd *full, t_env *env, int *exit_s)
 {
 	int 	inf, outf;
 	char    **path = NULL;
@@ -308,15 +249,14 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 	int status;
 	int count  = 0;
 	path = takepaths(&env);
-	if (!path)
-		write(1, "there is no path\n", 17);
 	if (full->next )
 	{
 		while(full)
 		{
 			pipecheck(pipefd);
 			pid = fork();
-			forkfaild(pid, pipefd);
+			if (forkfaild(pid, pipefd))
+				break;
 			if (pid == 0)
 			{
 				get_redirections(&inf, &outf, full);
@@ -342,7 +282,7 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 					if (search_search(full->args[0]) == 1)
 					{
 						buildin(full,&env, exit_s);
-						exit(1);
+						exit(*exit_s);
 					}
 					else
 					{
@@ -375,8 +315,7 @@ void exectution(t_cmd *full, t_env *env, int exit_s)
 			if (WIFEXITED(status))
 			{
 				int exit_status = WEXITSTATUS(status);
-				exit_s = exit_status;
-				printf("Child exited with status %d\n", exit_status);
+				*exit_s = exit_status;
 			}
 		}
 	}

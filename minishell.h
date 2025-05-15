@@ -20,10 +20,15 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# ifndef PATH
+#  define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+# endif
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 // representation of the deffrent type of token
+
+extern int here_doc_helper;
 
 typedef enum e_token_type
 {
@@ -82,14 +87,14 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
-typedef struct s_gc_collector
+typedef struct s_malloc
 {
-    void *ptr;
-    struct s_gc_collector *next;
-}t_gc_collector;
+	void    *toalloc;
+	struct s_malloc *next;
+}       t_malloc;
 
 
-
+char	*expnd_cd(char *input, t_env *env);
 int	heredoc(char* limiter, t_env *env);
 void    ft_export(char **args, t_env **env);
 char	*get_next_line(int fd);
@@ -103,12 +108,11 @@ void	ft_exit(char **args, int exit_status);
 char *ft_handel_qoute(char *exp);
 void	handle_word(t_token **head, t_token **last, char *input, int *i);
 t_token *lexer(char *input, t_token* last, int i);
-void	exectution(t_cmd *full,t_env*env, int exit_s);
+void	exectution(t_cmd *full,t_env*env, int* exit_s);
 void	free_env_list(t_env *head);
 t_env	*linked_varibles(char **env);
 int ft_isdigit(int n);
 void    expand(t_token *token, t_env *env);
-char *ft_strjoin_free(char *s1, char *s2);
 char *handling_qoutes(char *word, char sepa);
 void	handle_signal(int sig);
 char	*ft_strndup(char *s1, int n);
@@ -127,7 +131,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char *take_replace(int i, char *input, int *help, t_env *env);
-void	ft_cd(char **args);
+void	ft_cd(char **args, t_env*env);
 // char *take_expand(char *input, t_env *env);
 // void    ft_export(char **args, t_env *env);
 int	ft_strcmp(const char *s1, const char *s2);
@@ -135,7 +139,19 @@ void	ft_unset(char **args, t_env **env);
 char 	**ft_env(t_env *env);
 void	ft_pwd(void);
 void ft_echo(char **args, int exit_s);
-
+void append_node(t_env **head, t_env *new);
+t_env *new_node(char *key, char *value);
 void print_env_list(t_env *head);
+int size_help(char *string, t_env *env);
+char* ft_take(char* string ,int *i, t_env *env);
+char *s_split(char *result, t_token *token);
+void replace_token(char **token_value, char *exp);
+char* ft_take(char* string ,int *i, t_env *env);
+int	ft_isalnum(int c);
+char *ft_replace(char *check, t_env *env);
+t_token *create_token(char *value);
+void insert_token_after(t_token *current, t_token *new_token);
+void ft_free(t_malloc **head);
+// char	**ft_split(char const *s, char c);
 
 #endif

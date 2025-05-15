@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/12 04:28:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:10:36 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void ft_echo(char **args, int exit_s)
     int flag;
     
     flag =0;
-    
     if (!args)
     {
         write(1,"\n",1);
@@ -29,8 +28,11 @@ void ft_echo(char **args, int exit_s)
         i++;
     else
         return ;
-    if (ft_strncmp(args[i] , "-n", 2) == 0)
+    while (ft_strncmp(args[i] , "-n", 2) == 0)
+    {
+        i++;
         flag = 5;
+    }
     while (args[i])
     {
         int j = 0;
@@ -43,19 +45,23 @@ void ft_echo(char **args, int exit_s)
                     if (args[i][++j] == '?')
                         printf("%d", exit_s);
                     else
-                        j++;
+                        j--;
                 }
                 else 
                     printf("%c", args[i][j]);
                 j++;
             }
-            printf(" ");
-            
+            // printf(" ");
         }
         else
-            printf("%s ", args[i]);
+        {
+            printf("%s", args[i]);            
+        }
         i++;
+        if (args[i])
+            printf(" ");
     }
     if (flag == 0)
         printf("\n");
+    exit_s = 0;
 }

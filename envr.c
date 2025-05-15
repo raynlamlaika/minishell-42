@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/12 04:19:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:27 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ t_env *linked_varibles(char **env)
 	t_env *head = NULL;
 	int j = 0;
 
+	if (!env || !*env)
+		return (NULL);
 	while (env[j])
 	{
 		int i = 0;
@@ -143,6 +145,9 @@ void print_env_list(t_env *head)
 void	free_env_list(t_env *head)
 {
 	t_env *tmp;
+
+	if (!head)
+		return ;
 	while (head)
 	{
 		tmp = head;
@@ -152,4 +157,3 @@ void	free_env_list(t_env *head)
 		free(tmp);
 	}
 }
-

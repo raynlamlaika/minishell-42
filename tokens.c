@@ -31,9 +31,11 @@ void	append_token(t_token **head, t_token **last, t_token_type type, char *value
 
 void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) 
 {
-	int	start = *i;
-	int j = 1;
+	int	start;
+	int j;
 
+	start = *i;
+	j = 1;
 	while (input[*i])
 	{ 
 		(*i)++;
@@ -49,7 +51,6 @@ void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quo
 	append_token(head, last, TOKEN_WORD, word);
 	(*i)--;
 }
-
 
 void	handle_word(t_token **head, t_token **last, char *input, int *i)
 {
@@ -108,17 +109,3 @@ t_token	*lexer(char *input, t_token* last, int i)
 	}
 	return (append_token(&head, &last, TOKEN_EOF, NULL), head);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
