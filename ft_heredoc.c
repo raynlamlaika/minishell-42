@@ -6,13 +6,13 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 15:33:21 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:02:46 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	search_search(char *next, char *limiter)
+static int	pick_limiter(char *next, char *limiter)
 {
 	int	result;
 
@@ -62,11 +62,13 @@ static void	lines(int fd, char *limiter, int flag, t_env *env)
 		next = readline("here_doc >> ");
 		if (!next || here_doc_helper == 20)
 		{
+			if (here_doc_helper == 20)
+				printf("\n");
 			break ;
 		}
 		if (ft_strchr(next, '$') && flag == 0)
 			next = expnd_heredoc(next, env);
-		if (search_search(next, limiter) == 0)
+		if (pick_limiter(next, limiter) == 0)
 			break ;
 		write(fd, next, ft_strlen(next));
 	}

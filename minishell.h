@@ -49,6 +49,7 @@ typedef struct s_token
 {
 	t_token_type type;
 	char *value;
+	char *ambiguous;
 	int quoted;              // 0: not quoted, 1: quoted
 	struct s_token *next;
 } t_token;
@@ -93,14 +94,19 @@ typedef struct s_malloc
 	struct s_malloc *next;
 }       t_malloc;
 
+char **takepaths(t_env **env);
+char	*pick(char**path, char*cmd);
 
 char	*expnd_cd(char *input, t_env *env);
-int	heredoc(char* limiter, t_env *env);
+int		heredoc(char* limiter, t_env *env);
 void    ft_export(char **args, t_env **env);
 char	*get_next_line(int fd);
-// char	*ft_handel_qoute(char *exp);
-// void    *ft_malloc(size_t size, int flag);
+
+
 void	*ft_malloc(unsigned int size, int flag);
+void get_redirections(int *inf, int *outf, t_cmd* full);
+void	pipecheck(int *pipefd);
+int	forkfaild(pid_t pid, int*pipefd);
 
 int	ft_isalpha(int c);
 void print_env_list(t_env *head);
@@ -132,8 +138,6 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char *take_replace(int i, char *input, int *help, t_env *env);
 void	ft_cd(char **args, t_env*env);
-// char *take_expand(char *input, t_env *env);
-// void    ft_export(char **args, t_env *env);
 int	ft_strcmp(const char *s1, const char *s2);
 void	ft_unset(char **args, t_env **env);
 char 	**ft_env(t_env *env);
@@ -141,17 +145,26 @@ void	ft_pwd(void);
 void ft_echo(char **args, int exit_s);
 void append_node(t_env **head, t_env *new);
 t_env *new_node(char *key, char *value);
-void print_env_list(t_env *head);
 int size_help(char *string, t_env *env);
 char* ft_take(char* string ,int *i, t_env *env);
-char *s_split(char *result, t_token *token);
+// char *s_split(char *result, t_token *token);
+char *s_split(char *result, t_token *token, char *embg);
+
 void replace_token(char **token_value, char *exp);
 char* ft_take(char* string ,int *i, t_env *env);
 int	ft_isalnum(int c);
 char *ft_replace(char *check, t_env *env);
-t_token *create_token(char *value);
+t_token	*create_token(char *value, char *help_red);
 void insert_token_after(t_token *current, t_token *new_token);
 void ft_free(t_malloc **head);
-// char	**ft_split(char const *s, char c);
+void	handelprevpipe(int *pipefd, int *prev_pipe);
+int	is_passed(char *str, char *sec);
+int	search_search(char *str);
+void	buildin(t_cmd *cmd, t_env **env, int *exit_s);
+char *take_key(char **env, int i, int j);
+char *take_value(char **env, int i, int j);
+t_env *new_node(char *key, char *value);
+void append_node(t_env **head, t_env *new);
+t_env *linked_varibles(char **env);
 
 #endif

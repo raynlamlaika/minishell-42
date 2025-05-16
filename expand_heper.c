@@ -6,13 +6,13 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 00:55:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 11:48:11 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 01:12:07 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*create_token(char *value)
+t_token	*create_token(char *value, char *help_red)
 {
 	t_token	*new;
 
@@ -22,6 +22,11 @@ t_token	*create_token(char *value)
 		return (NULL);
 	new->value = ft_strdup(ft_handel_qoute(value));
 	new->type = TOKEN_WORD;
+	if (help_red)
+		new->ambiguous = ft_strdup(help_red);
+	else
+		new->ambiguous = NULL;
+	printf("----------------------____%s,             %s\n", new->ambiguous , help_red);
 	new->next = NULL;
 	return (new);
 }

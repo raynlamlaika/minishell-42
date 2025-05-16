@@ -1,8 +1,8 @@
 NAME = minishell
 
-SRC = envr.c expand.c  ft_strjoin.c  gnl.c parse.c \
+SRC = envr.c expand.c  ft_strjoin.c env_heloper.c  parse.c exec_ultils.c exec_ulitls2.c exec_utils3.c \
 		execution.c  expand_heper.c  ft_split_h.c  ft_strncmp.c  handle_signal.c  tokens.c \
-		expand_2.c   ft_heredoc.c    ft_strchr.c ft_strndup.c \
+		expand_2.c   ft_heredoc.c ft_strchr.c ft_strndup.c \
 		expand_3.c ft_strdup.c   ft_strrchr.c  my_malloc.c utils.c \
 		buildin/ft_cd.c  buildin/ft_echo.c   buildin/ft_env.c \
 		buildin/ft_export.c   buildin/ft_pwd.c  buildin/ft_unset.c buildin/ft_exit.c
@@ -25,8 +25,6 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) -lreadline $(CFLAGS) $^ -o $(NAME)
 
-# bonus: $(BOBJ)
-# 	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 %.o: %.c $(HEADER)
 	$(CC)  $(CFLAGS) -c $< -o $@

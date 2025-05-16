@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 17:24:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 01:24:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 
 int here_doc_helper = 0;
+
+void print_token(t_token *token) {
+    while (token) 
+	{
+		printf("Ambiguous: %s\n", token->ambiguous);
+        token = token->next;
+    }
+}
 
 int main(int ac,char **av,char**env)
 {
@@ -26,7 +34,6 @@ int main(int ac,char **av,char**env)
 
 	(void)av;
 	(void)ac;
-	// ac = 1;
 	int g = 0;
 	int i = 1;
 	signal(SIGINT, handle_signal);
@@ -44,7 +51,7 @@ int main(int ac,char **av,char**env)
 		{
 			g = 0;
 			here_doc_helper = 1;
-			line = readline("minishell $> ");
+			line = readline("realSHELL $> ");
 			here_doc_helper = 0;
 			if (!line) 
 			{
@@ -60,6 +67,7 @@ int main(int ac,char **av,char**env)
 			if (g == 0)
 			{
 				expand(tokens, env_list);
+				// here the emg 
 				t_cmd *f =  parse_tokens(tokens,env_list);
 				if (here_doc_helper == 20)
 				{

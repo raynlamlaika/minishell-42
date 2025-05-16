@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 13:41:04 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 01:16:26 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int split_allocation(char *result)
     return (size);
 }
 
-char *s_split(char *result, t_token *token)
+char *s_split(char *result, t_token *token, char *embg)
 {
     char *str;
     int i = 0;
@@ -95,8 +95,9 @@ char *s_split(char *result, t_token *token)
         }
         else
         {
-            t_token *new_node = create_token(str);
-            insert_token_after(token, new_node);
+            printf("this si %s       \n", embg);
+            t_token *new_node = create_token(str, embg);
+            insert_token_after(token, new_node );
             token = new_node; // Move to the new node
         }
         

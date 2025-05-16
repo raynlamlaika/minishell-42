@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 14:06:59 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 01:18:57 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,13 @@ void	expand(t_token *token, t_env *env)
 {
 	while (token && token->value)
 	{
+		if (token->type == TOKEN_HEREDOC)
+		{
+			token=token->next;
+			token=token->next;// skip limiter
+		}
 		if (ft_strchr(token->value, '$'))
-			s_split(take_token(token->value, env), token);
+			s_split(take_token(token->value, env), token, hendel_qoutes(token->value));
 		else if (ft_strchr(token->value, '\'') || ft_strchr(token->value, '\"'))
 		{
 			replace_token(&token->value, hendel_qoutes(token->value));
