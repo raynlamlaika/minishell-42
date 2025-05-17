@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/16 01:24:51 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 21:32:47 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
 
-int here_doc_helper = 0;
+int here_doc_helper;
 
 void print_token(t_token *token) {
     while (token) 
@@ -53,7 +53,7 @@ int main(int ac,char **av,char**env)
 			here_doc_helper = 1;
 			line = readline("realSHELL $> ");
 			here_doc_helper = 0;
-			if (!line) 
+			if (!line)
 			{
 				ft_malloc(0, 0);
 				free_env_list(env_list);
@@ -67,7 +67,8 @@ int main(int ac,char **av,char**env)
 			if (g == 0)
 			{
 				expand(tokens, env_list);
-				// here the emg 
+				int a = syntax_ambiguous(tokens, &exit_s);
+				printf ("%d\n", a);
 				t_cmd *f =  parse_tokens(tokens,env_list);
 				if (here_doc_helper == 20)
 				{

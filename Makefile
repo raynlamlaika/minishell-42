@@ -5,7 +5,8 @@ SRC = envr.c expand.c  ft_strjoin.c env_heloper.c  parse.c exec_ultils.c exec_ul
 		expand_2.c   ft_heredoc.c ft_strchr.c ft_strndup.c \
 		expand_3.c ft_strdup.c   ft_strrchr.c  my_malloc.c utils.c \
 		buildin/ft_cd.c  buildin/ft_echo.c   buildin/ft_env.c \
-		buildin/ft_export.c   buildin/ft_pwd.c  buildin/ft_unset.c buildin/ft_exit.c
+		buildin/ft_export.c   buildin/ft_pwd.c  buildin/ft_unset.c buildin/ft_exit.c \
+		syntax.c parse_helper.c syntax_ambiguous.c
 		
 
 
@@ -15,7 +16,7 @@ OBJ = $(SRC:.c=.o)
 # BOBJ = $(BSRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra
 
 HEADER = minishell.h
 # HEADERB = bonus/pipexb.h
@@ -27,7 +28,7 @@ $(NAME): $(OBJ)
 
 
 %.o: %.c $(HEADER)
-	$(CC)  $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # bonus/%.o: bonus/%.c $(HEADERB)
 # 	$(CC) $(CFLAGS) -Ibonus -c $< -o $@

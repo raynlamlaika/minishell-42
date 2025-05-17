@@ -96,6 +96,7 @@ typedef struct s_malloc
 
 char **takepaths(t_env **env);
 char	*pick(char**path, char*cmd);
+char	*ft_strduppp(char*source);
 
 char	*expnd_cd(char *input, t_env *env);
 int		heredoc(char* limiter, t_env *env);
@@ -166,5 +167,14 @@ char *take_value(char **env, int i, int j);
 t_env *new_node(char *key, char *value);
 void append_node(t_env **head, t_env *new);
 t_env *linked_varibles(char **env);
+
+void add_arg(t_cmd *type, char *value);
+void	token_infile(t_file **last_file, t_file *file, t_token *tokens);
+void	token_outfile(t_file **last_file, t_file *file, t_token *tokens);
+void	token_append(t_file **last_file, t_file *file, t_token *tokens);
+void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env);
+void	*ft_calloc(size_t count, size_t size);
+
+int syntax_ambiguous(t_token *tokens, int *exit_s);
 
 #endif

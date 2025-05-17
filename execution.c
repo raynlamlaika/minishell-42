@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 21:01:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:19:37 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,17 @@ void exectution(t_cmd *full, t_env *env, int *exit_s)
 					{
 						cmd = full->args;
 						char *pathh = pick(path, cmd[0]);
+						if (!pathh)
+						{
+							execve(cmd[0], cmd, env->env_v);
+							printf("%s: command not found\n", cmd[0]);
+							exit(127);
+						}
+						if (cmd[0][0] == '\0')
+						{
+							printf("minishell: : command not found\n");
+							exit(127);
+						}
 						if (!pathh)
 						{
 							perror("command not found");

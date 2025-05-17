@@ -17,9 +17,13 @@ void	remove_node(t_env **head, const char *key_to_remove)
 				prev->next = current->next;
 			else
 				*head = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
+			if (current && current->key && current->value)
+			{
+				printf("this is the %p %p %p", current, current->key , current->value);
+				free(current->key);
+				free(current->value);
+				free(current);
+			}
 			return ;
 		}
 		prev = current;
