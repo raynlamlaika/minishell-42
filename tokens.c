@@ -16,6 +16,7 @@ void	append_token(t_token **head, t_token **last, t_token_type type, char *value
 {
 	t_token *new = ft_malloc(sizeof(t_token), 1);
 
+	new->ambiguous = NULL;
 	new->type = type;
 	if (value)
 	new->value = ft_strdup(value);

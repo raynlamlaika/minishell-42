@@ -14,7 +14,11 @@ void ft_print_env(t_env *env)
 		printf("pointer i think kipointi 3la lakhar ole null\n");
 	while (env)
 	{
-		printf("%s=%s\n",env->key, env->value);
+		if (env->key)
+			printf("%s",env->key);
+		if (env->value)
+			printf("=%s",env->value);
+		printf("\n");
 		env = env->next;
 		if (!env)
 			break;
@@ -49,7 +53,7 @@ t_env* creat_node_env(char *key, char *value)
 
 int is_valid_varname(char *name)
 {
-	if ((!name || !isalpha(name[0])) && name[0] != '_')
+	if ((!name || !ft_isalpha(name[0])) && name[0] != '_')
 	{
 		printf("export : `%c`: not a valid identifier\n", name[0]);
 		return (0);
@@ -85,7 +89,7 @@ char *take_key_exp(char *str, int j)
 	return result;
 }
 
-int ffff(char *str, int i)
+int f_size(char *str, int i)
 {
 	int j  = 0;
 	if (!str)
@@ -104,15 +108,15 @@ char *takee_value(char *str,int pointed_to)
 
 	if (!str)
 		return (NULL);
-	result = malloc ((ffff(str, pointed_to) + 1));
+	result = ft_malloc((f_size(str, pointed_to) + 1), 1);
 	int i = 0;
 	while (str[pointed_to])
 	{
 		result[i++] = str[pointed_to++];
 	}
 	result[i] = '\0';
-	if (!is_valid_varname(result))
-		return (NULL);
+	// if (!is_valid_varname(result))
+	// 	return (NULL);
 	return  (result);
 }
 
@@ -150,34 +154,6 @@ char	*ft_strdupp(char*source)
 	return (sp);
 }
 
-char	*ft_strjoinn(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*s_everyone;
-
-	i = 0;
-	j = 0;
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdupp(s2));
-	if (!s2)
-		return (ft_strdupp(s1));
-	s_everyone
-		= (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-	if (!s_everyone)
-		return (NULL);
-	while (s1[i])
-	{
-		s_everyone[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		s_everyone[i++] = s2[j++];
-	s_everyone[i] = '\0';
-	return (s_everyone);
-}
 
 
 void    ft_export(char **args, t_env **env)
@@ -196,12 +172,15 @@ void    ft_export(char **args, t_env **env)
 	{
 		i++;
 		if (!args[i])
-			ft_env(*env);
+		{
+			ft_print_env(*env);
+			return ;
+		}
 	}
 	while (args[i])
 	{
 		j = 0;
-		if (ft_strlen(args[i]) == 1)
+		if (ft_strlen(args[i]) == 0)
 		{
 			printf("export : `%c`: not a valid identifier\n", args[i][j]);
 			i++;
@@ -239,7 +218,7 @@ void    ft_export(char **args, t_env **env)
 			{
 				if (is_valid_varname(args[i]))
 				{
-					ii = takee_value(args[i], j);
+					ii = take_key_exp(args[i], j);
 					i++;
 				}
 				else
@@ -270,8 +249,9 @@ void    ft_export(char **args, t_env **env)
 	
 					if (ft_strcmp(ii , "_") == 0)
 						;
-					else{
-						t_env* new = new_node(ii, oo);
+					else
+					{
+						t_env* new = new_node(ii, NULL);
 						append_node(env, new);
 					}
 				}
@@ -282,7 +262,7 @@ void    ft_export(char **args, t_env **env)
 						;
 					else{
 						// printf("THIS is %s and %s\n", give->value,oo);
-						o = ft_strjoinn(give->value, oo);
+						o = ft_strjoin(give->value, oo);
 						give->value = o;
 					}
 				}

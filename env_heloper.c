@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:08:52 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 21:09:04 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:12:18 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char *take_key(char **env, int i, int j)
 {
-	char *key = malloc(i + 1);
+	char *key = ft_malloc(i + 1, 1);
 	if (!key) return NULL;
 	strncpy(key, env[j], i);
 	key[i] = '\0';
@@ -24,8 +24,8 @@ char *take_key(char **env, int i, int j)
 char *take_value(char **env, int i, int j)
 {
 	i++;
-	int len = strlen(env[j] + i);
-	char *value = malloc(len + 1);
+	int len = ft_strlen(env[j] + i);
+	char *value = ft_malloc(len + 1, 1);
 	if (!value) return NULL;
 	strcpy(value, env[j] + i);
 	return value;
@@ -33,17 +33,22 @@ char *take_value(char **env, int i, int j)
 
 t_env *new_node(char *key, char *value)
 {
-	t_env *node = malloc(sizeof(t_env));
+	t_env *node = ft_malloc(sizeof(t_env), 1);
 	if (!node) return NULL;
-	node->key = key;
-	node->value = value;
+	if (key)
+		node->key = ft_strdup(key);
+	if (value)
+		node->value = ft_strdup(value);
+	else
+		node->value = NULL;
+		
 	node->next = NULL;
 	return node;
 }
 
 void append_node(t_env **head, t_env *new)
 {
-	if (!*head)
+	if (!*head || !head)
 		*head = new;
 	else {
 		t_env *tmp = *head;
@@ -60,7 +65,11 @@ t_env *linked_varibles(char **env)
 	int i;
 
 	if (!env || !*env)
-		return (NULL);
+	{
+		head = new_node("PATH",PATH);
+		head->env_v = NULL;
+		return (head);
+	}
 	while (env[j])
 	{
 		i = 0;
@@ -77,7 +86,6 @@ t_env *linked_varibles(char **env)
 		}
 		j++;
 	}
-	
 	head->env_v = env;
 	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 21:02:46 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:07:19 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ static void	lines(int fd, char *limiter, int flag, t_env *env)
 				printf("\n");
 			break ;
 		}
-		if (ft_strchr(next, '$') && flag == 0)
-			next = expnd_heredoc(next, env);
 		if (pick_limiter(next, limiter) == 0)
 			break ;
+		next = ft_strjoin(next, "\n");
+		if (ft_strchr(next, '$') && flag == 0)
+			next = expnd_heredoc(next, env);
 		write(fd, next, ft_strlen(next));
 	}
 }

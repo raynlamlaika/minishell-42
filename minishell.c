@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/16 01:24:51 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:07:56 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,27 @@
 
 int here_doc_helper = 0;
 
+
+
 void print_token(t_token *token) {
     while (token) 
 	{
 		printf("Ambiguous: %s\n", token->ambiguous);
         token = token->next;
     }
+}
+
+int get_list_size(t_env *head) {
+    int size = 0;
+    t_env *current = head;
+
+    // Traverse through the list and count the nodes
+    while (current != NULL) {
+        size++;
+        current = current->next;
+    }
+
+    return size;
 }
 
 int main(int ac,char **av,char**env)
@@ -35,30 +50,24 @@ int main(int ac,char **av,char**env)
 	(void)av;
 	(void)ac;
 	int g = 0;
-	int i = 1;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	env_list = linked_varibles(env);
-	char *ll = expnd_cd("PATH", env_list);
-	if (!ll)
+	env_list->emg_flag = 0;
+	if (isatty(STDIN_FILENO) || isatty(STDOUT_FILENO))
 	{
-		t_env *tt = new_node("PATH",PATH);
-		append_node(&env_list, tt);
-	}
-	if (isatty(STDIN_FILENO))
-	{
-		while(i)
+		while(1)
 		{
 			g = 0;
 			here_doc_helper = 1;
 			line = readline("realSHELL $> ");
 			here_doc_helper = 0;
-			if (!line) 
+			if (!line)
 			{
 				ft_malloc(0, 0);
-				free_env_list(env_list);
-				free(line);
-				return (1);
+				// free_env_list(env_list);
+				rl_clear_history();
+				return (exit_s);
 			}
 			add_history(line);
 			tokens = lexer(line, last, 0);
@@ -66,23 +75,21 @@ int main(int ac,char **av,char**env)
 				g = syntax(tokens, &exit_s, here_doc);
 			if (g == 0)
 			{
-				expand(tokens, env_list);
-				// here the emg 
-				t_cmd *f =  parse_tokens(tokens,env_list);
-				if (here_doc_helper == 20)
+				expand(tokens, env_list, &exit_s);
+				int i = syntax_ambiguous(tokens, &exit_s);
+				if (i == 0)
 				{
-					dup2(2, 0);
-					continue;
+					t_cmd *f =  parse_tokens(tokens,env_list);
+					if (here_doc_helper == 20)
+					{
+						dup2(2, 0);
+						continue;
+					}
+					exectution(f, &env_list, &exit_s);
 				}
-				exectution(f, env_list, &exit_s);
 			}
-			ft_malloc(0, 0);
 			free(line);
-			i++;
 		}
-		free(line);
-		ft_malloc(0, 0);
-		free_env_list(env_list);
 		return (exit_s);
 	}
 }

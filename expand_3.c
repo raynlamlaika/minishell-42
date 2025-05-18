@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/16 01:16:26 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/18 05:18:36 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ int split_allocation(char *result)
 
 char *s_split(char *result, t_token *token, char *embg)
 {
-    char *str;
-    int i = 0;
-    int n = 0;
-    int m = 0;
-    int y = 0;
-    int a= 0;
-    int size = split_allocation(result);
-    int add = 0;
+    char    *str;
+    int     i = 0;
+    int     n = 0;
+    int     m = 0;
+    int     y = 0;
+    int     a= 0;
+    int     size = split_allocation(result);
+    int     add = 0;
+    
     str = ft_malloc(size + 1, 1);
-
     while (result[i])
     {
         a = 0;
@@ -95,19 +95,18 @@ char *s_split(char *result, t_token *token, char *embg)
         }
         else
         {
-            printf("this si %s       \n", embg);
             t_token *new_node = create_token(str, embg);
             insert_token_after(token, new_node );
-            token = new_node; // Move to the new node
+            token = new_node;
         }
         
-        if (result[i]) // Only allocate if more tokens coming
+        if (result[i])
         {
             size = split_allocation(result + i);
             str = ft_malloc(size + 1, 1);
         }
     }
-    return result;
+    return (result);
 }
 
 

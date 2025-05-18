@@ -20,115 +20,124 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# ifndef PATH
-#  define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-# endif
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-// representation of the deffrent type of token
 
-extern int here_doc_helper;
+# ifndef PATH
+#  define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+# endif
+
+extern int	here_doc_helper;
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,        // Command or argument
-	TOKEN_PIPE,        // "|"
-	TOKEN_REDIR_IN,    // "<"
-	TOKEN_REDIR_OUT,   // ">"
-	TOKEN_APPEND,      // ">>"
-	TOKEN_HEREDOC,     // "<<"
-	TOKEN_QUOTE,       // '"'
-	TOKEN_DQUOTE,      // "'"
-	TOKEN_WHITESPACE,  // " " (Should be skipped)
-	TOKEN_EOF          // End of input
-} t_token_type;
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_QUOTE,
+	TOKEN_DQUOTE,
+	TOKEN_WHITESPACE,
+	TOKEN_EOF
+}	t_token_type;
 
 
-typedef struct s_token
+typedef struct		s_token
 {
-	t_token_type type;
-	char *value;
-	char *ambiguous;
-	int quoted;              // 0: not quoted, 1: quoted
-	struct s_token *next;
-} t_token;
+	t_token_type	type;
+	char			*value;
+	char			*ambiguous;
+	int				quoted;
+	int				flag_mbg;
+	struct s_token	*next;
+}					t_token;
 
 
 typedef  struct s_exp
 {
-	char *value;
-	char **value_do;
-	int flag;
-	struct s_exp * next;
+	char			*value;
+	char			**value_do;
+	int				flag;
+	struct s_exp	*next;
 }					t_exp;
 
 typedef struct s_file
 {
-	char *infile;
-	char *outfile;
-    int append;
-	int here_doc;
-	int flag; //check is the dilimmeter in a qoutes  double ols ingle 
-	struct s_file 	*next;
+	char			*infile;
+	char			*outfile;
+    int				append;
+	int				here_doc;
+	int				flag; 
+	struct s_file	*next;
 } 					t_file;
 
 typedef struct s_cmd
 {
-	char **args;
-    struct s_cmd *next;
-	t_file *file;
-} t_cmd;
+	char			**args;
+    struct s_cmd	*next;
+	t_file			*file;
+}					t_cmd;
 
 typedef struct s_env
 {
-	char *key;
-	char *value;
-	char **env_v;
-	struct s_env *next;
+	char			*key;
+	char			*value;
+	int				emg_flag;
+	char			**env_v;
+	struct s_env	*next;
 } t_env;
 
 typedef struct s_malloc
 {
-	void    *toalloc;
-	struct s_malloc *next;
-}       t_malloc;
+	void			*toalloc;
+	struct s_malloc	*next;
+}					t_malloc;
 
-char **takepaths(t_env **env);
+typedef struct s_finishd
+{
+	int		inf;
+	int		outf;
+	char	**args;
+	int		status;
+	char	*bin;
+	t_cmd	*cmd;
+	t_env	*env;
+}			t_finished;
+
+char	*ft_itoa(int n);
+int		syntax_ambiguous(t_token *tokens, int *exit_s);
+char	**takepaths(t_env **env);
 char	*pick(char**path, char*cmd);
-
 char	*expnd_cd(char *input, t_env *env);
 int		heredoc(char* limiter, t_env *env);
-void    ft_export(char **args, t_env **env);
-char	*get_next_line(int fd);
-
-
+void	ft_export(char **args, t_env **env);
 void	*ft_malloc(unsigned int size, int flag);
-void get_redirections(int *inf, int *outf, t_cmd* full);
+void	get_redirections(int *inf, int *outf, t_cmd* full);
 void	pipecheck(int *pipefd);
-int	forkfaild(pid_t pid, int*pipefd);
-
-int	ft_isalpha(int c);
-void print_env_list(t_env *head);
+int		forkfaild(pid_t pid, int*pipefd);
+int		ft_isalpha(int c);
 void	ft_exit(char **args, int exit_status);
-char *ft_handel_qoute(char *exp);
+char	*ft_handel_qoute(char *exp);
 void	handle_word(t_token **head, t_token **last, char *input, int *i);
-t_token *lexer(char *input, t_token* last, int i);
-void	exectution(t_cmd *full,t_env*env, int* exit_s);
+t_token	*lexer(char *input, t_token* last, int i);
+void	exectution(t_cmd *full,t_env**env, int* exit_s);
 void	free_env_list(t_env *head);
 t_env	*linked_varibles(char **env);
-int ft_isdigit(int n);
-void    expand(t_token *token, t_env *env);
-char *handling_qoutes(char *word, char sepa);
+int		ft_isdigit(int n);
+void	expand(t_token *token, t_env *env, int *exit_s);
+char	*handling_qoutes(char *word, char sepa);
 void	handle_signal(int sig);
 char	*ft_strndup(char *s1, int n);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(char *str, int c);
-char 	*get_value(t_env *linked_env, char *input);
-void    append_token(t_token **head, t_token **last, t_token_type type, char *value);
-void    handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
-int     is_redirection(t_token *tokens);
-int    syntax(t_token *tokens, int *exit_s, int max_here_doc);
+char	*get_value(t_env *linked_env, char *input);
+void	append_token(t_token **head, t_token **last, t_token_type type, char *value);
+void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
+int		is_redirection(t_token *tokens);
+int		syntax(t_token *tokens, int *exit_s, int max_here_doc);
 t_cmd	*parse_tokens(t_token *tokens, t_env *env);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s1);
@@ -136,35 +145,33 @@ int		ft_strncmp(const char *str1, const char *str2, size_t num);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
-char *take_replace(int i, char *input, int *help, t_env *env);
+char	*take_replace(int i, char *input, int *help, t_env *env);
 void	ft_cd(char **args, t_env*env);
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 void	ft_unset(char **args, t_env **env);
-char 	**ft_env(t_env *env);
+void	ft_env(t_env *env);
 void	ft_pwd(void);
-void ft_echo(char **args, int exit_s);
-void append_node(t_env **head, t_env *new);
-t_env *new_node(char *key, char *value);
-int size_help(char *string, t_env *env);
-char* ft_take(char* string ,int *i, t_env *env);
-// char *s_split(char *result, t_token *token);
-char *s_split(char *result, t_token *token, char *embg);
-
-void replace_token(char **token_value, char *exp);
-char* ft_take(char* string ,int *i, t_env *env);
-int	ft_isalnum(int c);
-char *ft_replace(char *check, t_env *env);
+void	ft_echo(char **args, int exit_s);
+void	append_node(t_env **head, t_env *new);
+t_env	*new_node(char *key, char *value);
+int		size_help(char *string, t_env *env);
+char	*ft_take(char* string ,int *i, t_env *env);
+char	*s_split(char *result, t_token *token, char *embg);
+void	replace_token(char **token_value, char *exp);
+char	*ft_take(char* string ,int *i, t_env *env);
+int		ft_isalnum(int c);
+char	*ft_replace(char *check, t_env *env);
 t_token	*create_token(char *value, char *help_red);
-void insert_token_after(t_token *current, t_token *new_token);
-void ft_free(t_malloc **head);
+void	insert_token_after(t_token *current, t_token *new_token);
+void	ft_free(t_malloc **head);
 void	handelprevpipe(int *pipefd, int *prev_pipe);
-int	is_passed(char *str, char *sec);
-int	search_search(char *str);
+int		is_passed(char *str, char *sec);
+int		search_search(char *str);
 void	buildin(t_cmd *cmd, t_env **env, int *exit_s);
-char *take_key(char **env, int i, int j);
-char *take_value(char **env, int i, int j);
-t_env *new_node(char *key, char *value);
-void append_node(t_env **head, t_env *new);
-t_env *linked_varibles(char **env);
+char	*take_key(char **env, int i, int j);
+char	*take_value(char **env, int i, int j);
+t_env	*new_node(char *key, char *value);
+void	append_node(t_env **head, t_env *new);
+t_env	*linked_varibles(char **env);
 
 #endif

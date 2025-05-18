@@ -6,57 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/15 16:05:22 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:04:37 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-char	*ft_strjoinnn(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*s_everyone;
-
-	i = 0;
-	j = 0;
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	s_everyone
-		= (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-	if (!s_everyone)
-		return (NULL);
-	while (s1[i])
-	{
-		s_everyone[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		s_everyone[i++] = s2[j++];
-	s_everyone[i] = '\0';
-	return (s_everyone);
-}
-
-char	*ft_strduppp(char*source)
-{
-	size_t	o;
-	char	*sp;
-
-	o = 0;
-	sp = (char *) malloc((ft_strlen(source) + 1) * sizeof(char));
-	if (!sp)
-		return (NULL);
-	while (source[o])
-	{
-		sp[o] = source[o];
-		o++;
-	}
-	sp[o] = '\0';
-	return (sp);
-}
 
 void	update_pwd(char *oldpwd, char *newpwd)
 {
@@ -67,7 +21,7 @@ void	update_pwd(char *oldpwd, char *newpwd)
 	if (newpwd)
 	{
 		setenv("PWD", newpwd, 1);
-		free(newpwd);
+		// free(newpwd);
 	}
 }
 
@@ -86,17 +40,17 @@ void	ft_cd_2(char *target, char *oldpwd, char *newpwd)
 	{
 		len = strlen(oldpwd);
 		if (oldpwd[len - 1] == '/')
-			temp = ft_strduppp(oldpwd);
+			temp = ft_strdup(oldpwd);
 		else
-			temp = ft_strjoinnn(oldpwd, "/");
-		newpwd = ft_strjoinnn(temp, target);
-		free(temp);
+			temp = ft_strjoin(oldpwd, "/");
+		newpwd = ft_strjoin(temp, target);
+		// free(temp);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
     	perror("cd: error retrieving current directory");
 	else
-    	free(cwd);
+    	// free(cwd);
 
 	update_pwd(oldpwd, newpwd);
 }
