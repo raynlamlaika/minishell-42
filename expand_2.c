@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 11:54:30 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/19 10:16:46 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	expnd_size(char*string, int *i, t_env *env)
 	return (size);
 }
 
-int	size_help(char *string, t_env *env)
+int	size_help(char *string, t_env *env, int *exit_s)
 {
 	int	size ;
 	int	quote;
@@ -76,8 +76,10 @@ int	size_help(char *string, t_env *env)
 				|| string[i] == '_')
 				size += expnd_size(string, &i, env);
 			else
-				if (string[i] == '$' || string[i] == '?')
+				if (string[i] == '$')
 					size += 1;
+				if (string[i] == '?')
+					size+= ft_strlen(ft_itoa(*exit_s));
 		}
 		else
 			1 && (size++, i++);

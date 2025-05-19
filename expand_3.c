@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 05:18:36 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:47:41 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char *s_split(char *result, t_token *token, char *embg)
         if (add == 0)
         {
             token->value = ft_handel_qoute(str);
+            token->ambiguous = ft_strdup(embg);
             add = 1;
         }
         else

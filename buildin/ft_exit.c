@@ -55,7 +55,6 @@ void	ft_exit(char **args, int exit_status)
 	long long	value;
 	int			overflow;
 
-	printf("exit\n");
 	if (!args[1])
 		exit(exit_status);
 	if (!is_numeric(args[1]))

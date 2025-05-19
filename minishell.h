@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <linux/limits.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -135,7 +136,7 @@ char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(char *str, int c);
 char	*get_value(t_env *linked_env, char *input);
 void	append_token(t_token **head, t_token **last, t_token_type type, char *value);
-void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote);
+void	handle_quotes(t_token **head, t_token **last, char *input, int *i);//, char quote
 int		is_redirection(t_token *tokens);
 int		syntax(t_token *tokens, int *exit_s, int max_here_doc);
 t_cmd	*parse_tokens(t_token *tokens, t_env *env);
@@ -150,11 +151,11 @@ void	ft_cd(char **args, t_env*env);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_unset(char **args, t_env **env);
 void	ft_env(t_env *env);
-void	ft_pwd(void);
+void	ft_pwd(t_env *env);
 void	ft_echo(char **args, int exit_s);
 void	append_node(t_env **head, t_env *new);
 t_env	*new_node(char *key, char *value);
-int		size_help(char *string, t_env *env);
+int		size_help(char *string, t_env *env, int *exit_s);
 char	*ft_take(char* string ,int *i, t_env *env);
 char	*s_split(char *result, t_token *token, char *embg);
 void	replace_token(char **token_value, char *exp);
@@ -173,5 +174,12 @@ char	*take_value(char **env, int i, int j);
 t_env	*new_node(char *key, char *value);
 void	append_node(t_env **head, t_env *new);
 t_env	*linked_varibles(char **env);
+char	*take_token(char *string, t_env *env, int*exit_s);
 
+void	add_arg(t_cmd *type, char *value);
+void	token_infile(t_file **last_file, t_file *file, t_token *tokens);
+void	token_outfile(t_file **last_file, t_file *file, t_token *tokens);
+void	token_append(t_file **last_file, t_file *file, t_token *tokens);
+void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env);
+void	*ft_calloc(size_t count, size_t size);
 #endif

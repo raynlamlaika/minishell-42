@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/15 21:00:56 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:41:01 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	search_search(char *str)
 
 void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 {
+
 	if (is_passed(cmd->args[0], "echo"))
 		ft_echo(cmd->args, *exit_s);
 	if (is_passed(cmd->args[0], "exit"))
@@ -55,7 +56,7 @@ void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 	else if (is_passed(cmd->args[0], "cd"))
 		ft_cd(cmd->args, *env);
 	else if (is_passed(cmd->args[0], "pwd"))
-		ft_pwd();
+		ft_pwd(*env);
 	else if (is_passed(cmd->args[0], "env"))
 		ft_env(*env);
 	else if (is_passed(cmd->args[0], "unset"))

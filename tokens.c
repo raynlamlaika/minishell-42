@@ -12,14 +12,16 @@
 
 #include "minishell.h"
 
-void	append_token(t_token **head, t_token **last, t_token_type type, char *value)
+void	append_token(t_token **head, \
+t_token **last, t_token_type type, char *value)
 {
-	t_token *new = ft_malloc(sizeof(t_token), 1);
+	t_token	*new;
 
+	new = ft_malloc(sizeof(t_token), 1);
 	new->ambiguous = NULL;
 	new->type = type;
 	if (value)
-	new->value = ft_strdup(value);
+		new->value = ft_strdup(value);
 	else
 		new->value = NULL;
 	new->next = NULL;
@@ -30,37 +32,42 @@ void	append_token(t_token **head, t_token **last, t_token_type type, char *value
 	*last = new;
 }
 
-void	handle_quotes(t_token **head, t_token **last, char *input, int *i, char quote) 
+void	handle_quotes(t_token **head, \
+t_token **last, char *input, int *i)
 {
-	int	start;
-	int j;
+	int		start;
+	int		j;
+	char	*word;
+	char	quote;
 
+	quote = input[*i];
 	start = *i;
 	j = 1;
 	while (input[*i])
-	{ 
+	{
 		(*i)++;
 		if (input[*i] && ft_strchr("\n", input[*i]))
-			break;
-		else if (input[*i] == quote && ft_strchr("><| \n",input[(*i) + j]))
+			break ;
+		else if (input[*i] == quote && ft_strchr("><| \n", input[(*i) + j]))
 		{
 			(*i)++;
-			break;
+			break ;
 		}
 	}
-	char *word = ft_strndup(input + start, *i - start);
+	word = ft_strndup(input + start, *i - start);
 	append_token(head, last, TOKEN_WORD, word);
 	(*i)--;
 }
 
 void	handle_word(t_token **head, t_token **last, char *input, int *i)
 {
-	int start = *i;
-	int j = *i;
-	int in_quotes = 0;
-	char quote_char = 0;
-	char *word;
+	int		start;
+	int		j;
+	int		in_quotes;
+	char	quote_char;
+	char	*word;
 
+	(1) && (start = *i, j = *i, in_quotes = 0, quote_char = 0);
 	while (input[j] && (in_quotes || (!ft_strchr(" |<>\n", input[j]))))
 	{
 		if ((input[j] == '"' || input[j] == '\''))
@@ -71,9 +78,7 @@ void	handle_word(t_token **head, t_token **last, char *input, int *i)
 				quote_char = input[j];
 			}
 			else if (input[j] == quote_char)
-			{
 				in_quotes = 0;
-			}
 		}
 		j++;
 	}
@@ -82,10 +87,11 @@ void	handle_word(t_token **head, t_token **last, char *input, int *i)
 	*i = j - 1;
 }
 
-t_token	*lexer(char *input, t_token* last, int i)
+t_token	*lexer(char *input, t_token*last, int i)
 {
-	t_token *head = NULL;
+	t_token	*head;
 
+	head = NULL;
 	while (input[i] && input[i] != '\n')
 	{
 		if (input[i] == ' ')
@@ -93,17 +99,17 @@ t_token	*lexer(char *input, t_token* last, int i)
 		else if (input[i] == '|')
 			append_token(&head, &last, TOKEN_PIPE, "|");
 		else if (input[i] == '<' && input[i + 1] == '<')
-			append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++;
+			(1) && (append_token(&head, &last, TOKEN_HEREDOC, "<<"), i++);
 		else if (input[i] == '>' && input[i + 1] == '>')
-			append_token(&head, &last, TOKEN_APPEND, ">>"), i++;
+			(1) && (append_token(&head, &last, TOKEN_APPEND, ">>"), i++);
 		else if (input[i] == '<')
-			append_token(&head, &last, TOKEN_REDIR_IN, "<");
+			append_token(&head, &last, TOKEN_REDIR_IN, "<");// in one line
 		else if (input[i] == '>')
-			append_token(&head, &last, TOKEN_REDIR_OUT, ">");
+			append_token(&head, &last, TOKEN_REDIR_OUT, ">");// in one line
 		else if (input[i] == '"')
-			handle_quotes(&head, &last, input, &i, '"');
+			handle_quotes(&head, &last, input, &i);
 		else if (input[i] == '\'')
-			handle_quotes(&head, &last, input, &i, '\'');
+			handle_quotes(&head, &last, input, &i);
 		else
 			handle_word(&head, &last, input, &i);
 		i++;

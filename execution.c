@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 19:13:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:44:50 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ void execute_command(t_finished *helper, int *exit_s)
         printf("minishell: : command not found\n");
         exit(127);
     }
-    execve(helper->bin, helper->args, NULL);
+	if (!helper->env->env_v)
+   		execve(helper->bin, helper->args, NULL);
+   	execve(helper->bin, helper->args, helper->env->env_v);
     printf("%s: command not found\n", helper->args[0]);
     exit(126);
 }
 
 void handle_redirections(int inf, int outf)
 {
-	printf("this si the in %d and %d\n", inf, outf);
     if (inf != -1)
     {
         dup2(inf, STDIN_FILENO);
@@ -120,7 +121,8 @@ void execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
     {
         // get_redirections(&helper->inf, &helper->outf, helper->cmd);
 		handle_redirections(helper->inf, helper->outf);
-        execute_command(helper, exit_s);
+		if (helper->inf !=  -5 && helper->outf != -5)
+			execute_command(helper, exit_s);
     }
     else
         waitpid(pid, status, 0);
@@ -137,6 +139,57 @@ void initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env)
 }
 
 
+// void execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
+// {
+//     t_finished *helper;
+//     int status =0;
+
+//     helper = ft_malloc(sizeof(t_finished), 1);
+//     initialize_helper(helper, cmd, env);
+//     if (!helper->args || !helper->args[0])
+// 	{
+// 		close(helper->inf); 
+// 		close(helper->outf);
+//         return ;
+// 	}
+//     if (search_search(helper->args[0]))
+// 	{
+// 		if (search_search(helper->args[0]) == 1)
+// 		{
+// 			// if (helper->inf != -1)
+// 			// {
+// 			// 	dup2(helper->inf, STDIN_FILENO);
+// 			// 	close(helper->inf);
+// 			// }
+// 			// if (helper->outf != -1 && !isatty(helper->outf))// && isatty(inf) check if it needed first
+// 			// {
+// 			// 	dup2(helper->outf, STDOUT_FILENO);
+// 			// 	close(helper->outf);
+// 			// }
+// 			// else if (full->next)			
+// 			// 	dup2(pipefd[1], STDOUT_FILENO);
+// 			printf("thsi sis the %d %d and \n", helper->inf, helper->outf);
+// 			buildin(helper->cmd, &helper->env, exit_s);
+// 			if (helper->inf > -1)
+// 				close(helper->inf);
+// 			if (helper->outf > -1)
+// 				close(helper->outf);
+// 		}
+// 	}
+//     else
+//         execute_forked_cmd(helper, exit_s, &status);
+//     if (WIFEXITED(status))
+// 	{
+//         *exit_s = WEXITSTATUS(status);
+// 	}
+// 	if (helper->inf)
+// 		close(helper->inf);
+// 	if (helper->outf)
+// 		close(helper->outf);
+// 	if(cmd->file->here_doc)
+// 		close(cmd->file->here_doc);
+// }
+
 void execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 {
     t_finished *helper;
@@ -150,8 +203,31 @@ void execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 		close(helper->outf);
         return ;
 	}
-    if (search_search(helper->args[0]))
-        buildin(helper->cmd, &helper->env, exit_s);
+    if (search_search(helper->args[0]) == 1)
+	{
+	    int saved_stdin = dup(STDIN_FILENO);
+	    int saved_stdout = dup(STDOUT_FILENO);
+	
+	    if (helper->inf != -1)
+	    {
+	        dup2(helper->inf, STDIN_FILENO);
+	        close(helper->inf);
+	    }
+	
+	    if (helper->outf != -1)
+	    {
+	        dup2(helper->outf, STDOUT_FILENO);
+	        close(helper->outf);
+	    }
+	
+	    buildin(helper->cmd, &helper->env, exit_s);
+	
+	    // Restore original stdin and stdout
+	    dup2(saved_stdin, STDIN_FILENO);
+	    dup2(saved_stdout, STDOUT_FILENO);
+	    close(saved_stdin);
+	    close(saved_stdout);
+	}
     else
         execute_forked_cmd(helper, exit_s, &status);
     if (WIFEXITED(status))
@@ -165,6 +241,8 @@ void execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 	if(cmd->file->here_doc)
 		close(cmd->file->here_doc);
 }
+
+
 
 void exectution(t_cmd *full, t_env **env, int *exit_s)
 {
@@ -196,7 +274,7 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 				else if (perv_pipe != -1)
 					dup2(perv_pipe, STDIN_FILENO);
 
-				if (outf != -1 && isatty(outf) )//&& isatty(inf) check if it needed first
+				if (outf != -1 && !isatty(outf))// && isatty(inf) check if it needed first
 				{
 					dup2(outf, STDOUT_FILENO);
 					close(outf);
@@ -206,7 +284,7 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 				
 				close(pipefd[0]);
 				close(pipefd[1]);
-				if (full->args)
+				if (full->args && inf != -5 && outf != -5)
 				{
 					if (search_search(full->args[0]) == 1)
 					{
@@ -224,8 +302,13 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 						}
 						if (!(*env)->env_v)
 							execve(pathh, cmd, NULL);
-						execve(pathh, cmd, (*env)->env_v);
-						perror("execve failed");
+						if (cmd[0][0] == '\0')
+    					    printf("minishell: : command not found\n");
+						else
+						{
+							execve(pathh, cmd, (*env)->env_v);
+							perror("execve failed");		
+						}
 						exit(126);
 					}
 				}
@@ -253,6 +336,7 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 			}
 			full = full->next;
 		}
+		close(pipefd[0]);
 		while (count > 0)
 		{
 			wait(&status);
