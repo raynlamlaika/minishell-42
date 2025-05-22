@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:35:11 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/19 11:39:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:57:16 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void add_arg(t_cmd *type, char *value)
 {
 	int		count;
 	int		i;
-	int		j;
 	char	**new_args;
 
 	count = 0;
@@ -36,13 +35,13 @@ void add_arg(t_cmd *type, char *value)
 	}
 	new_args[count] = ft_strdup(value);
 	new_args[count + 1] = NULL;
-	if (type->args)
-	{
-		j = 0;
-		// while (type->args[j])
-		// 	free(type->args[j++]);
-		// free(type->args);
-	}
+	// if (type->args)
+	// {
+	// 	j = 0;
+	// 	// while (type->args[j])
+	// 	// 	free(type->args[j++]);
+	// 	// free(type->args);
+	// }
 	type->args = new_args;
 }
 

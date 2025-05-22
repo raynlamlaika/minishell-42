@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 19:07:19 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:17:28 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,37 @@ char	*expnd_heredoc(char *input, t_env *env)
 	return (result);
 }
 
+
+// char	*expnd_heredoc(char *input, t_env *env)
+// {
+// 	int		help;
+// 	int		i ;
+// 	int		start;
+// 	char	*repl;
+// 	char	*result;
+
+// 	start = 0;
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '$')
+// 		{
+// 			if (i > start)
+// 				result = ft_strjoin(result, ft_substr(input, start, i - start));
+// 			repl = take_replace(i, input, &help, env);
+// 			result = ft_strjoin(result, repl);
+// 			i = help;
+// 			start = i;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	if (i > start)
+// 		result = ft_strjoin(result, ft_substr(input, start, i - start));
+// 	return (result);
+// }
+
+
 static void	lines(int fd, char *limiter, int flag, t_env *env)
 {
 	char	*next;
@@ -70,7 +101,7 @@ static void	lines(int fd, char *limiter, int flag, t_env *env)
 			break ;
 		next = ft_strjoin(next, "\n");
 		if (ft_strchr(next, '$') && flag == 0)
-			next = expnd_heredoc(next, env);
+			next = take_token(next,env, 0);// next = ta(next, env);
 		write(fd, next, ft_strlen(next));
 	}
 }
@@ -128,3 +159,4 @@ int	heredoc(char *limiter, t_env *env)
 	close(pipfd[1]);
 	return (pipfd[0]);
 }
+

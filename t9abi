@@ -1,0 +1,368 @@
+check check ----------
+
+realSHELL $> unset PWD
+realSHELL $> pwd
+pwd: No such file or directory
+realSHELL $> 
+
+
+realSHELL $> mkdir -p 1/2
+realSHELL $> cd 1/2
+realSHELL $> chmod -x ../2
+realSHELL $> cd ..
+cd: Permission denied
+realSHELL $> pwd
+/home/rlamlaik/Desktop/realshell/1/2
+realSHELL $> ba
+
+
+
+ennv
+a="                       "
+realSHELL $> env
+
+a="f ff f""   ""   jh"
+realSHELL $> export
+
+
+realSHELL $> echo $x
+pk
+realSHELL $> echo $x | cat -e
+cat: standard output: Bad file descriptor
+
+
+
+rlamlaik@e1r4p9:~/Desktop/realshell$ ./minishell 
+realSHELL $> python3 -c 'print("a"*255)'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+NameError: name 'a' is not defined
+realSHELL $> python3 -c 'print("a"*255)'
+----------
+same thing in the top of this
+===========
+realSHELL $> 'ech""o' hi
+hi
+realSHELL $> 'ech""o' hi
+
+
+realSHELL $> a |
+realSHELL $> exit
+realSHELL $> a |
+realSHELL $> exit
+
+
+-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
+
+realSHELL $> export
+
+realSHELL $> export
+
+realSHELL $> export
+
+
+
+
+-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
+
+rlamlaik@e1r4p9:~/Desktop/realshell$ env -i bash
+bash: cannot set terminal process group (334330): Inappropriate ioctl for device
+bash: no job control in this shell
+rlamlaik@e1r4p9:/home/rlamlaik/Desktop/realshell$ env
+PWD=/home/rlamlaik/Desktop/realshell
+SHLVL=1
+_=/usr/bin/env
+rlamlaik@e1r4p9:/home/rlamlaik/Desktop/realshell$ export
+declare -x OLDPWD
+declare -x PWD="/home/rlamlaik/Desktop/realshell"
+declare -x SHLVL="1"
+declre -x NJHJN="i"
+
+
+
+
+
+-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
+realSHELL $> export
+PWD=/home/rlamlaik/Desktop/realshell
+SHLVL=1
+_=./minishell
+a
+realSHELL $> export a=5
+realSHELL $> export a
+realSHELL $> export
+PWD=/home/rlamlaik/Desktop/realshell
+SHLVL=1
+_=./minishell
+a
+realSHELL $> 
+
+
+----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED
+realSHELL $> ls >/dev/stdout | ls
+1               execution.o     ft_itoa.c     ft_strndup.o     parce.o
+buildin         expand_2.c      ft_itoa.o     ft_strrchr.c     parse_helper.c
+env_heloper.c   expand_2.o      ft_split_h.c  ft_strrchr.o     parse_helper.o
+env_heloper.o   expand_3.c      ft_split_h.o  handle_signal.c  syntax.c
+envr.c          expand_3.o      ft_strchr.c   handle_signal.o  syntax_imbg.c
+envr.o          expand.c        ft_strchr.o   Makefile         syntax_imbg.o
+exec_ulitls2.c  expand_heper.c  ft_strdup.c   minishell        syntax.o
+exec_ulitls2.o  expand_heper.o  ft_strdup.o   minishell.c      t9abi
+exec_ultils.c   expand.o        ft_strjoin.c  minishell.h      tokens.c
+exec_ultils.o   expand_token.c  ft_strjoin.o  my_malloc.c      tokens.o
+exec_utils3.c   expand_token.o  ft_strncmp.c  my_malloc.o      utils.c
+exec_utils3.o   ft_heredoc.c    ft_strncmp.o  old_parse.c      utils.o
+execution.c     ft_heredoc.o    ft_strndup.c  parce.c
+1               execution.o     ft_itoa.c     ft_strndup.o     parce.o
+buildin         expand_2.c      ft_itoa.o     ft_strrchr.c     parse_helper.c
+env_heloper.c   expand_2.o      ft_split_h.c  ft_strrchr.o     parse_helper.o
+env_heloper.o   expand_3.c      ft_split_h.o  handle_signal.c  syntax.c
+envr.c          expand_3.o      ft_strchr.c   handle_signal.o  syntax_imbg.c
+envr.o          expand.c        ft_strchr.o   Makefile         syntax_imbg.o
+exec_ulitls2.c  expand_heper.c  ft
+
+
+
+
+
+
+----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED
+
+realSHELL $> cat << e
+here_doc >> helo 
+here_doc >> $USER
+here_doc >> hada smito rayn
+here_doc >> tra $HOME
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==314923==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004dc776 bp 0x7fff445624a0 sp 0x7fff44562410 T0)
+==314923==The signal is caused by a READ memory access.
+==314923==Hint: address points to the zero page.
+    #0 0x4dc776 in ft_strcmp /home/rlamlaik/Desktop/realshell/utils.c:17:20
+    #1 0x4cba91 in take_replace /home/rlamlaik/Desktop/realshell/expand.c:54:7
+    #2 0x4da56e in expnd_heredoc /home/rlamlaik/Desktop/realshell/ft_heredoc.c:41:11
+    #3 0x4daed7 in lines /home/rlamlaik/Desktop/realshell/ft_heredoc.c:73:11
+    #4 0x4dac0e in heredoc /home/rlamlaik/Desktop/realshell/ft_heredoc.c:127:2
+    #5 0x4d1c09 in token_heredoc /home/rlamlaik/Desktop/realshell/parse_helper.c:111:20
+    #6 0x4d061e in parse_tokens_helper /home/rlamlaik/Desktop/realshell/parce.c:57:3
+    #7 0x4d0e00 in parse_tokens /home/rlamlaik/Desktop/realshell/parce.c:99:13
+    #8 0x4d5613 in main /home/rlamlaik/Desktop/realshell/./minishell.c:135:17
+    #9 0x7f6b82d24d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f6b82d24e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f3b4 in _start (/home/rlamlaik/Desktop/realshell/minishell+0x41f3b4)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /home/rlamlaik/Desktop/realshell/utils.c:17:20 in ft_strcmp
+==314923==ABORTING
+<
+$ 
+
+
+
+realSHELL $> chmod +x ls
+realSHELL $> ../minishell/ls
+../minishell/ls: command not found
+
+
+realSHELL $> touch ls
+realSHELL $> ./ls
+./ls: command not found
+realSHELL $> $?
+127: command not found
+realSHELL $> 
+
+
+
+-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED
+realSHELL $> > ""
+minishell: : Permission denied
+
+
+
+frealSHELL $> echo -nnn -nnf f 
+-nnn -nnf f
+
+
+
+realSHELL $> exit 54 54 | ls 
+' '               expand_3.o       ft_strjoin.c      old_parse.c
+ buildin          expand.c         ft_strjoin.o      parce.c
+ env_heloper.c    expand_heper.c   ft_strncmp.c      parce.o
+ env_heloper.o    expand_heper.o   ft_strncmp.o      parse_helper.c
+ envr.c           expand.o         ft_strndup.c      parse_helper.o
+ envr.o           expand_token.c   ft_strndup.o      syntax.c
+ exec_ulitls2.c   expand_token.o   ft_strrchr.c      syntax_imbg.c
+ exec_ulitls2.o   ft_heredoc.c     ft_strrchr.o      syntax_imbg.o
+ exec_ultils.c    ft_heredoc.o     handle_signal.c   syntax.o
+ exec_ultils.o    ft_itoa.c        handle_signal.o   t9abi
+ exec_utils3.c    ft_itoa.o        ls                tokens.c
+ exec_utils3.o    ft_split_h.c     Makefile          tokens.o
+ execution.c      ft_split_h.o     minishell         utils.c
+ execution.o      ft_strchr.c      minishell.c       utils.o
+ expand_2.c       ft_strchr.o      minishell.h
+ expand_2.o       ft_strdup.c      my_malloc.c
+ expand_3.c       ft_strdup.o      my_malloc.o
+realSHELL $> 
+
+
+
+-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED
+
+space " "
+j_jj=ff
+z=                                    
+realSHELL $>
+q
+
+realSHELL $> cd .. frd
+=================================================================
+==950986==ERROR: AddressSanitizer: heap-use-after-free on address 0x604000004850 at pc 0x0000004dc016 bp 0x7ffd2c7e3870 sp 0x7ffd2c7e3868
+READ of size 1 at 0x604000004850 thread T0
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x4dc015  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc015)
+    #1 0x4dc08b  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc08b)
+    #2 0x4dd38a  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd38a)
+    #3 0x4dd615  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd615)
+    #4 0x4dd921  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd921)
+    #5 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
+    #6 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
+    #7 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
+    #8 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
+    #9 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7ff51afe4e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f3b4  (/home/rlamlaik/Desktop/realshell/minishell+0x41f3b4)
+
+0x604000004850 is located 0 bytes inside of 33-byte region [0x604000004850,0x604000004871)
+freed by thread T0 here:
+    #0 0x49a012  (/home/rlamlaik/Desktop/realshell/minishell+0x49a012)
+    #1 0x4dd8c9  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd8c9)
+    #2 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
+    #3 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
+    #4 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
+    #5 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
+    #6 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+previously allocated by thread T0 here:
+    #0 0x49a27d  (/home/rlamlaik/Desktop/realshell/minishell+0x49a27d)
+    #1 0x4dc546  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc546)
+    #2 0x4dc0a0  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc0a0)
+    #3 0x4dd38a  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd38a)
+    #4 0x4dd659  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd659)
+    #5 0x4dd921  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd921)
+    #6 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
+    #7 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
+    #8 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
+    #9 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
+    #10 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-use-after-free (/home/rlamlaik/Desktop/realshell/minishell+0x4dc015) 
+Shadow bytes around the buggy address:
+  0x0c087fff88b0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff88c0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff88d0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff88e0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
+  0x0c087fff88f0: fa fa fd fd fd fd fd fa fa fa 00 00 00 00 00 fa
+=>0x0c087fff8900: fa fa 00 00 00 00 01 fa fa fa[fd]fd fd fd fd fa
+  0x0c087fff8910: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff8920: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
+  0x0c087fff8930: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff8940: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
+  0x0c087fff8950: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==950986==ABORTING
+rlamlaik@e1r5p7:~/Desktop/realshell$ 
+
+
+
+
+
+
+
+
+-----write with write (2,"", len); do not work with printf
+
+realSHELL $> "" > ls
+realSHELL $> cat ls
+minishell: : command not found
+realSHELL $> 
+++++++ the real behave 
+rlamlaik@e1r4p7:~/Desktop/realshell$ "" > ls
+Command '' not found, but can be installed with:
+apt install mailutils-mh  # version 1:3.14-1, or
+apt install mmh           # version 0.4-4
+apt install nmh           # version 1.7.1-11
+apt install termtris      # version 1.3-1ubuntu1
+Ask your administrator to install one of them.
+rlamlaik@e1r4p7:~/Desktop/realshell$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+realSHELL $> cd ../rlamlaik/../
+realSHELL $> pwd
+/home
+realSHELL $> pwd
+/home
+realSHELL $> env | grep pwd
+
+=================================================================
+==1219435==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 33 byte(s) in 1 object(s) allocated from:
+    #0 0x49a5a9 in realloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a5a9)
+    #1 0x7fa8695ca7bc in getcwd io/../sysdeps/unix/sysv/linux/getcwd.c:86:8
+    #2 0x4dde9b in ft_cd /home/rlamlaik/Desktop/realshell/buildin/ft_cd.c:164:12
+    #3 0x4ceca7 in buildin /home/rlamlaik/Desktop/realshell/exec_utils3.c:57:3
+    #4 0x4d2fe8 in execute_single_cmd /home/rlamlaik/Desktop/realshell/execution.c:225:6
+    #5 0x4d4af0 in exectution /home/rlamlaik/Desktop/realshell/execution.c:364:3
+    #6 0x4d5c5d in main /home/rlamlaik/Desktop/realshell/./minishell.c:142:5
+    #7 0x7fa8694ded8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a28d)
+    #1 0x7fa86981ebac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+Indirect leak of 230 byte(s) in 10 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a28d)
+    #1 0x7fa86981ebac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+SUMMARY: AddressSanitizer: 295 byte(s) leaked in 12 allocation(s).
+realSHELL $> `
+
+
+
+
+
+HANDEL the fd leaks
+
+

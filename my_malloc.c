@@ -6,11 +6,12 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/14 01:51:36 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:11:16 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 // void ft_free(t_malloc **head)
 // {
@@ -42,15 +43,8 @@
 // 			return(write(2,"malloc failed\n", 14), NULL);
 // 		}
 // 		to_save->toalloc = malloc(size);
-// 		if (to_save->toalloc == NULL)
-// 		{
-// 			free(to_save);
-// 			ft_free(&head);
-// 			return(write(2,"malloc failed\n", 14), NULL);
-// 		}
-// 		to_save->next = head;
-// 		head = to_save;
-// 		return (to_save);
+// 		if (to_save->toalloc =
+		// print_token_list(tokens);
 // 	}
 // 	else
 // 		ft_free(&head);
@@ -66,6 +60,9 @@
 // 	void *toalloc;
 // 	struct s_malloc *next;
 // } t_malloc;
+
+
+
 
 void ft_free(t_malloc **head)
 {

@@ -32,31 +32,68 @@ t_token **last, t_token_type type, char *value)
 	*last = new;
 }
 
-void	handle_quotes(t_token **head, \
-t_token **last, char *input, int *i)
+// void	handle_quotes(t_token **head, 
+// t_token **last, char *input, int *i)
+// {
+// 	int		start;
+// 	int		j;
+// 	char	*word;
+// 	char	quote;
+
+// 	quote = input[*i];
+// 	start = *i;
+// 	j = 1;
+// 	while (input[*i])
+// 	{
+// 		(*i)++;
+// 		if (input[*i] && ft_strchr("\n", input[*i]))
+// 			break ;
+// 		else if (input[*i] == quote && ft_strchr(" ><|\n", input[(*i) + j]))
+// 		{
+// 			(*i)++;
+// 			break ;
+// 		}
+// 	}
+// 	word = ft_strndup(input + start, *i - start);
+// 	append_token(head, last, TOKEN_WORD, word);
+// 	(*i)--;
+// }
+
+void	handle_quotes(t_token **head, t_token **last, char *input, int *i)
 {
 	int		start;
-	int		j;
+	int		len;
 	char	*word;
 	char	quote;
 
 	quote = input[*i];
-	start = *i;
-	j = 1;
-	while (input[*i])
+	start = *i + 1; // skip opening quote
+	len = 0;
+	(*i)++;
+
+	// Capture everything inside the quote
+	while (input[*i] && input[*i] != quote)
 	{
 		(*i)++;
-		if (input[*i] && ft_strchr("\n", input[*i]))
-			break ;
-		else if (input[*i] == quote && ft_strchr("><| \n", input[(*i) + j]))
-		{
-			(*i)++;
-			break ;
-		}
+		len++;
 	}
+
+	// Now *i is at the closing quote
+	if (input[*i] == quote)
+		(*i)++;
+
+	// Continue capturing characters after the quote if no space
+	while (input[*i] && (' ' != input[*i]) && !ft_strchr("><|\n", input[*i]))
+	{
+		(*i)++;
+		len++;
+	}
+
+	// Allocate and copy the full token
 	word = ft_strndup(input + start, *i - start);
 	append_token(head, last, TOKEN_WORD, word);
-	(*i)--;
+
+	(*i)--; // Prepare for next char
 }
 
 void	handle_word(t_token **head, t_token **last, char *input, int *i)

@@ -1,6 +1,7 @@
 
 #include "../minishell.h"
 
+
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
@@ -12,16 +13,18 @@ void ft_print_env(t_env *env)
 {
 	if (!env)
 		printf("pointer i think kipointi 3la lakhar ole null\n");
+	// sort the shiit 
 	while (env)
 	{
 		if (env->key)
 			printf("%s",env->key);
 		if (env->value)
 			printf("=%s",env->value);
-		printf("\n");
+		if (env->key)
+			printf("\n");
 		env = env->next;
 		if (!env)
-			break;
+			break ;
 	}
 	return ;
 }
@@ -45,7 +48,7 @@ t_env* creat_node_env(char *key, char *value)
 {
 	t_env *new;
 
-	new = malloc(sizeof(t_env));
+	new = ft_malloc(sizeof(t_env), 1);
 	new->key= key;
 	new->value = value;
 	return(new);
@@ -72,14 +75,15 @@ int is_valid_varname(char *name)
 char *take_key_exp(char *str, int j)
 {
 	int i = 0;
+
 	if (j <= 0)
-		return NULL;
+		return (NULL);
 	if (!str)
 		return (NULL);
 	char *result;
 	if (!str || !(is_valid_varname(ft_substr(str, 0, j))))
 		return NULL;
-	result =malloc((j + 1));
+	result =ft_malloc((j + 1), 1);
 	while(i < j)
 	{
 		result[i] = str[i];
@@ -115,8 +119,6 @@ char *takee_value(char *str,int pointed_to)
 		result[i++] = str[pointed_to++];
 	}
 	result[i] = '\0';
-	// if (!is_valid_varname(result))
-	// 	return (NULL);
 	return  (result);
 }
 
@@ -135,38 +137,110 @@ t_env *search_node(char *key , t_env *head)
 	return (NULL);
 }
 
-
-char	*ft_strdupp(char*source)
+int check_empty(char **args, int *i, int *j)
 {
-	size_t	o;
-	char	*sp;
+	int flag;
 
-	o = 0;
-	sp = (char *) malloc((ft_strlen(source) + 1) * sizeof(char));
-	if (!sp)
-		return (NULL);
-	while (source[o])
+	flag = 0;
+	if (args[*i][0] == '\0')
 	{
-		sp[o] = source[o];
-		o++;
+		printf("bash: export: `': not a valid identifier\n");
+		flag = 1;
+		return(flag);
 	}
-	sp[o] = '\0';
-	return (sp);
+		
+	if (ft_strlen(args[*i]) == 0) // olhat nsexpo->keyt chno kanhandlee bhadi ithink for th empty string ""
+	{
+		printf("export : `%c`: not a valid identifier\n", args[*i][*j]);
+		(*i)++;
+		flag = 1;
+	}
+	return (flag);
+}
+
+t_export *init_export_struct(char **args)
+{
+	t_export *expo = ft_malloc(sizeof(t_export), 1);
+	expo->key = NULL;
+	expo->value = NULL;
+	expo->args = args;
+	expo->flag = 0;
+	expo->tow_values = 0;
+	return expo;
+}
+
+int parse_export_arg(t_export *expo, char *arg)
+{
+	int j = 0;
+	while (arg[j])
+	{
+		if (arg[j] == '=' || arg[j] == '+')
+		{
+			if (arg[j] == '+' && arg[j + 1] == '=')
+			{
+				expo->key = take_key_exp(arg, j);
+				expo->value = takee_value(arg, j + 2);
+				expo->flag = 1;
+				return 1;
+			}
+			else
+			{
+				expo->key = take_key_exp(arg, j);
+				expo->value = takee_value(arg, j + 1);
+				return 1;
+			}
+		}
+		j++;
+	}
+	// No '=' found, could be just a variable name
+	if (is_valid_varname(arg))
+		expo->key = take_key_exp(arg, j);
+	return 0;
+}
+
+void update_environment(t_export *expo, t_env **env)
+{
+	t_env *existing = search_node(expo->key, *env);
+
+	if (existing && expo->flag == 0)
+	{
+		if ((ft_strcmp(expo->key, "_") != 0) && expo->value)
+			existing->value = expo->value;
+	}
+	else if (expo->flag && expo->key)
+	{
+		if (!existing)
+		{
+			if (ft_strcmp(expo->key, "_") != 0)
+			{
+				t_env *new = new_node(expo->key, NULL);
+				append_node(env, new);
+			}
+		}
+		else
+		{
+			if (ft_strcmp(expo->key, "_") != 0)
+			{
+				char *o = ft_strjoin(existing->value, expo->value);
+				existing->value = o;
+			}
+		}
+	}
+	else
+	{
+		if (ft_strcmp(expo->key, "_") != 0)
+		{
+			t_env *new = new_node(expo->key, expo->value);
+			append_node(env, new);
+		}
+	}
 }
 
 
-
-void    ft_export(char **args, t_env **env)
+void ft_export(char **args, t_env **env)
 {
-	int		i;
-	int		j;
-	char	*ii;
-	char	*oo = NULL;
-	int you =1;
-	i = 0;
-	j = 0;
-	int flag = 0;
-	char *o;
+	t_export *expo = init_export_struct(args);
+	int i = 0;
 
 	if (ft_strcmp(args[i], "export") == 0)
 	{
@@ -174,121 +248,40 @@ void    ft_export(char **args, t_env **env)
 		if (!args[i])
 		{
 			ft_print_env(*env);
+			free(expo);
 			return ;
 		}
 	}
 	while (args[i])
 	{
-		j = 0;
-		if (ft_strlen(args[i]) == 0)
+		if (check_empty(args, &i, 0) == 0)
 		{
-			printf("export : `%c`: not a valid identifier\n", args[i][j]);
-			i++;
-		}
-		else
-		{
-
+			expo->flag = 0;
 			if (ft_strchr(args[i], '='))
 			{
-				while (args[i][j])
+				if (ft_strlen(args[i]) == 1 || args[i][0] == '=')
 				{
-					if (args[i][j] == '=' || args[i][j] == '+')
-					{
-						if (args[i][j + you] == '=' && args[i][j] == '+')
-						{
-							ii = take_key_exp(args[i], j);
-							j+=2;
-							oo = takee_value(args[i], j);
-							flag = 1;
-						}
-						else
-						{
-							ii = take_key_exp(args[i], j);
-							j++;
-							oo = takee_value(args[i], j);
-							// flag = 1;
-							break ;
-						}
-					}
-					j++;
+					printf("export : `%s`: not a valid identifier\n", args[i]);
+					i++;
+					continue;
 				}
-				i++;
+				parse_export_arg(expo, args[i]);
 			}
 			else
 			{
 				if (is_valid_varname(args[i]))
-				{
-					ii = take_key_exp(args[i], j);
-					i++;
-				}
-				else
-					i++;
+					expo->key = take_key_exp(args[i], ft_strlen(args[i]));
+				
 			}
-			int y = 0;
-			t_env *give = search_node(ii, *env);
-			if (give)
-				y = 1;
-			if (y && flag == 0)
-			{
-	
-				if (ft_strcmp(ii , "_") == 0)
-					;
-				else
-				{
-					if (!ii)
-						break ;
-					t_env *give = search_node(ii, *env);
-					give->value = oo;
-				}
-			}
-	
-			else if (flag && ii)
-			{
-				if (give == NULL)
-				{
-	
-					if (ft_strcmp(ii , "_") == 0)
-						;
-					else
-					{
-						t_env* new = new_node(ii, NULL);
-						append_node(env, new);
-					}
-				}
-				else if (flag)
-				{
-	
-					if (ft_strcmp(ii , "_") == 0)
-						;
-					else{
-						// printf("THIS is %s and %s\n", give->value,oo);
-						o = ft_strjoin(give->value, oo);
-						give->value = o;
-					}
-				}
-				else
-				{
-					if (ft_strcmp(ii , "_") == 0)
-						;
-					else
-						give->value = oo ;
-				}
-			}
-			else// if (y == 0 && ii && flag == 0)
-			{
-				if (ft_strcmp(ii , "_") == 0)
-					;
-				else{
-					t_env* new = new_node(ii, oo);
-					append_node(env, new);
-				}
-			}
-			// if(ii)
-			// 	free(ii);
-			// if(oo)
-			// 	free(oo);
-			ii = NULL;
-			oo = NULL;
+
+			if (expo->key)
+				update_environment(expo, env);
+
+			expo->key = NULL;
+			expo->value = NULL;
 		}
+		i++;
 	}
+
+	free(expo);
 }

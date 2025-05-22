@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:57:31 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/19 09:35:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:53:10 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,17 @@ void get_redirections(int *inf, int *outf, t_cmd* full)
 
             if (*outf < 0)
             {
-                printf("minishell: %s: Permission denied\n", files->outfile);
-                *outf = -5;
-				break ;
+                if (files->outfile[0] == '\0')
+                {
+                    printf("minishell: : No such file or directory\n");
+                    break ;
+                }
+                else
+                {
+                    printf("minishell: %s: Permission denied\n", files->outfile);
+                    *outf = -5;
+                    break ;
+                }
             }
         }
 

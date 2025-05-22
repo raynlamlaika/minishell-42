@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/19 13:44:50 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:48:55 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,9 @@ void handle_redirections(int inf, int outf)
 void execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 {
     pid_t pid = fork();
-
+	// handel here
+	here_doc_helper  = 1337;
+	signal(SIGQUIT, handle_signal);
     if (pid == -1)
     {
         printf("minishell: `fork' failed to create a Child\n");
@@ -255,18 +257,27 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 	int status;
 	int count  = 0;
 	path = takepaths(env);
+	struct stat stat_in, stat_stdin, stat_out, stat_stdout;
+
 	if (full->next )
 	{
 		while(full)
 		{
 			pipecheck(pipefd);
 			pid = fork();
+			// handel here
+			here_doc_helper = 1337;
+			signal(SIGQUIT, handle_signal);
 			if (forkfaild(pid, pipefd))
 				break;
 			if (pid == 0)
 			{
 				get_redirections(&inf, &outf, full);
-				if (inf != -1)
+				// if (inf != -1 && fstat(inf, STDIN_FILENO) && fstat(inf, STDOUT_FILENO))
+				if (inf != -1 &&
+					fstat(inf, &stat_in) == 0 &&
+					fstat(STDIN_FILENO, &stat_stdin) == 0 &&
+					!(stat_in.st_ino == stat_stdin.st_ino && stat_in.st_dev == stat_stdin.st_dev))
 				{
 					dup2(inf, STDIN_FILENO);
 					close(inf);
@@ -274,7 +285,11 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 				else if (perv_pipe != -1)
 					dup2(perv_pipe, STDIN_FILENO);
 
-				if (outf != -1 && !isatty(outf))// && isatty(inf) check if it needed first
+				// if (outf != -1)//&& (isatty(STDIN_FILENO) || isatty(outf)) && isatty(inf) check if it needed first
+				if (outf != -1 &&
+					fstat(outf, &stat_out) == 0 &&
+					fstat(STDOUT_FILENO, &stat_stdout) == 0 &&
+					!(stat_out.st_ino == stat_stdout.st_ino && stat_out.st_dev == stat_stdout.st_dev))
 				{
 					dup2(outf, STDOUT_FILENO);
 					close(outf);
@@ -296,10 +311,7 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 						cmd = full->args;
 						char *pathh = pick(path, cmd[0]);
 						if (!pathh)
-						{
-							perror("path not found");
 							exit(127);
-						}
 						if (!(*env)->env_v)
 							execve(pathh, cmd, NULL);
 						if (cmd[0][0] == '\0')

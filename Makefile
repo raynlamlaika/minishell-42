@@ -21,7 +21,7 @@ OBJ = $(SRC:.c=.o)
 # BOBJ = $(BSRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra 
 
 HEADER = minishell.h
 # HEADERB = bonus/pipexb.h

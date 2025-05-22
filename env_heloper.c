@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:08:52 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 19:12:18 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:30:11 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_env *linked_varibles(char **env)
 	if (!env || !*env)
 	{
 		head = new_node("PATH",PATH);
+		head->next = new_node("OLDPWD", NULL);
 		head->env_v = NULL;
 		return (head);
 	}

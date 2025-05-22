@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:42:51 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/15 20:00:52 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:54:32 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,10 @@ void	handle_signal(int sig)
 	{
 		here_doc_helper = 20;
 		close(0);
+	}
+	if (here_doc_helper == 1337)
+	{
+		printf("Quit (core dumped)");
+		signal(SIGINT, handle_signal);
 	}
 }

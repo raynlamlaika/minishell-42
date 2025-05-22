@@ -31,6 +31,15 @@
 
 extern int	here_doc_helper;
 
+typedef struct s_export
+{
+	char **args;
+	char *key;
+	char *value;
+	int flag;
+	int tow_values;
+}		t_export;
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,
