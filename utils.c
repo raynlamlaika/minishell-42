@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 00:57:47 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/17 15:43:36 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 00:46:27 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,39 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-    if (!(*s1) || !(*s2))
-        return (1);
-    while (*s1 && *s1 == *s2)
-    {
-        s1++;
+	if (!(*s1) || !(*s2))
+		return (1);
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
 		s2++;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-
-char *ft_substr(char *s, unsigned int start, size_t end)
+char	*ft_substr(char *s, unsigned int start, size_t end)
 {
-    size_t i;
-    size_t len;
-    size_t slen;
+	char	*substr;
+	size_t	i;
+	size_t	len;
+	size_t	slen;
 
-    if (!s || end <= start)
-        return NULL;
-    slen = ft_strlen(s);
-    if (start >= slen)
-        return ft_strdup("");
-    if (end > slen)
-        end = slen;
-    len = end - start;
-    char *substr = ft_malloc((len + 1), 1); // allocate exact space
-    if (!substr)
-        return NULL;
-    i = 0;
-    while (i < len)
-        substr[i++] = s[start++];
-    substr[i] = '\0';
-    return (substr);
+	if (!s || end <= start)
+		return (NULL);
+	slen = ft_strlen(s);
+	if (start >= slen)
+		return (ft_strdup(""));
+	if (end > slen)
+		end = slen;
+	len = end - start;
+	substr = ft_malloc((len + 1), 1);
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (i < len)
+		substr[i++] = s[start++];
+	substr[i] = '\0';
+	return (substr);
 }
 
 int	ft_isalpha(int c)

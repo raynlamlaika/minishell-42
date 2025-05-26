@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/19 10:16:46 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 01:58:20 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,19 @@ int	expnd_size(char*string, int *i, t_env *env)
 	return (size);
 }
 
+void	size_helper(int *exit_s, char *string, int i, int *size)
+{
+	if (string[i] == '$')
+		*size += 1;
+	else if (string[i] == '?')
+		*size += ft_strlen(ft_itoa(*exit_s));
+	else
+		(*size)++;
+}
+
 int	size_help(char *string, t_env *env, int *exit_s)
 {
-	int	size ;
+	int	size;
 	int	quote;
 	int	i;
 
@@ -71,15 +81,13 @@ int	size_help(char *string, t_env *env, int *exit_s)
 			quote = 0;
 		if (string[i] == '$' && quote != '\'')
 		{
-			i++;
-			if (ft_isalpha(string[i]) || ft_isdigit(string[i]) \
+			if (string[++i] == '$')
+				size++;
+			else if (ft_isalpha(string[i]) || ft_isdigit(string[i]) \
 				|| string[i] == '_')
 				size += expnd_size(string, &i, env);
 			else
-				if (string[i] == '$')
-					size += 1;
-				if (string[i] == '?')
-					size+= ft_strlen(ft_itoa(*exit_s));
+				size_helper(exit_s, string, i, &size);
 		}
 		else
 			1 && (size++, i++);

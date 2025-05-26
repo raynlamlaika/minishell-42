@@ -6,21 +6,21 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/22 11:12:08 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:01:09 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-
 int here_doc_helper = 0;
 
+/*
 
 
 void print_token(t_token *token) {
     while (token) 
 	{
-		printf("Ambiguous: %s\n", token->ambiguous);
+		fprintf(stderr, "Ambiguous: %s\n", token->ambiguous);
         token = token->next;
     }
 }
@@ -42,12 +42,12 @@ void print_files(t_file *file)
 	int i = 0;
 	while (file)
 	{
-		printf("  File %d:\n", i++);
-		printf("    infile: %s\n", file->infile ? file->infile : "NULL");
-		printf("    outfile: %s\n", file->outfile ? file->outfile : "NULL");
-		printf("    append: %d\n", file->append);
-		printf("    here_doc: %d\n", file->here_doc);
-		printf("    flag: %d\n", file->flag);
+		fprintf(stderr, "  File %d:\n", i++);
+		fprintf(stderr, "    infile: %s\n", file->infile ? file->infile : "NULL");
+		fprintf(stderr, "    outfile: %s\n", file->outfile ? file->outfile : "NULL");
+		fprintf(stderr, "    append: %d\n", file->append);
+		fprintf(stderr, "    here_doc: %d\n", file->here_doc);
+		fprintf(stderr, "    flag: %d\n", file->flag);
 		file = file->next;
 	}
 }
@@ -57,22 +57,22 @@ void print_cmds(t_cmd *cmd)
 	int i = 0;
 	while (cmd)
 	{
-		printf("Command %d:\n", i++);
+		fprintf(stderr, "Command %d:\n", i++);
 		if (cmd->args)
 		{
-			printf("  args: ");
+			fprintf(stderr, "  args: ");
 			for (int j = 0; cmd->args[j]; j++)
-				printf("\"%s\" ", cmd->args[j]);
-			printf("\n");
+				fprintf(stderr, "\"%s\" ", cmd->args[j]);
+			fprintf(stderr, "\n");
 		}
 		else
 		{
-			printf("  args: NULL\n");
+			fprintf(stderr, "  args: NULL\n");
 		}
 		if (cmd->file)
 			print_files(cmd->file);
 		else
-			printf("  No associated files.\n");
+			fprintf(stderr, "  No associated files.\n");
 
 		cmd = cmd->next;
 	}
@@ -81,26 +81,35 @@ void	print_token_list(t_token *head)
 {
 	while (head)
 	{
-		printf("Type: %d\n", head->type);
-		printf("Value: %s\n", head->value ? head->value : "(null)");
-		printf("Ambiguous: %s\n", head->ambiguous ? head->ambiguous : "(null)");
-		printf("Quoted: %d\n", head->quoted);
-		printf("Flag_mbg: %d\n", head->flag_mbg);
-		printf("-----\n");
+		fprintf(stderr, "Type: %d\n", head->type);
+		fprintf(stderr, "Value: %s\n", head->value);
+		fprintf(stderr, "Ambiguous: %s\n", head->ambiguous ? head->ambiguous : "(null)");
+		fprintf(stderr, "Quoted: %d\n", head->quoted);
+		fprintf(stderr, "Flag_mbg: %d\n", head->flag_mbg);
+		fprintf(stderr, "-----\n");
 		head = head->next;
 	}
 }
 
+*/
+
+int *ff()
+{
+	static int i;
+	return(&i);
+}
+
 int main(int ac,char **av,char**env)
 {
-	static int exit_s;
+	int *exit_s = ff();
 	static int here_doc;
+	// char *args[] = {"exit", NULL};
 	char *line;
 	t_token *tokens;
 	t_token* last = NULL;
 	t_env	*env_list;
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))// 
-		return(1);
+
+	
 	(void)av;
 	(void)ac;
 	int g = 0;
@@ -108,29 +117,31 @@ int main(int ac,char **av,char**env)
 	signal(SIGQUIT, SIG_IGN);
 	env_list = linked_varibles(env);
 	env_list->emg_flag = 0;
-
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))// 
+			return(1);
 	while(1)
 	{
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))// 
+			return(1);
 		g = 0;
 		here_doc_helper = 1;
 		line = readline("realSHELL $> ");
 		here_doc_helper = 0;
 		if (!line)
 		{
-			char *args[] = {"exit", NULL};
-			// ft_malloc(0, 0);
-			ft_exit(args , exit_s);
+			
+			// ft_exit(args , *exit_s);
 			rl_clear_history();
-			return (exit_s);
+			return (*exit_s);
 		}
 		add_history(line);
 		tokens = lexer(line, last, 0);
 		if (tokens)
-			g = syntax(tokens, &exit_s, here_doc);
+			g = syntax(tokens, exit_s, here_doc);
 		if (g == 0)
 		{
-			expand(tokens, env_list, &exit_s);
-			int i = syntax_ambiguous(tokens, &exit_s);
+			expand(tokens, env_list, exit_s);
+			int i = syntax_ambiguous(tokens, exit_s);
 			if (i == 0)
 			{
 				t_cmd *f =  parse_tokens(tokens,env_list);
@@ -139,11 +150,12 @@ int main(int ac,char **av,char**env)
 					dup2(2, 0);
 					continue;
 				}
-				exectution(f, &env_list, &exit_s);
+				exectution(f, &env_list, exit_s);
 			}
 		}
+		here_doc_helper = 0;
 		free(line);
 	}
-	return (exit_s);
+	return (*exit_s);
 }
 

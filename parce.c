@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:37:39 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/19 11:37:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:34:45 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ void	*ft_calloc(size_t count, size_t size)
 	return (s);
 }
 
-t_token	*parse_tokens_helper(t_cmd *cmd, t_token *tokens, t_file **last_file, t_file *file, t_env *env)
+t_token	*parse_tokens_helper(t_token *tokens,
+	t_file **last_file, t_file *file, t_env *env)
 {
-	if (tokens->type == TOKEN_WORD)
-		add_arg(cmd, tokens->value);
-	else if (tokens->type == TOKEN_REDIR_IN && tokens->next)
+	if (tokens->type == TOKEN_REDIR_IN && tokens->next)
 	{
 		token_infile(last_file, file, tokens);
 		tokens = tokens->next;
@@ -56,13 +55,14 @@ t_token	*parse_tokens_helper(t_cmd *cmd, t_token *tokens, t_file **last_file, t_
 	{
 		token_heredoc(last_file, file, tokens, env);
 		if (here_doc_helper == 20)
-			return NULL;
+			return (NULL);
 		tokens = tokens->next;
 	}
 	return (tokens->next);
 }
 
-void	parse_tokens_utils(t_file **file, t_token **tokens, t_file **last_file, t_cmd **cmd)
+void	parse_tokens_utils(t_file **file,
+	t_token **tokens, t_file **last_file, t_cmd **cmd)
 {
 	t_cmd	*new_cmd;
 	t_file	*new_file;
@@ -70,7 +70,7 @@ void	parse_tokens_utils(t_file **file, t_token **tokens, t_file **last_file, t_c
 	new_cmd = ft_calloc(1, sizeof(t_cmd));
 	new_file = ft_calloc(1, sizeof(t_file));
 	if (!new_cmd || !new_file)
-		return;
+		return ;
 	new_cmd->file = new_file;
 	(*cmd)->next = new_cmd;
 	*cmd = new_cmd;
@@ -79,29 +79,30 @@ void	parse_tokens_utils(t_file **file, t_token **tokens, t_file **last_file, t_c
 	*last_file = NULL;
 }
 
-t_cmd *parse_tokens(t_token *tokens, t_env *env)
+t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
-	t_cmd *cmd;
-	t_file *file;
-	t_file *last_file;
+	t_all_data	data;
 
-	file = ft_calloc(1, sizeof(t_file));
-	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd || !file)
+	data.file = ft_calloc(1, sizeof(t_file));
+	data.cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!data.cmd || !data.file)
 		return (NULL);
-	t_cmd *start = cmd;
-	cmd->file = file;
-	last_file = NULL;
+	data.start = data.cmd;
+	data.cmd->file = data.file;
+	data.last_file = NULL;
 	while (tokens)
 	{
 		while (tokens && tokens->type != TOKEN_PIPE)
 		{
-			tokens = parse_tokens_helper(cmd, tokens, &last_file, file, env);
+			if (tokens->type == TOKEN_WORD)
+				add_arg(data.cmd, tokens->value);
+			tokens = parse_tokens_helper(tokens,
+					&data.last_file, data.file, env);
 			if (here_doc_helper == 20)
-				return(NULL) ;
+				return (NULL);
 		}
 		if (tokens && tokens->type == TOKEN_PIPE)
-			parse_tokens_utils(&file, &tokens, &last_file, &cmd);
+			parse_tokens_utils(&data.file, &tokens, &data.last_file, &data.cmd);
 	}
-	return (start);
+	return (data.start);
 }

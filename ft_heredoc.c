@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/21 18:17:28 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:31:33 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,42 +51,10 @@ char	*expnd_heredoc(char *input, t_env *env)
 	return (result);
 }
 
-
-// char	*expnd_heredoc(char *input, t_env *env)
-// {
-// 	int		help;
-// 	int		i ;
-// 	int		start;
-// 	char	*repl;
-// 	char	*result;
-
-// 	start = 0;
-// 	i = 0;
-// 	while (input[i])
-// 	{
-// 		if (input[i] == '$')
-// 		{
-// 			if (i > start)
-// 				result = ft_strjoin(result, ft_substr(input, start, i - start));
-// 			repl = take_replace(i, input, &help, env);
-// 			result = ft_strjoin(result, repl);
-// 			i = help;
-// 			start = i;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	if (i > start)
-// 		result = ft_strjoin(result, ft_substr(input, start, i - start));
-// 	return (result);
-// }
-
-
 static void	lines(int fd, char *limiter, int flag, t_env *env)
 {
 	char	*next;
 
-	
 	while (1)
 	{
 		here_doc_helper = 42;
@@ -94,14 +62,14 @@ static void	lines(int fd, char *limiter, int flag, t_env *env)
 		if (!next || here_doc_helper == 20)
 		{
 			if (here_doc_helper == 20)
-				printf("\n");
+				fprintf(stderr, "\n");
 			break ;
 		}
 		if (pick_limiter(next, limiter) == 0)
 			break ;
 		next = ft_strjoin(next, "\n");
 		if (ft_strchr(next, '$') && flag == 0)
-			next = take_token(next,env, 0);// next = ta(next, env);
+			next = take_token(next, env, 0);
 		write(fd, next, ft_strlen(next));
 	}
 }
@@ -110,11 +78,13 @@ char	*ft_handel_qoute(char *exp)
 {
 	int		i;
 	int		j;
-	int		sing_flag = 0;
-	int		double_flag = 0;
+	int		sing_flag;
+	int		double_flag;
 	char	*result;
 
 	j = 0;
+	sing_flag = 0;
+	double_flag = 0;
 	i = 0;
 	result = ft_malloc(sizeof(char) * (strlen(exp) + 1), 1);
 	while (exp[i])
@@ -159,4 +129,3 @@ int	heredoc(char *limiter, t_env *env)
 	close(pipfd[1]);
 	return (pipfd[0]);
 }
-

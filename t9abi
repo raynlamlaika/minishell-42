@@ -1,21 +1,5 @@
 check check ----------
 
-realSHELL $> unset PWD
-realSHELL $> pwd
-pwd: No such file or directory
-realSHELL $> 
-
-
-realSHELL $> mkdir -p 1/2
-realSHELL $> cd 1/2
-realSHELL $> chmod -x ../2
-realSHELL $> cd ..
-cd: Permission denied
-realSHELL $> pwd
-/home/rlamlaik/Desktop/realshell/1/2
-realSHELL $> ba
-
-
 
 ennv
 a="                       "
@@ -32,130 +16,16 @@ cat: standard output: Bad file descriptor
 
 
 
-rlamlaik@e1r4p9:~/Desktop/realshell$ ./minishell 
-realSHELL $> python3 -c 'print("a"*255)'
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-NameError: name 'a' is not defined
-realSHELL $> python3 -c 'print("a"*255)'
-----------
-same thing in the top of this
-===========
-realSHELL $> 'ech""o' hi
-hi
-realSHELL $> 'ech""o' hi
 
 
-realSHELL $> a |
-realSHELL $> exit
-realSHELL $> a |
-realSHELL $> exit
-
-
------------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
-
-realSHELL $> export
-
-realSHELL $> export
-
-realSHELL $> export
-
-
-
-
------------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
-
-rlamlaik@e1r4p9:~/Desktop/realshell$ env -i bash
-bash: cannot set terminal process group (334330): Inappropriate ioctl for device
-bash: no job control in this shell
-rlamlaik@e1r4p9:/home/rlamlaik/Desktop/realshell$ env
-PWD=/home/rlamlaik/Desktop/realshell
-SHLVL=1
-_=/usr/bin/env
-rlamlaik@e1r4p9:/home/rlamlaik/Desktop/realshell$ export
-declare -x OLDPWD
-declare -x PWD="/home/rlamlaik/Desktop/realshell"
-declare -x SHLVL="1"
-declre -x NJHJN="i"
-
-
-
-
-
------------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED-----------------FIXEEEEEEEEEEEEEEED
-realSHELL $> export
-PWD=/home/rlamlaik/Desktop/realshell
-SHLVL=1
-_=./minishell
-a
-realSHELL $> export a=5
-realSHELL $> export a
-realSHELL $> export
-PWD=/home/rlamlaik/Desktop/realshell
-SHLVL=1
-_=./minishell
-a
-realSHELL $> 
-
-
------------------ FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED
-realSHELL $> ls >/dev/stdout | ls
-1               execution.o     ft_itoa.c     ft_strndup.o     parce.o
-buildin         expand_2.c      ft_itoa.o     ft_strrchr.c     parse_helper.c
-env_heloper.c   expand_2.o      ft_split_h.c  ft_strrchr.o     parse_helper.o
-env_heloper.o   expand_3.c      ft_split_h.o  handle_signal.c  syntax.c
-envr.c          expand_3.o      ft_strchr.c   handle_signal.o  syntax_imbg.c
-envr.o          expand.c        ft_strchr.o   Makefile         syntax_imbg.o
-exec_ulitls2.c  expand_heper.c  ft_strdup.c   minishell        syntax.o
-exec_ulitls2.o  expand_heper.o  ft_strdup.o   minishell.c      t9abi
-exec_ultils.c   expand.o        ft_strjoin.c  minishell.h      tokens.c
-exec_ultils.o   expand_token.c  ft_strjoin.o  my_malloc.c      tokens.o
-exec_utils3.c   expand_token.o  ft_strncmp.c  my_malloc.o      utils.c
-exec_utils3.o   ft_heredoc.c    ft_strncmp.o  old_parse.c      utils.o
-execution.c     ft_heredoc.o    ft_strndup.c  parce.c
-1               execution.o     ft_itoa.c     ft_strndup.o     parce.o
-buildin         expand_2.c      ft_itoa.o     ft_strrchr.c     parse_helper.c
-env_heloper.c   expand_2.o      ft_split_h.c  ft_strrchr.o     parse_helper.o
-env_heloper.o   expand_3.c      ft_split_h.o  handle_signal.c  syntax.c
-envr.c          expand_3.o      ft_strchr.c   handle_signal.o  syntax_imbg.c
-envr.o          expand.c        ft_strchr.o   Makefile         syntax_imbg.o
-exec_ulitls2.c  expand_heper.c  ft
+HANDEL the fd leaks
 
 
 
 
 
 
------------------ FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED----------------- FIXEEEEEEEEEEEEEEED
 
-realSHELL $> cat << e
-here_doc >> helo 
-here_doc >> $USER
-here_doc >> hada smito rayn
-here_doc >> tra $HOME
-AddressSanitizer:DEADLYSIGNAL
-=================================================================
-==314923==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004dc776 bp 0x7fff445624a0 sp 0x7fff44562410 T0)
-==314923==The signal is caused by a READ memory access.
-==314923==Hint: address points to the zero page.
-    #0 0x4dc776 in ft_strcmp /home/rlamlaik/Desktop/realshell/utils.c:17:20
-    #1 0x4cba91 in take_replace /home/rlamlaik/Desktop/realshell/expand.c:54:7
-    #2 0x4da56e in expnd_heredoc /home/rlamlaik/Desktop/realshell/ft_heredoc.c:41:11
-    #3 0x4daed7 in lines /home/rlamlaik/Desktop/realshell/ft_heredoc.c:73:11
-    #4 0x4dac0e in heredoc /home/rlamlaik/Desktop/realshell/ft_heredoc.c:127:2
-    #5 0x4d1c09 in token_heredoc /home/rlamlaik/Desktop/realshell/parse_helper.c:111:20
-    #6 0x4d061e in parse_tokens_helper /home/rlamlaik/Desktop/realshell/parce.c:57:3
-    #7 0x4d0e00 in parse_tokens /home/rlamlaik/Desktop/realshell/parce.c:99:13
-    #8 0x4d5613 in main /home/rlamlaik/Desktop/realshell/./minishell.c:135:17
-    #9 0x7f6b82d24d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #10 0x7f6b82d24e3f in __libc_start_main csu/../csu/libc-start.c:392:3
-    #11 0x41f3b4 in _start (/home/rlamlaik/Desktop/realshell/minishell+0x41f3b4)
-
-AddressSanitizer can not provide additional info.
-SUMMARY: AddressSanitizer: SEGV /home/rlamlaik/Desktop/realshell/utils.c:17:20 in ft_strcmp
-==314923==ABORTING
-<
-$ 
 
 
 
@@ -173,196 +43,317 @@ realSHELL $>
 
 
 
--------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED
-realSHELL $> > ""
-minishell: : Permission denied
 
 
 
-frealSHELL $> echo -nnn -nnf f 
--nnn -nnf f
 
 
 
-realSHELL $> exit 54 54 | ls 
-' '               expand_3.o       ft_strjoin.c      old_parse.c
- buildin          expand.c         ft_strjoin.o      parce.c
- env_heloper.c    expand_heper.c   ft_strncmp.c      parce.o
- env_heloper.o    expand_heper.o   ft_strncmp.o      parse_helper.c
- envr.c           expand.o         ft_strndup.c      parse_helper.o
- envr.o           expand_token.c   ft_strndup.o      syntax.c
- exec_ulitls2.c   expand_token.o   ft_strrchr.c      syntax_imbg.c
- exec_ulitls2.o   ft_heredoc.c     ft_strrchr.o      syntax_imbg.o
- exec_ultils.c    ft_heredoc.o     handle_signal.c   syntax.o
- exec_ultils.o    ft_itoa.c        handle_signal.o   t9abi
- exec_utils3.c    ft_itoa.o        ls                tokens.c
- exec_utils3.o    ft_split_h.c     Makefile          tokens.o
- execution.c      ft_split_h.o     minishell         utils.c
- execution.o      ft_strchr.c      minishell.c       utils.o
- expand_2.c       ft_strchr.o      minishell.h
- expand_2.o       ft_strdup.c      my_malloc.c
- expand_3.c       ft_strdup.o      my_malloc.o
+
+
+realSHELL $> echo $$$$$$$$$$$$$$$$$$$$$$$$$$$2a
+=================================================================
+==243353==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x603000000e6c at pc 0x0000004cf868 bp 0x7ffc82cbbe70 sp 0x7ffc82cbbe68
+WRITE of size 1 at 0x603000000e6c thread T0
+    #0 0x4cf867 in take_token /home
+
+
+
+
+
+
+
+$> echo $$$$$$$$a
+this is  a |8| and i 9
+this is  a 8 and i 9
+a
+realSHELL $> echo $$$$$$$$$$444a
+this is  a |13| and i 14
+this is  a 13 and i 14
+444a
+realSHELL $> echo $$$$$$$$$$4444444444444a
+this is  a |23| and i 24
+this is  a 23 and i 24
+4444444444444a
+realSHELL $> echo $$$$$$$$$$444444444444444a
+this is  a |25| and i 26
+this is  a 25 and i 26
+minishell: malloc.c:2617: sysmalloc: Assertion `(old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)' failed.
+rlamlaik@e1r5p6:~/Desktop/realshell$ 
+
+
+
+NEED TO HANDE THE INVALID RREAAD
+
+
+
+
+
+
+
+realSHELL $> export $a=$a
+this is the $a="$a" 
+bash: export: `': not a valid identifier
+realSHELL $> 
+exit
+bash-5.2$ make
+cc  -Wall -Werror -Wextra  -c buildin/ft_export.c -o buildin/ft_export.o
+cc -lreadline -Wall -Werror -Wextra  envr.o expand.o ft_strjoin.o env_heloper.o exec_ultils.o exec_ulitls2.o exec_utils3.o expand_token.o parce.o parse_helper.o execution.o expand_heper.o ft_split_h.o ft_strncmp.o handle_signal.o tokens.o ft_itoa.o syntax.o expand_2.o ft_heredoc.o ft_strchr.o ft_strndup.o syntax_imbg.o env_null_helper.o expand_3.o ft_strdup.o ft_strrchr.o my_malloc.o utils.o buildin/ft_cd.o buildin/ft_echo.o buildin/ft_env.o buildin/ft_export.o buildin/ft_pwd.o buildin/ft_unset.o buildin/ft_exit.o -o minishell
+bash-5.2$ ./minishell 
+realSHELL $> export a="b c d"
+this isnthe aref a=b c d
+realSHELL $> export $a="$a"
+this is the $a=""$a"" 
+this isnthe aref b
+this isnthe aref c
+this isnthe aref d=b
+this isnthe aref c
+this isnthe aref d
+realSHELL $> export $a=$a
+this is the $a="$a" 
+this isnthe aref b
+this isnthe aref c
+this isnthe aref d=b c d
+realSHELL $> unset a b c d
+realSHELL $> export a="b c d"
+this isnthe aref a=b c d
+realSHELL $> export
+SHELL=/bin/sh
+SESSION_MANAGER=local/e2r3p12.1337.ma:@/tmp/.ICE-unix/2466357,unix/e2r3p12.1337.ma:/tmp/.ICE-unix/2466357
+__EGL_EXTERNAL_PLATFORM_CONFIG_DIRS=/etc/egl/egl_external_platform.d:/usr/lib/x86_64-linux-gnu/GL/egl/egl_external_platform.d:/usr/share/egl/egl_external_platform.d
+QT_ACCESSIBILITY=1
+COLORTERM=truecolor
+XDG_CONFIG_DIRS=/app/etc/xdg:/etc/xdg
+SSH_AGENT_LAUNCHER=gnome-keyring
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session77
+XDG_MENU_PREFIX=gnome-
+TERM_PROGRAM_VERSION=1.100.2
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+SSH_AUTH_SOCK=/run/flatpak/ssh-auth
+XDG_DATA_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/data
+XDG_CONFIG_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/config
+XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=ubuntu
+ZYPAK_LIB=/app/bin/../lib
+FLATPAK_ID=com.visualstudio.code
+FT_HOOK_NAME=login-user
+GTK_MODULES=gail:atk-bridge
+FT_HOOK_PATHNAME=login-user.d
+PWD=/home/rlamlaik/Desktop/realshell
+KRB5CCNAME=FILE:/tmp/krb5cc_104325_S4Ng1R
+ALSA_CONFIG_PATH=/usr/share/alsa/alsa-flatpak.conf
+XDG_SESSION_DESKTOP=ubuntu
+LOGNAME=rlamlaik
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/104325/gnupg/S.gpg-agent:0:1
+SYSTEMD_EXEC_PID=2466379
+XAUTHORITY=/run/flatpak/Xauthority
+VSCODE_GIT_ASKPASS_NODE=/app/extra/vscode/code
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/rlamlaik
+container=flatpak
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GI_TYPELIB_PATH=/app/lib/girepository-1.0
+HOME=/home/rlamlaik
+IM_CONFIG_PHASE=1
+LANG=en_US.UTF-8
+XDG_CURRENT_DESKTOP=Unity
+SBX_CHROME_API_RQ=1
+AT_SPI_BUS_ADDRESS=unix:path=/run/flatpak/at-spi-bus
+GIT_ASKPASS=/app/extra/vscode/resources/app/extensions/git/dist/askpass.sh
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PULSE_CLIENTCONFIG=/run/flatpak/pulse/config
+INVOCATION_ID=2d44726a00384266bb1797b73854b428
+MANAGERPID=2465796
+CHROME_DESKTOP=code.desktop
+XDG_CACHE_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/cache
+GJS_DEBUG_OUTPUT=stderr
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+ZYPAK_ZYGOTE_STRATEGY_SPAWN=1
+LIBVIRT_DEFAULT_URI=qemu:///system
+USER=rlamlaik
+SANDBOX_LD_LIBRARY_PATH=/app/lib
+VSCODE_GIT_IPC_HANDLE=/run/user/104325/vscode-git-695ccba9da.sock
+NPM_CONFIG_GLOBALCONFIG=/app/etc/npmrc
+DISPLAY=:99.0
+SHLVL=1
+FLATPAK_SANDBOX_DIR=/home/rlamlaik/.var/app/com.visualstudio.code/sandbox
+QT_IM_MODULE=ibus
+ZYPAK_BIN=/app/bin
+LD_LIBRARY_PATH=/app/lib
+XDG_RUNTIME_DIR=/run/user/104325
+DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
+DOCKER_HOST=unix:///run/user/104325/docker.sock
+GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/extensions/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
+VSCODE_GIT_ASKPASS_MAIN=/app/extra/vscode/resources/app/extensions/git/dist/askpass-main.js
+JOURNAL_STREAM=8:9453560
+XDG_DATA_DIRS=/app/share:/usr/share:/usr/share/runtime/share:/run/host/user-share:/run/host/share
+GDK_BACKEND=x11
+PATH=/app/bin:/app/bin:/app/bin:/usr/bin:/home/rlamlaik/.var/app/com.visualstudio.code/data/node_modules/bin
+GDMSESSION=ubuntu
+PYTHONUSERBASE=/var/data/python
+ORIGINAL_XDG_CURRENT_DESKTOP=ubuntu:GNOME
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/flatpak/bus
+ALSA_CONFIG_DIR=/usr/share/alsa
+PULSE_SERVER=unix:/run/flatpak/pulse/native
+GIO_LAUNCHED_DESKTOP_FILE_PID=2466936
+GIO_LAUNCHED_DESKTOP_FILE=/var/lib/flatpak/exports/share/applications/com.visualstudio.code.desktop
+TERM_PROGRAM=vscode
+_=./minishell
+a=b c d
+realSHELL $> export $a=$a
+this is the $a="$a" 
+this isnthe aref b
+this isnthe aref c
+this isnthe aref d=b c d
+realSHELL $> export
+SHELL=/bin/sh
+SESSION_MANAGER=local/e2r3p12.1337.ma:@/tmp/.ICE-unix/2466357,unix/e2r3p12.1337.ma:/tmp/.ICE-unix/2466357
+__EGL_EXTERNAL_PLATFORM_CONFIG_DIRS=/etc/egl/egl_external_platform.d:/usr/lib/x86_64-linux-gnu/GL/egl/egl_external_platform.d:/usr/share/egl/egl_external_platform.d
+QT_ACCESSIBILITY=1
+COLORTERM=truecolor
+XDG_CONFIG_DIRS=/app/etc/xdg:/etc/xdg
+SSH_AGENT_LAUNCHER=gnome-keyring
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session77
+XDG_MENU_PREFIX=gnome-
+TERM_PROGRAM_VERSION=1.100.2
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+SSH_AUTH_SOCK=/run/flatpak/ssh-auth
+XDG_DATA_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/data
+XDG_CONFIG_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/config
+XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=ubuntu
+ZYPAK_LIB=/app/bin/../lib
+FLATPAK_ID=com.visualstudio.code
+FT_HOOK_NAME=login-user
+GTK_MODULES=gail:atk-bridge
+FT_HOOK_PATHNAME=login-user.d
+PWD=/home/rlamlaik/Desktop/realshell
+KRB5CCNAME=FILE:/tmp/krb5cc_104325_S4Ng1R
+ALSA_CONFIG_PATH=/usr/share/alsa/alsa-flatpak.conf
+XDG_SESSION_DESKTOP=ubuntu
+LOGNAME=rlamlaik
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/104325/gnupg/S.gpg-agent:0:1
+SYSTEMD_EXEC_PID=2466379
+XAUTHORITY=/run/flatpak/Xauthority
+VSCODE_GIT_ASKPASS_NODE=/app/extra/vscode/code
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/rlamlaik
+container=flatpak
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GI_TYPELIB_PATH=/app/lib/girepository-1.0
+HOME=/home/rlamlaik
+IM_CONFIG_PHASE=1
+LANG=en_US.UTF-8
+XDG_CURRENT_DESKTOP=Unity
+SBX_CHROME_API_RQ=1
+AT_SPI_BUS_ADDRESS=unix:path=/run/flatpak/at-spi-bus
+GIT_ASKPASS=/app/extra/vscode/resources/app/extensions/git/dist/askpass.sh
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PULSE_CLIENTCONFIG=/run/flatpak/pulse/config
+INVOCATION_ID=2d44726a00384266bb1797b73854b428
+MANAGERPID=2465796
+CHROME_DESKTOP=code.desktop
+XDG_CACHE_HOME=/home/rlamlaik/.var/app/com.visualstudio.code/cache
+GJS_DEBUG_OUTPUT=stderr
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+ZYPAK_ZYGOTE_STRATEGY_SPAWN=1
+LIBVIRT_DEFAULT_URI=qemu:///system
+USER=rlamlaik
+SANDBOX_LD_LIBRARY_PATH=/app/lib
+VSCODE_GIT_IPC_HANDLE=/run/user/104325/vscode-git-695ccba9da.sock
+NPM_CONFIG_GLOBALCONFIG=/app/etc/npmrc
+DISPLAY=:99.0
+SHLVL=1
+FLATPAK_SANDBOX_DIR=/home/rlamlaik/.var/app/com.visualstudio.code/sandbox
+QT_IM_MODULE=ibus
+ZYPAK_BIN=/app/bin
+LD_LIBRARY_PATH=/app/lib
+XDG_RUNTIME_DIR=/run/user/104325
+DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
+DOCKER_HOST=unix:///run/user/104325/docker.sock
+GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/extensions/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
+VSCODE_GIT_ASKPASS_MAIN=/app/extra/vscode/resources/app/extensions/git/dist/askpass-main.js
+JOURNAL_STREAM=8:9453560
+XDG_DATA_DIRS=/app/share:/usr/share:/usr/share/runtime/share:/run/host/user-share:/run/host/share
+GDK_BACKEND=x11
+PATH=/app/bin:/app/bin:/app/bin:/usr/bin:/home/rlamlaik/.var/app/com.visualstudio.code/data/node_modules/bin
+GDMSESSION=ubuntu
+PYTHONUSERBASE=/var/data/python
+ORIGINAL_XDG_CURRENT_DESKTOP=ubuntu:GNOME
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/flatpak/bus
+ALSA_CONFIG_DIR=/usr/share/alsa
+PULSE_SERVER=unix:/run/flatpak/pulse/native
+GIO_LAUNCHED_DESKTOP_FILE_PID=2466936
+GIO_LAUNCHED_DESKTOP_FILE=/var/lib/flatpak/exports/share/applications/com.visualstudio.code.desktop
+TERM_PROGRAM=vscode
+_=./minishell
+a=b c d
+b
+c
+d=b c d
+
+
+realSHELL $> export a
+this isnthe aref a
+realSHELL $> export d=$a
+this isnthe aref 
+minihel: export: `': not a valid identifier
+realSHELL $> export d=
+this isnthe aref d=
+realSHELL $> 
+e=""
+
+HELL $> export a++=m
+this isnthe aref a++=m
 realSHELL $> 
 
-
-
--------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED-------------FIXEEEEEEEEEEEEEEED
-
-space " "
-j_jj=ff
-z=                                    
-realSHELL $>
-q
-
-realSHELL $> cd .. frd
-=================================================================
-==950986==ERROR: AddressSanitizer: heap-use-after-free on address 0x604000004850 at pc 0x0000004dc016 bp 0x7ffd2c7e3870 sp 0x7ffd2c7e3868
-READ of size 1 at 0x604000004850 thread T0
-LLVMSymbolizer: error reading file: No such file or directory
-    #0 0x4dc015  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc015)
-    #1 0x4dc08b  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc08b)
-    #2 0x4dd38a  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd38a)
-    #3 0x4dd615  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd615)
-    #4 0x4dd921  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd921)
-    #5 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
-    #6 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
-    #7 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
-    #8 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
-    #9 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #10 0x7ff51afe4e3f in __libc_start_main csu/../csu/libc-start.c:392:3
-    #11 0x41f3b4  (/home/rlamlaik/Desktop/realshell/minishell+0x41f3b4)
-
-0x604000004850 is located 0 bytes inside of 33-byte region [0x604000004850,0x604000004871)
-freed by thread T0 here:
-    #0 0x49a012  (/home/rlamlaik/Desktop/realshell/minishell+0x49a012)
-    #1 0x4dd8c9  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd8c9)
-    #2 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
-    #3 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
-    #4 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
-    #5 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
-    #6 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-
-previously allocated by thread T0 here:
-    #0 0x49a27d  (/home/rlamlaik/Desktop/realshell/minishell+0x49a27d)
-    #1 0x4dc546  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc546)
-    #2 0x4dc0a0  (/home/rlamlaik/Desktop/realshell/minishell+0x4dc0a0)
-    #3 0x4dd38a  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd38a)
-    #4 0x4dd659  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd659)
-    #5 0x4dd921  (/home/rlamlaik/Desktop/realshell/minishell+0x4dd921)
-    #6 0x4ceb47  (/home/rlamlaik/Desktop/realshell/minishell+0x4ceb47)
-    #7 0x4d2e88  (/home/rlamlaik/Desktop/realshell/minishell+0x4d2e88)
-    #8 0x4d452e  (/home/rlamlaik/Desktop/realshell/minishell+0x4d452e)
-    #9 0x4d565d  (/home/rlamlaik/Desktop/realshell/minishell+0x4d565d)
-    #10 0x7ff51afe4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-
-SUMMARY: AddressSanitizer: heap-use-after-free (/home/rlamlaik/Desktop/realshell/minishell+0x4dc015) 
-Shadow bytes around the buggy address:
-  0x0c087fff88b0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff88c0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff88d0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff88e0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
-  0x0c087fff88f0: fa fa fd fd fd fd fd fa fa fa 00 00 00 00 00 fa
-=>0x0c087fff8900: fa fa 00 00 00 00 01 fa fa fa[fd]fd fd fd fd fa
-  0x0c087fff8910: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff8920: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
-  0x0c087fff8930: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff8940: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 fa
-  0x0c087fff8950: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
-Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable:           00
-  Partially addressable: 01 02 03 04 05 06 07 
-  Heap left redzone:       fa
-  Freed heap region:       fd
-  Stack left redzone:      f1
-  Stack mid redzone:       f2
-  Stack right redzone:     f3
-  Stack after return:      f5
-  Stack use after scope:   f8
-  Global redzone:          f9
-  Global init order:       f6
-  Poisoned by user:        f7
-  Container overflow:      fc
-  Array cookie:            ac
-  Intra object redzone:    bb
-  ASan internal:           fe
-  Left alloca redzone:     ca
-  Right alloca redzone:    cb
-  Shadow gap:              cc
-==950986==ABORTING
-rlamlaik@e1r5p7:~/Desktop/realshell$ 
+t a valid identifier
+rlamlaik@e1r5p6:~/Desktop/realshell$ export ""
+bash: export: `': not a valid identifier
+rlamlaik@e1r5p6:~/Desktop/realshell$ 
 
 
 
-
-
-
-
-
------write with write (2,"", len); do not work with printf
-
-realSHELL $> "" > ls
-realSHELL $> cat ls
-minishell: : command not found
+ls: command not found
+realSHELL $> export PATH 
+this isnthe aref PATH
+realSHELL $> env
+PATH=fdhfjfsj
+realSHELL $> unset PATh
+realSHELL $> unset PATH
+realSHELL $> export PATH 
+this isnthe aref PATH
+realSHELL $> lks
+lks: command not found
+realSHELL $> ls
+ls: command not found
+\realSHELL $> ls
+ls: command not found
+realSHELL $> env
+PATH=fdhfjfsj
+realSHELL $> export
+declare -x OLDPWD
+declare -x PATH="fdhfjfsj"
+declare -x PATH
+declare -x PATH
+realSHELL $> unset PATH
+realSHELL $> env
+PATH=fdhfjfsj
+realSHELL $> expotr
+expotr: command not found
+realSHELL $> export
+declare -x OLDPWD
+declare -x PATH="fdhfjfsj"
+declare -x PATH
+declare -x PATH
 realSHELL $> 
-++++++ the real behave 
-rlamlaik@e1r4p7:~/Desktop/realshell$ "" > ls
-Command '' not found, but can be installed with:
-apt install mailutils-mh  # version 1:3.14-1, or
-apt install mmh           # version 0.4-4
-apt install nmh           # version 1.7.1-11
-apt install termtris      # version 1.3-1ubuntu1
-Ask your administrator to install one of them.
-rlamlaik@e1r4p7:~/Desktop/realshell$ 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-realSHELL $> cd ../rlamlaik/../
-realSHELL $> pwd
-/home
-realSHELL $> pwd
-/home
-realSHELL $> env | grep pwd
-
-=================================================================
-==1219435==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 33 byte(s) in 1 object(s) allocated from:
-    #0 0x49a5a9 in realloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a5a9)
-    #1 0x7fa8695ca7bc in getcwd io/../sysdeps/unix/sysv/linux/getcwd.c:86:8
-    #2 0x4dde9b in ft_cd /home/rlamlaik/Desktop/realshell/buildin/ft_cd.c:164:12
-    #3 0x4ceca7 in buildin /home/rlamlaik/Desktop/realshell/exec_utils3.c:57:3
-    #4 0x4d2fe8 in execute_single_cmd /home/rlamlaik/Desktop/realshell/execution.c:225:6
-    #5 0x4d4af0 in exectution /home/rlamlaik/Desktop/realshell/execution.c:364:3
-    #6 0x4d5c5d in main /home/rlamlaik/Desktop/realshell/./minishell.c:142:5
-    #7 0x7fa8694ded8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-
-Direct leak of 32 byte(s) in 1 object(s) allocated from:
-    #0 0x49a28d in malloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a28d)
-    #1 0x7fa86981ebac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
-
-Indirect leak of 230 byte(s) in 10 object(s) allocated from:
-    #0 0x49a28d in malloc (/home/rlamlaik/Desktop/realshell/minishell+0x49a28d)
-    #1 0x7fa86981ebac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
-
-SUMMARY: AddressSanitizer: 295 byte(s) leaked in 12 allocation(s).
-realSHELL $> `
-
-
-
-
-
-HANDEL the fd leaks
 
 

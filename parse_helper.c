@@ -6,13 +6,13 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:35:11 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/19 15:57:16 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:34:23 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void add_arg(t_cmd *type, char *value)
+void	add_arg(t_cmd *type, char *value)
 {
 	int		count;
 	int		i;
@@ -35,19 +35,12 @@ void add_arg(t_cmd *type, char *value)
 	}
 	new_args[count] = ft_strdup(value);
 	new_args[count + 1] = NULL;
-	// if (type->args)
-	// {
-	// 	j = 0;
-	// 	// while (type->args[j])
-	// 	// 	free(type->args[j++]);
-	// 	// free(type->args);
-	// }
 	type->args = new_args;
 }
 
 void	token_infile(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file *new_file;
+	t_file	*new_file;
 
 	if (!*last_file)
 	{
@@ -65,7 +58,7 @@ void	token_infile(t_file **last_file, t_file *file, t_token *tokens)
 
 void	token_outfile(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file *new_file;
+	t_file	*new_file;
 
 	if (!*last_file)
 	{
@@ -85,7 +78,8 @@ void	token_outfile(t_file **last_file, t_file *file, t_token *tokens)
 
 void	token_append(t_file **last_file, t_file *file, t_token *tokens)
 {
-	t_file *new_file;
+	t_file	*new_file;
+
 	if (!*last_file)
 	{
 		file->outfile = tokens->next->value;
@@ -102,11 +96,12 @@ void	token_append(t_file **last_file, t_file *file, t_token *tokens)
 	}
 }
 
-void	token_heredoc(t_file **last_file, t_file *file, t_token *tokens ,t_env *env)
+void	token_heredoc(t_file **last_file,
+	t_file *file, t_token *tokens, t_env *env)
 {
-	t_file *new_file;
+	t_file	*new_file;
 
-	if(!*last_file)
+	if (!*last_file)
 	{
 		file->here_doc = heredoc(tokens->next->value, env);
 		*last_file = file;

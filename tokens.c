@@ -25,6 +25,8 @@ t_token **last, t_token_type type, char *value)
 	else
 		new->value = NULL;
 	new->next = NULL;
+	new->ambiguous = 0;
+	new->flag_mbg = 0;
 	if (!*head)
 		*head = new;
 	else
@@ -67,7 +69,7 @@ void	handle_quotes(t_token **head, t_token **last, char *input, int *i)
 	char	quote;
 
 	quote = input[*i];
-	start = *i + 1; // skip opening quote
+	start = *i; // skip opening quote
 	len = 0;
 	(*i)++;
 
@@ -92,7 +94,6 @@ void	handle_quotes(t_token **head, t_token **last, char *input, int *i)
 	// Allocate and copy the full token
 	word = ft_strndup(input + start, *i - start);
 	append_token(head, last, TOKEN_WORD, word);
-
 	(*i)--; // Prepare for next char
 }
 
@@ -104,7 +105,8 @@ void	handle_word(t_token **head, t_token **last, char *input, int *i)
 	char	quote_char;
 	char	*word;
 
-	(1) && (start = *i, j = *i, in_quotes = 0, quote_char = 0);
+	start = *i;
+	(1) && (in_quotes = 0, quote_char = 0, j = *i);
 	while (input[j] && (in_quotes || (!ft_strchr(" |<>\n", input[j]))))
 	{
 		if ((input[j] == '"' || input[j] == '\''))

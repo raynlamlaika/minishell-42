@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/25 11:43:48 by abouabba          #+#    #+#             */
+/*   Updated: 2025/05/26 15:58:33 by rlamlaik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_isascii(int c)
@@ -5,10 +17,11 @@ int	ft_isascii(int c)
 	return (c >= 0 && c <= 127);
 }
 
-int is_numeric(char *str)
+int	is_numeric(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	if (!str[i])
@@ -24,22 +37,21 @@ int is_numeric(char *str)
 
 long long	ft_str_to_ll(const char *str, int *overflow)
 {
-	int				sign = 1;
-	unsigned long	result = 0;
-	int i;
+	int				sign;
+	unsigned long	result;
+	int				i;
 
 	*overflow = 0;
-	i= 0;
+	i = 0;
+	sign = 1;
+	result = 0;
 	if (str[i] == '+' || str[i] == '-')
 		if (str[i++] == '-')
 			sign = -1;
 	while (str[i])
 	{
 		if (result > (unsigned long)(LLONG_MAX - (str[i] - '0')) / 10)
-		{
-			*overflow = 1;
-			return (0);
-		}
+			return (*overflow = 1, 0);
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
@@ -55,7 +67,7 @@ void	ft_exit(char **args, int exit_status)
 	long long	value;
 	int			overflow;
 
-	printf ("exit\n");
+	printf("exit\n");
 	if (!args[1])
 		exit(exit_status);
 	if (!is_numeric(args[1]))
@@ -72,7 +84,7 @@ void	ft_exit(char **args, int exit_status)
 	if (args[2])
 	{
 		printf("minishell: exit: too many arguments\n");
-		return;
+		return ;
 	}
 	exit((unsigned char)value);
 }

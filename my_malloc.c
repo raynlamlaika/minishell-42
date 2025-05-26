@@ -6,67 +6,15 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/22 11:11:16 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:56:44 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-// void ft_free(t_malloc **head)
-// {
-// 	t_malloc  *helper;
-
-// 	while (*head)
-//     {
-//         helper = (*head);
-//         (*head) = (*head)->next;
-//         free(helper->toalloc);
-//         helper->toalloc = NULL;
-//         free(helper);
-//         helper = NULL;
-//     }
-// 	*head = NULL;
-// }
-
-// void	*ft_malloc(unsigned int size, int flag)
-// {
-// 	static t_malloc	*head;
-// 	t_malloc		*to_save;
-
-// 	if (flag)
-// 	{
-// 		to_save = malloc(sizeof(t_malloc));
-// 		if (to_save == NULL)
-// 		{
-// 			ft_free(&head);
-// 			return(write(2,"malloc failed\n", 14), NULL);
-// 		}
-// 		to_save->toalloc = malloc(size);
-// 		if (to_save->toalloc =
-		// print_token_list(tokens);
-// 	}
-// 	else
-// 		ft_free(&head);
-// 	return (NULL);
-// }
-
-
-
-
-
-// typedef struct s_malloc
-// {
-// 	void *toalloc;
-// 	struct s_malloc *next;
-// } t_malloc;
-
-
-
-
 void ft_free(t_malloc **head)
 {
-	t_malloc *helper;
+	t_malloc	*helper;
 
 	while (*head)
 	{
@@ -82,8 +30,8 @@ void ft_free(t_malloc **head)
 
 void *ft_malloc(unsigned int size, int flag)
 {
-	static t_malloc *head;
-	t_malloc *to_save;
+	static t_malloc	*head;
+	t_malloc		*to_save;
 
 	if (flag)
 	{
@@ -104,7 +52,7 @@ void *ft_malloc(unsigned int size, int flag)
 		}
 		to_save->next = head;
 		head = to_save;
-		return (to_save->toalloc);  //  Fixed here
+		return (to_save->toalloc);
 	}
 	else
 		ft_free(&head);

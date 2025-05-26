@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/21 16:51:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:23:40 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	syntax_2(t_token **tokens, int *exit_s)
 			|| is_redirection((*tokens)->next))
 		{
 			*exit_s = 2;
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -36,7 +36,7 @@ int	syntax_2(t_token **tokens, int *exit_s)
 		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
 		{
 			*exit_s = 2;
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -53,7 +53,7 @@ int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 	if (tokens->type == TOKEN_PIPE)
 	{
 		*exit_s = 2;
-		printf("minishell: syntax error near unexpected token `|'\n");
+		fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	while (tokens)
@@ -63,7 +63,7 @@ int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 			max_here_doc++;
 			if (max_here_doc > 16)
 			{
-				printf("bash: maximum here-document count exceeded\n");
+				fprintf(stderr, "bash: maximum here-document count exceeded\n");
 				*exit_s = 2;
 				return (1);
 			}

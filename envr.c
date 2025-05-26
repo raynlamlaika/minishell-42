@@ -6,29 +6,29 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 09:24:23 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 05:06:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:08:48 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char *handling_qoutes(char *word, char sepa)
+char	*handling_qoutes(char *word, char sepa)
 {
-	int i = 0;
-	int count = 0;
-	char *result;
-	int j = 0;
-	
+	char	*result;
+	int		i;
+	int		count;
+	int		j;
+
+	(1) && (j = 0, count = 0, i = 0);
 	while (word[i])
 	{
 		if (word[i] != sepa)
 			count++;
 		i++;
 	}
-	result = ft_malloc(count + 1, 1);
+	(1) && (i = 0, result = ft_malloc(count + 1, 1));
 	if (!result)
-		return NULL;
-	i = 0;
+		return (NULL);
 	while (word[i])
 	{
 		if (word[i] != sepa)
@@ -38,11 +38,10 @@ char *handling_qoutes(char *word, char sepa)
 		}
 		i++;
 	}
-	result[j] = '\0';
-	return (result);
+	return (result[j] = '\0', result);
 }
 
-char *get_value(t_env *linked_env, char *input)
+char	*get_value(t_env *linked_env, char *input)
 {
 	char	*value;
 	int		i;
@@ -50,7 +49,7 @@ char *get_value(t_env *linked_env, char *input)
 	i = ft_strlen(input) + 1;
 	while (linked_env)
 	{
-		if (ft_strncmp(linked_env->key, input,i) == 0)
+		if (ft_strncmp(linked_env->key, input, i) == 0)
 			break ;
 		linked_env = linked_env->next;
 	}
@@ -60,7 +59,7 @@ char *get_value(t_env *linked_env, char *input)
 
 void	free_env_list(t_env *head)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	if (!head)
 		return ;

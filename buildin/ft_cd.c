@@ -6,177 +6,73 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/19 14:27:52 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:32:06 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strduppp(char*source)
+static int	check_args(char **args)
 {
-	size_t	o;
-	char	*sp;
-
-	o = 0;
-	sp = (char *)malloc((ft_strlen(source) + 1) * sizeof(char));
-	if (!sp)
-		return (NULL);
-	while (source[o])
+	if (args[1] && args[2])
 	{
-		sp[o] = source[o];
-		o++;
+		printf("cd: too many arguments\n");
+		return (1);
 	}
-	sp[o] = '\0';
-	return (sp);
+	return (0);
 }
 
-char	*ft_strjoinnn(char *s1, char *s2)
+static char	*get_target(char **args, t_env *env)
 {
-	int		i;
-	int		j;
-	char	*s_everyone;
-
-	i = 0;
-	j = 0;
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strduppp(s2));
-	if (!s2)
-		return (ft_strduppp(s1));
-	s_everyone
-		= (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-	if (!s_everyone)
-		return (NULL);
-	while (s1[i])
-	{
-		s_everyone[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		s_everyone[i++] = s2[j++];
-	s_everyone[i] = '\0';
-	return (s_everyone);
-}
-
-char	*expnd_cd(char *input, t_env *env)
-{
-	if (!env || !env->key)
-		return (NULL);
-	while (env)
-	{
-		if (ft_strcmp(input, env->key) == 0)
-			return (env->value);
-		env = env->next;
-		if (!env)
-			return (NULL);
-	}
-	return (NULL);
-}
-
-void	update_env_value(char *key, char *value, t_env *env)
-{
-	t_env *tmp = env;
-
-	if (!env || !env->key)
-		return ;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->key, key) == 0)
-		{
-			// free(tmp->value);
-			tmp->value =NULL;
-			tmp->value = ft_strdup(value);
-			return;
-		}
-		tmp = tmp->next;
-	}
-	t_env *new_node = ft_malloc(sizeof(t_env), 1);
-	if (!new_node)
-		return;
-	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
-	new_node->next = NULL;
-	if (!env)
-		env = new_node;
-	else
-	{
-		tmp = env;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_node;
-	}
-}
-
-void	update_pwd(char *oldpwd, char *newpwd, t_env *env)
-{
-	if (oldpwd)
-		update_env_value("OLDPWD", oldpwd, env);
-	else
-		update_env_value("OLDPWD", "", env);
-	if (newpwd)
-	{
-		update_env_value("PWD", newpwd, env);
-		newpwd = NULL;
-		// free(newpwd);
-	}
-}
-
-char	*add_dotdot_to_pwd(char *pwd, char *target)
-{
-	char *newpwd;
-
-	if (!pwd)
-		return ft_strdup(target);
-
-	if (pwd[ft_strlen(pwd) - 1] == '/')
-		newpwd = ft_strjoin(pwd, target);
-	else
-	{
-		char *temp = ft_strjoin(pwd, "/");
-		newpwd = ft_strjoin(temp, target);
-		free(temp);
-	}
-	return (newpwd);
-}
-
-void	ft_cd(char **args, t_env *env)
-{
-	char	*oldpwd;
-	char	*newpwd;
 	char	*target;
 
-	oldpwd = expnd_cd("PWD", env);
-	
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
 		target = expnd_cd("HOME", env);
 		if (!target)
-		{
 			printf("cd: HOME not set\n");
-			return ;
-		}
+		return (target);
 	}
-	else
-		target = args[1];
+	return (args[1]);
+}
 
-	if (!oldpwd)
-		oldpwd = getcwd(NULL, 0);
+static char	*get_safe_pwd(char *old_pwd, char *target, int *check__)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		perror("cd: error retrieving current directory");
+		*check__ = 1;
+		return (add_dotdot_to_pwd(old_pwd, target));
+	}
+	return (pwd);
+}
+
+void	ft_cd(char **args, t_env *env)
+{
+	char	*newpwd;
+	char	*target;
+	int		check__;
+
+	check__ = 0;
+	if (check_args(args))
+		return ;
+	target = get_target(args, env);
+	if (!target)
+		return ;
+	if (!env->pwd_d)
+		env->pwd_d = getcwd(NULL, 0);
 	if (chdir(target) != 0)
 	{
 		perror("cd");
-		free(oldpwd);
-		return;
+		return ;
 	}
-	
-	newpwd = getcwd(NULL, 0);
-
-	if (!newpwd)
-	{
-		perror("cd: error retrieving current directory");
-		newpwd = add_dotdot_to_pwd(oldpwd, target);
-	}
-
-	update_pwd(oldpwd, newpwd, env);
-	free(newpwd);
+	newpwd = get_safe_pwd(env->pwd_d, target, &check__);
+	update_pwd(env->pwd_d, newpwd, env);
+	free(env->pwd_d);
+	env->pwd_d = ft_strdup(newpwd);
+	if (!check__)
+		free(newpwd);
 }

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:57:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/10 01:43:53 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:58:06 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,6 @@ static char	**intotowdarray(char const*s, char c, char**p, size_t*index)
 		{
 			words = lenght(s, c);
 			p[*index] = (char *) ft_malloc(sizeof(char) * (words + 1), 1);
-			if (!p)
-			{
-				while ((*index) > 0)
-					//ft_freep[(*index)--]);
-				free (p);
-				return (0);
-			}
 			ft_strncpy(p[*index], s, words);
 			p[*index][words] = '\0';
 			(*index)++;

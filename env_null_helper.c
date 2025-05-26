@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   env_null_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 11:21:19 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 15:33:13 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/05/24 13:54:55 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/24 13:55:13 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	get_current_dir(t_env *env_list)
+
+t_env	*null_helper(t_env *head)
 {
-	env_list->pwd_d = getcwd(NULL, 0);
-}
-
-void	ft_pwd(t_env *env)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		printf("%s\n", cwd);
-		free(cwd);
-	}
-	else if (env->pwd_d)
-		printf("%s\n", env->pwd_d);
-	else
-		perror("pwd");
+	head = new_node("PATH", PATH);
+	head->next = new_node("OLDPWD", NULL);
+	head->env_v = NULL;
+	return (head);
 }
