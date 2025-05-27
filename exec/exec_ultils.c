@@ -6,11 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:49:18 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/18 02:33:21 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 02:09:35 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char **takepaths(t_env **env)
 {

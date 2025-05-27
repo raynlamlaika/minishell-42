@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:32:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/25 16:52:27 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 03:27:54 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_isdigit(int c)
 void	ft_print_env(t_env *env)
 {
 	if (!env)
-		printf("pointer i think kipointi 3la lakhar ole null\n");
+		return ;
 	while (env)
 	{
 		if (env->key)

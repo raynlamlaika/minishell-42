@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:36:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 15:54:13 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 05:25:35 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,14 @@ char	*takee_value(char *str, int pointed_to)
 	return (result);
 }
 
-t_env	*search_node(char *key, t_env *head)
+
+t_env *search_node(char *key, t_env *head)
 {
 	if (!head || !key)
-		return (NULL);
+		return NULL;
 	while (head)
 	{
-		if (!head->key)
-			return (NULL);
-		if (ft_strcmp(head->key, key) == 0)
+		if (head->key && ft_strcmp(head->key, key) == 0)
 			return (head);
 		head = head->next;
 	}

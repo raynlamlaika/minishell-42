@@ -1,43 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 22:17:14 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/21 11:57:51 by rlamlaik         ###   ########.fr       */
+/*   Created: 2024/10/23 20:47:46 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/27 02:10:09 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
-int	ft_strlen(char *s1)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*s_everyone;
 
 	i = 0;
-	if (!s1)
-		return(0);
-	while (s1[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(char*source)
-{
-	size_t	o;
-	char	*sp;
-
-	if (!source)
+	j = 0;
+	if (!s1 && !s2)
 		return (NULL);
-	o = 0;
-	sp = (char *) ft_malloc((ft_strlen(source) + 1) * sizeof(char), 1);
-	while (source[o])
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	s_everyone
+		= (char *)ft_malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1), 1);
+	if (!s_everyone)
+		return (NULL);
+	while (s1[i])
 	{
-		sp[o] = source[o];
-		o++;
+		s_everyone[i] = s1[i];
+		i++;
 	}
-	sp[o] = '\0';
-	return (sp);
+	while (s2[j])
+		s_everyone[i++] = s2[j++];
+	s_everyone[i] = '\0';
+	return (s_everyone);
 }

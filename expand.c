@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 13:07:14 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:28:22 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 		token->ambiguous = token->value;
 		token->hlep = 1312;
 	}
-	s_split(res, token, hendel_qoutes(token->value));
+	replace_token(&token->value, s_split(res, token, hendel_qoutes(token->value)));
 }
 
 void	process_token_quotes(t_token *token)

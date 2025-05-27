@@ -34,33 +34,6 @@ t_token **last, t_token_type type, char *value)
 	*last = new;
 }
 
-// void	handle_quotes(t_token **head, 
-// t_token **last, char *input, int *i)
-// {
-// 	int		start;
-// 	int		j;
-// 	char	*word;
-// 	char	quote;
-
-// 	quote = input[*i];
-// 	start = *i;
-// 	j = 1;
-// 	while (input[*i])
-// 	{
-// 		(*i)++;
-// 		if (input[*i] && ft_strchr("\n", input[*i]))
-// 			break ;
-// 		else if (input[*i] == quote && ft_strchr(" ><|\n", input[(*i) + j]))
-// 		{
-// 			(*i)++;
-// 			break ;
-// 		}
-// 	}
-// 	word = ft_strndup(input + start, *i - start);
-// 	append_token(head, last, TOKEN_WORD, word);
-// 	(*i)--;
-// }
-
 void	handle_quotes(t_token **head, t_token **last, char *input, int *i)
 {
 	int		start;
@@ -69,32 +42,24 @@ void	handle_quotes(t_token **head, t_token **last, char *input, int *i)
 	char	quote;
 
 	quote = input[*i];
-	start = *i; // skip opening quote
+	start = *i;
 	len = 0;
 	(*i)++;
-
-	// Capture everything inside the quote
 	while (input[*i] && input[*i] != quote)
 	{
 		(*i)++;
 		len++;
 	}
-
-	// Now *i is at the closing quote
 	if (input[*i] == quote)
 		(*i)++;
-
-	// Continue capturing characters after the quote if no space
 	while (input[*i] && (' ' != input[*i]) && !ft_strchr("><|\n", input[*i]))
 	{
 		(*i)++;
 		len++;
 	}
-
-	// Allocate and copy the full token
 	word = ft_strndup(input + start, *i - start);
 	append_token(head, last, TOKEN_WORD, word);
-	(*i)--; // Prepare for next char
+	(*i)--;
 }
 
 void	handle_word(t_token **head, t_token **last, char *input, int *i)
@@ -142,12 +107,10 @@ t_token	*lexer(char *input, t_token*last, int i)
 		else if (input[i] == '>' && input[i + 1] == '>')
 			(1) && (append_token(&head, &last, TOKEN_APPEND, ">>"), i++);
 		else if (input[i] == '<')
-			append_token(&head, &last, TOKEN_REDIR_IN, "<");// in one line
+			append_token(&head, &last, TOKEN_REDIR_IN, "<");
 		else if (input[i] == '>')
-			append_token(&head, &last, TOKEN_REDIR_OUT, ">");// in one line
-		else if (input[i] == '"')
-			handle_quotes(&head, &last, input, &i);
-		else if (input[i] == '\'')
+			append_token(&head, &last, TOKEN_REDIR_OUT, ">");
+		else if (input[i] == '"' || input[i] == '\'')
 			handle_quotes(&head, &last, input, &i);
 		else
 			handle_word(&head, &last, input, &i);

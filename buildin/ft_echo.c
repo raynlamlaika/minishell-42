@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 14:27:07 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:24:25 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,41 @@ int	putstr(char *string)
 	return (i);
 }
 
-int	putnbr(int n)
+int	flag_helper(char **args)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	if (n == -2147483648)
+	i = 1;
+	j = 0;
+	while (args[i][j])
 	{
-		i += putstr("-2147483648");
-		return (i);
+		j = 0;
+		if (args[i][j] == '-')
+			j++;
+		else
+			break ;
+		while (args[i][j])
+		{
+			if (args[i][j] == 'n')
+				j++;
+			else if (args[i][j] == ' ')
+				return(0);
+			else if (!args[i][j])
+				return (0);
+			else
+				break ;
+		}
+		i++;		
 	}
-	else if (n < 0)
-	{
-		n = -n;
-		i += write(1, "-", 1);
-		i += putnbr(n);
-	}
-	else if (n > 9)
-	{
-		i += putnbr(n / 10);
-		i += putnbr(n % 10);
-	}
-	else if (n <= 9 && n >= 0)
-		i += putchar(n + '0');
-	return (i);
+	return (8);
 }
+
 void ft_echo(char **args, int exit_s)
 {
 	int i = 0;
 	int flag;
-	int u= 0;
+	(void)exit_s;
 	int j;
 	
 	flag =0;
@@ -78,28 +83,9 @@ void ft_echo(char **args, int exit_s)
 		i++;
 	else
 		return ;
-	while (ft_strncmp(args[i] , "-n", 2) == 0 && u == 0)
-	{
-		j = 2;
-		if (args[i][j])
-		{
-			while (args[i][j])
-			{
-				if (args[i][j] != 'n')
-				{
-					i = 0;
-					flag = 0;
-					u = 1;
-					break;
-				}
-				j++;
-			}
-		}
-		i++;
-		flag = 5;
-		if (u != 0)
-			flag =0 ;
-	}
+	// if (args[i][0] == '-')
+	// 	flag = flag_helper(args);
+	// printf("this is sthe flaaaaaaaaaag %d\n", flag);
 	while (args[i])
 	{
 		j = 0;
@@ -107,15 +93,7 @@ void ft_echo(char **args, int exit_s)
 		{
 			while(args[i][j])
 			{
-				if (args[i][j]  == '$')
-				{
-					if (args[i][++j] == '?')
-						putnbr(exit_s);
-					else
-						j--;
-				}
-				else 
-					putchar(args[i][j]);
+				putchar(args[i][j]);
 				j++;
 			}
 		}
@@ -125,8 +103,7 @@ void ft_echo(char **args, int exit_s)
 		if (args[i])
 			putchar(' ');
 	}
-	if (flag == 0)
-		putstr( "\n");
+	putstr( "\n");
 	exit_s = 0;
 }
 

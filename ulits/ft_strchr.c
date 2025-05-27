@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 22:09:39 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/04/27 18:13:37 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/04/10 22:15:00 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/27 02:10:03 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
-char	*ft_strndup(char *s1, int n)
+char	*ft_strchr(const char *str, int c)
 {
 	int		i;
-	char	*s2;
+	char	*ptr;
+	char	x;
 
-	s2 = ft_malloc((1 + n) * (sizeof(char)), 1);
-	if (!s2)
-		return (NULL);
+	if (!str)
+		return(NULL);
+	ptr = (char *)str;
+	x = (char)c;
 	i = 0;
-	while (i < n && s1[i])
+	while (ptr[i])
 	{
-		s2[i] = s1[i];
+		if (ptr[i] == x)
+			return ((char *)(ptr + i));
 		i++;
 	}
-	s2[i] = '\0';
-	return (s2);
+	if (x == '\0')
+		return ((char *)(ptr + i));
+	return (NULL);
 }

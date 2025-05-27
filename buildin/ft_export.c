@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 14:45:55 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 05:37:39 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int	parse_export_arg(t_export *expo, char *arg)
 			}
 			else
 			{
-				expo->key = take_key_exp(arg, j);
-				return (expo->value = takee_value(arg, j + 1), 1);
+				fprintf(stderr, "export : `%c`: not a valid i\
+dentifier\n", arg[j]);
+					return (0);
+				// expo->key = take_key_exp(arg, j);
+				// return (expo->value = takee_value(arg, j + 1), 1);
 			}
 		}
 		j++;
@@ -53,7 +56,6 @@ int	parse_export_arg(t_export *expo, char *arg)
 		expo->key = take_key_exp(arg, j);
 	return (0);
 }
-
 void	update_environment(t_export *expo, t_env **env)
 {
 	t_env	*existing;
@@ -108,7 +110,6 @@ void	ft_export(char **args, t_env **env)
 		if (!args[i])
 		{
 			ft_print_env(*env);
-			//free(expo);
 			return ;
 		}
 	}
@@ -129,14 +130,11 @@ void	ft_export(char **args, t_env **env)
 				parse_export_arg(expo, args[i]);
 			}
 			else
-			{
 				if (is_valid_varname(args[i]))
 					expo->key = take_key_exp(args[i], ft_strlen(args[i]));
-			}
 			if (expo->key)
 				update_environment(expo, env);
-			expo->key = NULL;
-			expo->value = NULL;
+			(1) && (expo->key = NULL, expo->value = NULL);
 		}
 		i++;
 	}

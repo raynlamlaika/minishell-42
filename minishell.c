@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 16:01:09 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 03:31:23 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,7 @@ void print_token(t_token *token) {
     }
 }
 
-int get_list_size(t_env *head) {
-    int size = 0;
-    t_env *current = head;
 
-    // Traverse through the list and count the nodes
-    while (current != NULL) {
-        size++;
-        current = current->next;
-    }
-
-    return size;
-}
 void print_files(t_file *file)
 {
 	int i = 0;
@@ -92,7 +81,18 @@ void	print_token_list(t_token *head)
 }
 
 */
+int get_list_size(t_env *head) {
+    int size = 0;
+    t_env *current = head;
 
+    // Traverse through the list and count the nodes
+    while (current != NULL) {
+        size++;
+        current = current->next;
+    }
+
+    return size;
+}
 int *ff()
 {
 	static int i;
@@ -103,7 +103,7 @@ int main(int ac,char **av,char**env)
 {
 	int *exit_s = ff();
 	static int here_doc;
-	// char *args[] = {"exit", NULL};
+	char *args[] = {"exit", NULL};
 	char *line;
 	t_token *tokens;
 	t_token* last = NULL;
@@ -117,11 +117,11 @@ int main(int ac,char **av,char**env)
 	signal(SIGQUIT, SIG_IGN);
 	env_list = linked_varibles(env);
 	env_list->emg_flag = 0;
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))// 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 			return(1);
 	while(1)
 	{
-		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))// 
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 			return(1);
 		g = 0;
 		here_doc_helper = 1;
@@ -129,8 +129,7 @@ int main(int ac,char **av,char**env)
 		here_doc_helper = 0;
 		if (!line)
 		{
-			
-			// ft_exit(args , *exit_s);
+			ft_exit(args , *exit_s);
 			rl_clear_history();
 			return (*exit_s);
 		}
@@ -158,4 +157,3 @@ int main(int ac,char **av,char**env)
 	}
 	return (*exit_s);
 }
-

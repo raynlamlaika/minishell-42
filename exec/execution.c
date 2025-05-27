@@ -6,11 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 14:14:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:26:25 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env)
 {
@@ -46,7 +46,7 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 		if (helper->inf != -1)
 			(1) && (dup2(helper->inf, STDIN_FILENO), close(helper->inf));
 		if (helper->outf != -1)
-			(1) && (dup2(helper->outf, STDOUT_FILENO) && close(helper->outf));
+			(1) && (dup2(helper->outf, STDOUT_FILENO), close(helper->outf));
 		buildin(helper->cmd, &helper->env, exit_s);
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
@@ -85,6 +85,7 @@ void take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
 	if (search_search(cmd[0]) == 1)
 	{
 		buildin(full, env, exit_s);
+		ft_malloc(0, 0);
 		exit(*exit_s);
 	}
 	else
@@ -100,8 +101,8 @@ void take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
 			execve(pathh, cmd, NULL);
 		if (cmd[0][0] == '\0')
 		{
-			ft_malloc(0, 0);
 			fprintf(stderr, "minishell:%s : command not found\n", cmd[0]);
+			ft_malloc(0, 0);
 			exit(127);
 		}
 		else
@@ -136,7 +137,7 @@ void exectution(t_cmd *full, t_env **env, int *exit_s)
 {
 	int 	inf = 0;
 	int		outf = 0;
-	char    **path = NULL;
+	char	**path = NULL;
 	pid_t	pid;
 	int		pipefd[2];
 	int	perv_pipe = -1;

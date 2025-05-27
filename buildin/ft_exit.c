@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:43:48 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:58:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:26:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,21 @@ void	ft_exit(char **args, int exit_status)
 
 	printf("exit\n");
 	if (!args[1])
+	{
+		ft_malloc(0, 0);
 		exit(exit_status);
+	}
 	if (!is_numeric(args[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+		ft_malloc(0, 0);
 		exit(2);
 	}
 	value = ft_str_to_ll(args[1], &overflow);
 	if (overflow)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+		ft_malloc(0, 0);
 		exit(2);
 	}
 	if (args[2])
@@ -86,5 +91,6 @@ void	ft_exit(char **args, int exit_status)
 		printf("minishell: exit: too many arguments\n");
 		return ;
 	}
+	ft_malloc(0, 0);
 	exit((unsigned char)value);
 }

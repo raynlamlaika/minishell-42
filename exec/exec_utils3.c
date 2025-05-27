@@ -6,11 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/25 20:15:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 02:09:39 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	handelprevpipe(int *pipefd, int *prev_pipe)
 {

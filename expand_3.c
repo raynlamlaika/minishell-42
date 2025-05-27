@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 00:14:53 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:08:18 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	helper(t_split *split, char *embg, t_token *token, char *result)
 		split->size = split_alloc(result + split->i);
 		split->str = ft_malloc(split->size + 1, 1);
 	}
+	
 }
 
 char	*s_split(char *result, t_token *token, char *embg)
@@ -97,5 +98,5 @@ split->i = 0, split->n = 0, split->add = 0, split->size = split_alloc(result));
 		}
 		helper(split, embg, token, result);
 	}
-	return (result);
+	return (hendel_qoutes(result));
 }

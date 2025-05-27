@@ -6,12 +6,12 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:57:31 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/25 19:50:44 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 02:09:29 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	get_redirections(int *inf, int *outf, t_cmd* full)
 {

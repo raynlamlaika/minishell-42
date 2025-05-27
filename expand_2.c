@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 01:58:20 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:23:33 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	replace_token(char **token_value, char *exp)
 		return ;
 	*token_value = ft_strdup(exp);
 	if (!*token_value)
-	{
-		perror("replace_token: strdup failed");
-		exit(EXIT_FAILURE);
-	}
+		return ;
 }
 
 char	*ft_take(char *string, int *i, t_env *env)

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 15:38:16 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:02:32 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct s_all_data
 	
 }			t_all_data;
 
+char	*hendel_qoutes(char *str);
 int		pipecheck(int *pipefd);
 char	*ft_itoa(int n);
 int		syntax_ambiguous(t_token *tokens, int *exit_s);

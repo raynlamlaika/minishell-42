@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 22:15:00 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/10 08:03:51 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/04/12 15:53:47 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/27 02:10:12 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
-char	*ft_strchr(const char *str, int c)
+int	ft_strncmp(const char *str1, const char *str2, size_t num)
 {
-	int		i;
-	char	*ptr;
-	char	x;
+	size_t	i;
 
-	if (!str)
-		return(NULL);
-	ptr = (char *)str;
-	x = (char)c;
 	i = 0;
-	while (ptr[i])
+	while (i < num && (str1[i] || str2[i]))
 	{
-		if (ptr[i] == x)
-			return ((char *)(ptr + i));
+		if (str1[i] != str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 		i++;
 	}
-	if (x == '\0')
-		return ((char *)(ptr + i));
-	return (NULL);
+	return (0);
 }

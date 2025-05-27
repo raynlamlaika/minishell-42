@@ -6,11 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 09:53:47 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/19 10:20:20 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 02:09:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	alloction(int n)
 {
