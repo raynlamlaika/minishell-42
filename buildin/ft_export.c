@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 05:37:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:03:06 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int	parse_export_arg(t_export *expo, char *arg)
 			}
 			else
 			{
-				fprintf(stderr, "export : `%c`: not a valid i\
-dentifier\n", arg[j]);
-					return (0);
-				// expo->key = take_key_exp(arg, j);
-				// return (expo->value = takee_value(arg, j + 1), 1);
+// 				fprintf(stderr, "export : `%c`: not a valid i\
+// dentifier\n", arg[j]);
+// 					return (0);
+				expo->key = take_key_exp(arg, j);
+				return (expo->value = takee_value(arg, j + 1), 1);
 			}
 		}
 		j++;

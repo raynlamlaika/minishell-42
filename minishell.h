@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 09:02:32 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:08:59 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ typedef struct s_env
 	char			*pwd_d;
 	struct s_env	*next;
 }					t_env;
+
+// typedef struct	s_pwd
+// {
+// 	char		*pwd_d
+// }				t_pwd;
 
 typedef struct s_malloc
 {
@@ -244,5 +249,6 @@ void	close_helper(int inf, int outf, t_cmd *full, int *pipefd, int perv_pipe);
 void	get_current_dir(t_env *env_list);
 char	*add_dotdot_to_pwd(char *pwd, char *target);
 void	update_pwd(char *oldpwd, char *newpwd, t_env *env);
+void	printf_error(char *s);
 
 #endif

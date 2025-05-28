@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:32:06 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:52:30 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_args(char **args)
 {
 	if (args[1] && args[2])
 	{
-		printf("cd: too many arguments\n");
+		fprintf(stderr, "cd: too many arguments\n");
 		return (1);
 	}
 	return (0);
@@ -30,7 +30,7 @@ static char	*get_target(char **args, t_env *env)
 	{
 		target = expnd_cd("HOME", env);
 		if (!target)
-			printf("cd: HOME not set\n");
+			fprintf(stderr, "cd: HOME not set\n");
 		return (target);
 	}
 	return (args[1]);
@@ -70,8 +70,8 @@ void	ft_cd(char **args, t_env *env)
 		return ;
 	}
 	newpwd = get_safe_pwd(env->pwd_d, target, &check__);
+	printf ("this is newpwd-->%s\n", newpwd);
 	update_pwd(env->pwd_d, newpwd, env);
-	free(env->pwd_d);
 	env->pwd_d = ft_strdup(newpwd);
 	if (!check__)
 		free(newpwd);

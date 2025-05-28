@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:27:45 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:32:40 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:38:31 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	update_env_value(char *key, char *value, t_env *env)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
+			// free(tmp->value);
 			tmp->value = ft_strdup(value);
 			return ;
 		}
@@ -58,9 +58,9 @@ void	update_env_value(char *key, char *value, t_env *env)
 void	update_pwd(char *oldpwd, char *newpwd, t_env *env)
 {
 	if (oldpwd)
-		update_env_value("OLDPWD", oldpwd, env);
+	update_env_value("OLDPWD", oldpwd, env);
 	else
-		update_env_value("OLDPWD", "", env);
+	update_env_value("OLDPWD", "", env);
 	if (newpwd)
 	{
 		update_env_value("PWD", newpwd, env);

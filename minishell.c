@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 03:31:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:45:20 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int main(int ac,char **av,char**env)
 	signal(SIGQUIT, SIG_IGN);
 	env_list = linked_varibles(env);
 	env_list->emg_flag = 0;
+	get_current_dir(env_list);
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 			return(1);
 	while(1)
