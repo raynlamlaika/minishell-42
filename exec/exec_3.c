@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:00:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 15:55:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:02:36 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
 		ft_malloc(0, 0);
 		exit(*exit_s);
 	}
-	
 	else
 	{
 		pathh = pick(path, cmd[0]);

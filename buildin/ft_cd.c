@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/29 17:50:10 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:45:22 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static char	*get_target(char **args, t_env *env)
 	{
 		target = expnd_cd("HOME", env);
 		if (!target)
-			fprintf(stderr, "cd: HOME not set\n");
+			printf_error("cd: HOME not set\n");
+		exit_status(1, 1);
 		return (target);
 	}
 	return (args[1]);
@@ -46,6 +47,7 @@ static char	*get_safe_pwd(char *old_pwd, char *target, int *check__)
 	{
 		perror("cd: error retrieving current directory");
 		*check__ = 1;
+		exit_status(1, 1);
 		return (add_dotdot_to_pwd(old_pwd, target));
 	}
 	return (pwd);

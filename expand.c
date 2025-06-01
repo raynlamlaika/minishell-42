@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 15:03:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:08:14 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	process_token_quotes(t_token *token)
 		replace_token(&token->value, hendel_qoutes(token->value));
 }
 
-void check(t_token *token, t_env *env, int	export_h, int *one)
+void	check(t_token *token, t_env *env, int export_h, int *one)
 {
 	if (ft_strcmp(token->value, "~") == 0)
 		replace_token(&token->value, expnd_cd("HOME", env));

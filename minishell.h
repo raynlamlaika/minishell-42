@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 14:09:11 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:54:44 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,5 +294,7 @@ void	close_helper(int inf, t_cmd *full, int *pipefd, int perv_pipe);
 void	get_current_dir(t_env *env_list);
 char	*add_dotdot_to_pwd(char *pwd, char *target);
 void	update_pwd(char *oldpwd, char *newpwd, t_env *env);
-int		*exit_status(int more, int value);
+void	printf_error(char *s);
+int		*exit_status(int mode, int value);
+void	print_error_arg(char *line_1, char *arg, char *line_2);
 #endif

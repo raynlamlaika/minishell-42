@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:36:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 05:25:35 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:04:01 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ char	*takee_value(char *str, int pointed_to)
 	return (result);
 }
 
-
-t_env *search_node(char *key, t_env *head)
+t_env	*search_node(char *key, t_env *head)
 {
 	if (!head || !key)
-		return NULL;
+		return (NULL);
 	while (head)
 	{
 		if (head->key && ft_strcmp(head->key, key) == 0)

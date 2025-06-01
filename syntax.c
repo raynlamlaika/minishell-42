@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 14:07:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:10:10 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ syntax error near unexpected token `newline'\n");
 	return (0);
 }
 
-char *add_quotessss( char *input) 
+char	*add_quotessss(char *input)
 {
 	int		len;
 	char	*quoted;

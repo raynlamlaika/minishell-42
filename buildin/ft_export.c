@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:58:19 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:02:56 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	parse_export_arg(t_export *expo, char *arg)
 			{
 				fprintf(stderr, "export : `%c`: not a valid \
 identifier\n", arg[j]);
-					return (1);
+				return (1);
 			}
 			else
 			{

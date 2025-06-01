@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:43:48 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/29 17:41:38 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:42:31 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,16 @@ long long	ft_str_to_ll(const char *str, int *overflow)
 	return ((long long)(result * sign));
 }
 
-void	ft_exit(char **args, int exit_statuss)
+void	exit_with_error(char *args)
+{
+	print_error_arg("minishell: exit: ", args, "\
+ : numeric argument required\n");
+	exit_status(1, 2);
+	ft_malloc(0, 0);
+	exit(2);
+}
+
+void	ft_exit(char **args, int exit_status)
 {
 	long long	value;
 	int			overflow;
@@ -71,26 +80,16 @@ void	ft_exit(char **args, int exit_statuss)
 	if (!args[1])
 	{
 		ft_malloc(0, 0);
-		exit(exit_statuss);
+		exit(exit_status);
 	}
 	if (!is_numeric(args[1]))
-	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-		ft_malloc(0, 0);
-		exit(2);
-	}
+		exit_with_error(args[1]);
 	value = ft_str_to_ll(args[1], &overflow);
 	if (overflow)
-	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-		ft_malloc(0, 0);
-		exit(2);
-	}
+		exit_with_error(args[1]);
 	if (args[2])
 	{
-		printf("minishell: exit: too many arguments\n");
-		// exit_status = 1;
-		exit_status(1, 1);
+		printf_error("minishell: exit: too many arguments\n");
 		return ;
 	}
 	ft_malloc(0, 0);

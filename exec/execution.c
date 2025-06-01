@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 15:22:36 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:15:19 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_exec *exec, int *count)
 		if (pid == 0)
 		{
 			g_here_doc_helper = 133;
+			signal(SIGQUIT, handle_signal);
 			execute_child_process(full, &ctx);
 		}
 		else

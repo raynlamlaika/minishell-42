@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_print_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 11:21:19 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 22:40:59 by abouabba         ###   ########.fr       */
+/*   Created: 2025/06/01 23:04:36 by abouabba          #+#    #+#             */
+/*   Updated: 2025/06/01 23:04:38 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	get_current_dir(t_env *env_list)
+void	printf_error(char *s)
 {
-	char	*tmp;
+	int	i;
 
-	tmp = getcwd(NULL, 0);
-	env_list->pwd_d = ft_strdup(tmp);
-	free (tmp);
+	i = 0;
+	while (s[i])
+	{
+		write (2, &s[i], 1);
+		i++;
+	}
 }
 
-void	ft_pwd(t_env *env)
+void	print_error_arg(char *line_1, char *arg, char *line_2)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		printf("%s\n", cwd);
-		free(cwd);
-	}
-	else if (env->pwd_d)
-		printf("%s\n", env->pwd_d);
-	else
-		perror("pwd");
+	write (2, line_1, strlen(line_1));
+	write (2, arg, strlen(arg));
+	write (2, line_2, strlen(line_2));
 }

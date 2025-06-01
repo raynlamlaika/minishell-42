@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 17:02:30 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 23:28:08 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	passed(t_token *tokens, t_env*env_list, int*exit_s)
 
 void	print_token(t_token *token)
 {
-	while (token) 
+	while (token)
 	{
 		fprintf(stderr, "Ambiguous: %s\n", token->value);
 		token = token->next;
@@ -120,7 +120,6 @@ int	helper_loop(char*line, t_token*tks, int*exit_s, t_env*env)
 				if (!passed(tks, env, exit_s))
 					continue ;
 		}
-		g_here_doc_helper = 0;
 		free(line);
 	}
 }
