@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:35:11 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:34:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:20:28 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	token_heredoc(t_file **last_file,
 
 	if (!*last_file)
 	{
-		file->here_doc = heredoc(tokens->next->value, env);
+		file->here_doc = heredoc(tokens->next->value, env, file);
 		*last_file = file;
 	}
 	else
@@ -111,6 +111,6 @@ void	token_heredoc(t_file **last_file,
 		new_file = ft_calloc(1, sizeof(t_file));
 		(*last_file)->next = new_file;
 		*last_file = new_file;
-		new_file->here_doc = heredoc(tokens->next->value, env);
+		new_file->here_doc = heredoc(tokens->next->value, env, file);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:17:14 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 02:10:06 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:00:40 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlen(char *s1)
 
 	i = 0;
 	if (!s1)
-		return(0);
+		return (0);
 	while (s1[i])
 		i++;
 	return (i);

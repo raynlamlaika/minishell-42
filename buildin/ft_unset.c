@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:50:08 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 05:40:44 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:27:04 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 
 void	remove_node(t_env **head, const char *key_to_remove)
 {
-	t_env	*current;
+	t_env	*curr;
 	t_env	*prev;
 
-	(1) && (prev = NULL, current = *head);
+	(1) && (prev = NULL, curr = *head);
 	if (!head || !*head)
 		return ;
-	while (current)
+	while (curr)
 	{
-		if (current->key)
+		if (curr->key)
 		{
-			if (ft_strcmp(current->key, key_to_remove) == 0)
+			if (ft_strcmp(curr->key, key_to_remove) == 0)
 			{
+				exit_status(0, 1);
 				if (prev)
-					prev->next = current->next;
+					prev->next = curr->next;
 				else
-					*head = current->next;
-				(1) && (current->key = NULL, current->value = NULL);
-				current = NULL;
+					*head = curr->next;
+				(1) && (curr->key = NULL, curr->value = NULL, curr = NULL);
 				return ;
 			}
-			(1) && (prev = current, current = current->next);
+			(1) && (prev = curr, curr = curr->next);
 		}
 		else
-			(1) && (current->key = NULL, current = NULL);
+			(1) && (curr->key = NULL, curr = NULL);
 	}
 }
 

@@ -15,15 +15,41 @@ realSHELL $> echo $x | cat -e
 cat: standard output: Bad file descriptor
 
 
+ "$ll"">>"
 
 
+ : command not found
+realSHELL $> "<"'>>'
+minishell: : No such file or directory
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==910167==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004de879 bp 0x7ffc0b04d280 sp 0x7ffc0b04d000 T0)
+==910167==The signal is caused by a WRITE memory access.
+==910167==Hint: address points to
+$ > ls << 
 
 HANDEL the fd leaks
 
 
+export +=aaaa
 
 
-
+hing to be done for 'all'.
+bash-5.2$ ./minishell 
+realSHELL $> << a << n | << kk
+here_doc >> asdf
+here_doc >> asfs
+here_doc >> da
+here_doc >> dsdf
+here_doc >> a
+here_doc >> dsds
+here_doc >> n
+here_doc >> fgd
+here_doc >> gfd
+here_doc >> kk
+realSHELL $> fgd
+dsds: command not found
+fgd: command not found
 
 
 
@@ -43,7 +69,12 @@ realSHELL $>
 
 
 
-
+amlaik@e1r5p7:~/Desktop/realshell$ ./minishell 
+realSHELL $> export a=" ls dfk dfmv"
+realSHELL $> export $a
+tjsi si s$s $a (null)
+export : ` `: not a valid identifier
+realSHELL $> 
 
 
 
@@ -92,15 +123,4 @@ NEED TO HANDE THE INVALID RREAAD
 
 
 
-
-
-realSHELL $> export a
-this isnthe aref a
-realSHELL $> export d=$a
-this isnthe aref 
-minihel: export: `': not a valid identifier
-realSHELL $> export d=
-this isnthe aref d=
-realSHELL $> 
-e=""
 

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 02:54:24 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/31 21:34:23 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void *ft_malloc(unsigned int size, int flag)
 		{
 			ft_free(&head);
 			write(2, "malloc failed\n", 14);
-			// eixt(1);
 			return NULL;
 		}
 		to_save->toalloc = malloc(size);
@@ -49,7 +48,6 @@ void *ft_malloc(unsigned int size, int flag)
 			free(to_save);
 			ft_free(&head);
 			write(2, "malloc failed\n", 14);
-			// eixt(1);
 			return (NULL);
 		}
 		to_save->next = head;

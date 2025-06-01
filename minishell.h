@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 09:02:32 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 14:09:11 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 # endif
 
-extern int	here_doc_helper;
+extern int	g_here_doc_helper;
 
 typedef struct s_export
 {
@@ -85,12 +85,13 @@ typedef struct s_token
 	char			*value;
 	char			*ambiguous;
 	int				quoted;
+	int				rm_node;
 	int				flag_mbg;
 	int				hlep;
 	struct s_token	*next;
 }					t_token;
 
-typedef  struct s_exp
+typedef struct s_exp
 {
 	char			*value;
 	char			**value_do;
@@ -112,6 +113,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	struct s_cmd	*next;
+	int				*exit_s;
 	t_file			*file;
 }					t_cmd;
 
@@ -121,6 +123,7 @@ typedef struct s_env
 	char			*value;
 	int				emg_flag;
 	char			**env_v;
+	int				*exit_s;
 	char			*pwd_d;
 	struct s_env	*next;
 }					t_env;
@@ -148,17 +151,64 @@ typedef struct s_all_data
 	t_file	*file;
 	t_file	*last_file;
 	t_cmd	*start;
-	
 }			t_all_data;
 
+typedef struct s_exec
+{
+	int		pipefd[2];
+	char	**path;
+	int		inf;
+	int		outf;
+	int		count;
+}			t_exec;
+
+typedef struct s_takes
+{
+	t_env	*env_list;
+	t_token	*tokens;
+	char	*line;
+}			t_takes;
+
+typedef struct	s_expand_state
+{
+	int		i;
+	int		a;
+	t_env	*env;
+	int		*exit_s;
+}			t_expand_state;
+
+typedef struct s_context
+{
+	t_env	**env;
+	int		*exit_s;
+	t_exec	*exec;
+	int		perv_pipe;
+}		t_context;
+
+char	*add_quotessss( char *input);
+void	initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env);
+void	buitin(t_finished	*helper, int *exit_s);
+void	close_inf_out(t_finished	*helper, t_cmd *cmd);
+void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s);
+void	path_null(char*arg);
+void	null_cmd(char* arg);
+void	ft_exec(char *pathh, t_env **env, char	**cmd);
+void	take_child(t_cmd *full, char **path, int *exit_s, t_env **env);
+void	save_exit_s(int count, int *exit_s);
+void	execute_child_process(t_cmd *full, t_context *ctx);
+int		helper_s(t_finished *helper);
+void	null_arg(void);
+void	execute_command_s(t_finished *helper, int *exit_s);
+void	handle_redirections(int inf, int outf);
+int		putstr(char *string);
 char	*hendel_qoutes(char *str);
 int		pipecheck(int *pipefd);
 char	*ft_itoa(int n);
-int		syntax_ambiguous(t_token *tokens, int *exit_s);
+int		synx_ambg(t_token *tokens, int *exit_s);
 char	**takepaths(t_env **env);
 char	*pick(char**path, char*cmd);
 char	*expnd_cd(char *input, t_env *env);
-int		heredoc(char*limiter, t_env *env);
+int		heredoc(char*limiter, t_env *env, t_file *file);
 void	ft_export(char **args, t_env **env);
 void	*ft_malloc(unsigned int size, int flag);
 void	get_redirections(int*inf, int *outf, t_cmd*full);
@@ -172,7 +222,7 @@ void	exectution(t_cmd *full, t_env**env, int*exit_s);
 void	free_env_list(t_env *head);
 t_env	*linked_varibles(char **env);
 int		ft_isdigit(int n);
-void	expand(t_token *token, t_env *env, int *exit_s);
+int		expand(t_token *token, t_env *env, int *exit_s);
 char	*handling_qoutes(char *word, char sepa);
 void	handle_signal(int sig);
 char	*ft_strndup(char *s1, int n);
@@ -239,10 +289,10 @@ int		check_empty(char **args, int *i, int *j);
 void	execute_command_s(t_finished *helper, int *exit_s);
 void	handle_redirections(int inf, int outf);
 void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status);
-void	exectution_helper(int inf,int outf, int *pipefd, t_cmd *full, int perv_pipe);
-void	close_helper(int inf, int outf, t_cmd *full, int *pipefd, int perv_pipe);
+void	exectution_helper(t_exec*exec, t_cmd *full, int perv_pipe);
+void	close_helper(int inf, t_cmd *full, int *pipefd, int perv_pipe);
 void	get_current_dir(t_env *env_list);
 char	*add_dotdot_to_pwd(char *pwd, char *target);
 void	update_pwd(char *oldpwd, char *newpwd, t_env *env);
-
+int		*exit_status(int more, int value);
 #endif

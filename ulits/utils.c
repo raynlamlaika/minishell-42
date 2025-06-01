@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 00:57:47 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 02:10:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:51:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (!(*s1) || !(*s2))
+	if (!s1 || !s2 || !(*s2) ||!(*s1))
 		return (1);
 	while (*s1 && *s1 == *s2)
 	{

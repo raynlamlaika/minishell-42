@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 05:37:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:58:19 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ int	parse_export_arg(t_export *expo, char *arg)
 				expo->flag = 1;
 				return (1);
 			}
+			else if (arg[j] != '=')
+			{
+				fprintf(stderr, "export : `%c`: not a valid \
+identifier\n", arg[j]);
+					return (1);
+			}
 			else
 			{
-				fprintf(stderr, "export : `%c`: not a valid i\
-dentifier\n", arg[j]);
-					return (0);
-				// expo->key = take_key_exp(arg, j);
-				// return (expo->value = takee_value(arg, j + 1), 1);
+				expo->key = take_key_exp(arg, j);
+				return (expo->value = takee_value(arg, j + 1), 1);
 			}
 		}
 		j++;
@@ -56,6 +59,7 @@ dentifier\n", arg[j]);
 		expo->key = take_key_exp(arg, j);
 	return (0);
 }
+
 void	update_environment(t_export *expo, t_env **env)
 {
 	t_env	*existing;
@@ -123,11 +127,12 @@ void	ft_export(char **args, t_env **env)
 				if (ft_strlen(args[i]) == 1 || args[i][0] == '=')
 				{
 					fprintf(stderr, "export : `%s`: not a valid i\
-						dentifier\n", args[i]);
+dentifier\n", args[i]);
 					i++;
 					continue ;
 				}
-				parse_export_arg(expo, args[i]);
+				exit_status(parse_export_arg(expo, args[i]), 1);
+				
 			}
 			else
 				if (is_valid_varname(args[i]))

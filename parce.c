@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:37:39 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/27 02:36:24 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:32:06 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ t_token	*parse_tokens_helper(t_token *tokens,
 	else if (tokens->type == TOKEN_HEREDOC && tokens->next)
 	{
 		token_heredoc(last_file, file, tokens, env);
-		if (here_doc_helper == 20)
-			return (NULL);
 		tokens = tokens->next;
 	}
 	return (tokens->next);
@@ -98,7 +96,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 				add_arg(data.cmd, tokens->value);
 			tokens = parse_tokens_helper(tokens,
 					&data.last_file, data.file, env);
-			if (here_doc_helper == 20)
+			if (g_here_doc_helper == 20)
 				return (NULL);
 		}
 		if (tokens && tokens->type == TOKEN_PIPE)

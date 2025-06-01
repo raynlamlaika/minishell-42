@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 02:09:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:04:05 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handelprevpipe(int *pipefd, int *prev_pipe)
 {
 	if (pipefd[1] > 0)
-	close(pipefd[1]);
+		close(pipefd[1]);
 	if (*prev_pipe > 0)
 		close(*prev_pipe);
 	*prev_pipe = pipefd[0];
@@ -59,8 +59,12 @@ void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 	else if (is_passed(cmd->args[0], "pwd"))
 		ft_pwd(*env);
 	else if (is_passed(cmd->args[0], "env"))
-		ft_env(*env);
+	{
+		if (!cmd->args[1])
+			ft_env(*env);
+		else
+			fprintf(stderr, "minishell: env: env with no options\n");
+	}
 	else if (is_passed(cmd->args[0], "unset"))
 		ft_unset(cmd->args, env);
-	*exit_s = 0;
 }

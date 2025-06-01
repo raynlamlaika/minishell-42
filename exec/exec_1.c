@@ -1,42 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   exec_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 20:47:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:02:50 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/06/01 12:22:42 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/06/01 13:06:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char *r, char *w)
+void	path_null(char*arg)
 {
-	int		i;
-	int		j;
-	char	*str;
+	fprintf(stderr, "minishell:%s : command not found\n", arg);
+	ft_malloc(0, 0);
+	exit(127);
+}
 
-	i = 0;
-	j = 0;
-	if (!r && !w)
-		return (NULL);
-	if (!r)
-		return (ft_strdup(w));
-	if (!w)
-		return (ft_strdup(r));
-	str = (char *)ft_malloc(sizeof(char) * \
-	((ft_strlen(r) + ft_strlen(w)) + 1), 1);
-	if (!str)
-		return (NULL);
-	while (r[i])
-	{
-		str[i] = r[i];
-		i++;
-	}
-	while (w[j])
-		str[i++] = w[j++];
-	str[i] = '\0';
-	return (str);
+void	null_cmd(char*arg)
+{
+	fprintf(stderr, "minishell:%s : command not found\n", arg);
+	ft_malloc(0, 0);
+	exit(127);
+}
+
+void	ft_exec(char *pathh, t_env **env, char	**cmd)
+{
+	execve(pathh, cmd, (*env)->env_v);
+	perror("execve failed");
 }

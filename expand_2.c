@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 10:23:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/31 21:30:47 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	replace_token(char **token_value, char *exp)
 		return ;
 }
 
+char	*tmp_null(char*tmp, t_env*env)
+{
+	if (!tmp)
+	{
+		env->emg_flag = 1;
+		tmp = ft_strdup("");
+	}
+	else
+		return (tmp);
+	return (tmp);
+}
+
 char	*ft_take(char *string, int *i, t_env *env)
 {
 	int		help;
@@ -33,6 +45,7 @@ char	*ft_take(char *string, int *i, t_env *env)
 	search = ft_substr(string, *i, help);
 	result = ft_replace(search, env);
 	*i = help;
+	result = tmp_null (result, env);
 	return (result);
 }
 

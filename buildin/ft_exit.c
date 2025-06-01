@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:43:48 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/27 10:26:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:41:38 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ long long	ft_str_to_ll(const char *str, int *overflow)
 	return ((long long)(result * sign));
 }
 
-void	ft_exit(char **args, int exit_status)
+void	ft_exit(char **args, int exit_statuss)
 {
 	long long	value;
 	int			overflow;
@@ -71,7 +71,7 @@ void	ft_exit(char **args, int exit_status)
 	if (!args[1])
 	{
 		ft_malloc(0, 0);
-		exit(exit_status);
+		exit(exit_statuss);
 	}
 	if (!is_numeric(args[1]))
 	{
@@ -89,6 +89,8 @@ void	ft_exit(char **args, int exit_status)
 	if (args[2])
 	{
 		printf("minishell: exit: too many arguments\n");
+		// exit_status = 1;
+		exit_status(1, 1);
 		return ;
 	}
 	ft_malloc(0, 0);

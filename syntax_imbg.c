@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 04:52:53 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/24 11:23:40 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/31 21:36:09 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,15 @@ int	rederaction_help(t_token *tokens)
 	return (tokens->type == TOKEN_APPEND || tokens->type == TOKEN_REDIR_IN
 		|| tokens->type == TOKEN_REDIR_OUT);
 }
-void helper_function(t_token *tokens)
-{
-	if(tokens)
-		if (tokens->hlep == 1312)
-			tokens->value = ft_strdup("");	
-}
 
-int	syntax_ambiguous(t_token *tokens, int *exit_s)
+int	synx_ambg(t_token *tokens, int *exit_s)
 {
 	while (tokens)
 	{
+		tokens->rm_node = 0;
+		if (tokens->ambiguous && \
+tokens->type != TOKEN_EOF && tokens->value[0] == '\0')
+			tokens->rm_node = 10;
 		if (rederaction_help(tokens))
 		{
 			tokens = tokens->next;
@@ -43,7 +41,6 @@ redirect\n", tokens->ambiguous), *exit_s = 1, 1);
 			}
 		}
 		tokens = tokens->next;
-		helper_function(tokens);
 		if (!tokens)
 			return (0);
 	}

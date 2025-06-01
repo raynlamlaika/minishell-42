@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_null_helper.c                                  :+:      :+:    :+:   */
+/*   handel_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 13:54:55 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:24:50 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/05/30 21:27:12 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/30 21:27:39 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*null_helper(t_env *head)
+char	*hendel_qoutes(char *str)
 {
-	t_env	*next;
-	t_env	*sec;
+	int		i;
+	int		a;
+	char	quote;
+	char	*result;
 
-	head = new_node("_", "/usr/bin/env");
-	sec = new_node("PATH", PATH);
-	next = new_node("OLDPWD", NULL);
-	head->next = sec;
-	sec->next = next;
-	next->next = NULL;
-	head->env_v = NULL;
-	return (head);
+	(1) && (i = 0, a = 0, quote = 0, result = ft_malloc(ft_strlen(str) + 1, 1));
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			if (quote == 0)
+				quote = str[i++];
+			else if (str[i] == quote)
+			{
+				quote = 0;
+				i++;
+			}
+			else
+				result[a++] = str[i++];
+		}
+		else
+			result[a++] = str[i++];
+	}
+	result[a] = '\0';
+	return (result);
 }

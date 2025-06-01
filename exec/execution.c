@@ -6,179 +6,68 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 10:26:25 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:22:36 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env)
+void	execute_parent_process(t_cmd *full, t_context *ctx, int *count)
 {
-	helper->cmd = cmd;
-	helper->env = *env;
-	helper->args = cmd->args;
-	get_redirections(&helper->inf, &helper->outf, cmd);
-	helper->bin = NULL;
-}
-
-void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
-{
-	t_finished	*helper;
-	int			status;
-	int			saved_stdin;
-	int			saved_stdout;
-
-	status = 0;
-	helper = ft_malloc(sizeof(t_finished), 1);
-	initialize_helper(helper, cmd, env);
-	if (!helper->args || !helper->args[0])
-	{
-		if (helper->inf > 0)
-			close(helper->inf);
-		if (helper->outf > 0)
-			close(helper->outf);
-		return ;
-	}
-	if (search_search(helper->args[0]) == 1)
-	{
-		saved_stdin = dup(STDIN_FILENO);
-		saved_stdout = dup(STDOUT_FILENO);
-		if (helper->inf != -1)
-			(1) && (dup2(helper->inf, STDIN_FILENO), close(helper->inf));
-		if (helper->outf != -1)
-			(1) && (dup2(helper->outf, STDOUT_FILENO), close(helper->outf));
-		buildin(helper->cmd, &helper->env, exit_s);
-		dup2(saved_stdin, STDIN_FILENO);
-		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdin);
-		close(saved_stdout);
-	}
-	else
-		execute_forked_cmd(helper, exit_s, &status);
-	if (WIFEXITED(status))
-		*exit_s = WEXITSTATUS(status);
-	if (helper->inf > 0)
-		close(helper->inf);
-	if (helper->outf > 0)
-		close(helper->outf);
-	if (cmd->file->here_doc > 0)
-		close(cmd->file->here_doc);
-}
-
-void closes_helper(int inf, int outf, t_cmd *full, int *pipefd, int perv_pipe)
-{
-	if (inf  > 0)
-		close(inf);
-	if (outf > 0)
-		close(outf);
+	close_helper(ctx->exec->inf, \
+full, ctx->exec->pipefd, ctx->perv_pipe);
 	if (full->file->here_doc > 0)
 		close(full->file->here_doc);
-	handelprevpipe(pipefd, &perv_pipe);
+	if (ctx->exec->outf > 0)
+		close(ctx->exec->outf);
+	handelprevpipe(ctx->exec->pipefd, &ctx->perv_pipe);
+	(*count)++;
 }
 
-
-void take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
+void	execute_multiple_cmds(t_cmd *full, t_env **env, \
+t_exec *exec, int *count)
 {
-	char	*pathh;
-	char	**cmd = full->args;
+	pid_t		pid;
+	t_context	ctx;
 
-	if (search_search(cmd[0]) == 1)
+	ctx.env = env;
+	ctx.exit_s = exit_status(0, 0);
+	ctx.exec = exec;
+	ctx.perv_pipe = -1;
+	while (full)
 	{
-		buildin(full, env, exit_s);
-		ft_malloc(0, 0);
-		exit(*exit_s);
-	}
-	else
-	{
-		pathh = pick(path, cmd[0]);
-		if (!pathh)
+		pipecheck(exec->pipefd);
+		pid = fork();
+		if (forkfaild(pid, exec->pipefd))
 		{
-			fprintf(stderr, "minishell:%s : command not found\n", cmd[0]);
 			ft_malloc(0, 0);
-			exit(127);
-		} 
-		if (!(*env)->env_v)
-			execve(pathh, cmd, NULL);
-		if (cmd[0][0] == '\0')
+			exit(128);
+		}
+		if (pid == 0)
 		{
-			fprintf(stderr, "minishell:%s : command not found\n", cmd[0]);
-			ft_malloc(0, 0);
-			exit(127);
+			g_here_doc_helper = 133;
+			execute_child_process(full, &ctx);
 		}
 		else
-		{
-			execve(pathh, cmd, (*env)->env_v);
-			perror("execve failed");
-		}
-		ft_malloc(0, 0);
-		exit(126);
+			execute_parent_process(full, &ctx, count);
+		full = full->next;
 	}
 }
 
-void save_exit_s(int count, int *exit_s)
+void	exectution(t_cmd *full, t_env **env, int *exit_s)
 {
-	int	status;
-	int exit_status;
+	int		count;
+	t_exec	*exec;
 
-	while (count > 0)
+	count = 0;
+	exec = ft_malloc(sizeof(t_exec), 1);
+	(1) && (exec->path = takepaths(env), exec->inf = 0, exec->outf = 0);
+	exec->count = 0;
+	if (full->next)
 	{
-		wait(&status);
-		count--;
-		if (WIFEXITED(status))
-		{
-			exit_status = WEXITSTATUS(status);
-			*exit_s = exit_status;
-		}
-	}
-}
-
-
-void exectution(t_cmd *full, t_env **env, int *exit_s)
-{
-	int 	inf = 0;
-	int		outf = 0;
-	char	**path = NULL;
-	pid_t	pid;
-	int		pipefd[2];
-	int	perv_pipe = -1;
-	int count  = 0;
-
-	path = takepaths(env);
-	if (full->next )
-	{
-		while(full)
-		{
-			pipecheck(pipefd);
-			pid = fork();
-			here_doc_helper = 1337;
-			if (forkfaild(pid, pipefd))
-			{
-				ft_malloc(0,0);
-				exit(128);
-			}
-			if (pid == 0)
-			{
-				exectution_helper(inf,outf,pipefd,full, perv_pipe);
-				if (full->args && inf != -5 && outf != -5)// 
-					take_child(full, path, exit_s,env);
-				else if (!full->args)
-				{
-					close_helper(inf, outf, full, pipefd, perv_pipe);
-					return ;
-				}
-			}
-			else
-			{
-				close_helper(inf, outf,full,pipefd,perv_pipe);
-				if (full->file->here_doc > 0)
-					close(full->file->here_doc);
-				handelprevpipe(pipefd, &perv_pipe);
-				count++;
-			}
-			full = full->next;
-		}
-		close(pipefd[0]);
-		save_exit_s(count,exit_s);
+		execute_multiple_cmds(full, env, exec, &count);
+		close(exec->pipefd[0]);
+		save_exit_s(count, exit_s);
 	}
 	else
 		execute_single_cmd(full, env, exit_s);

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:17:00 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 02:10:18 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:49:00 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strrchr(char *str, int c)
 	char	a;
 
 	a = (char)c;
-	ptr = (char *)str;
+	ptr = (char *) str;
 	i = ft_strlen(str);
 	while (i > 0 && ptr[i] != a)
 	{

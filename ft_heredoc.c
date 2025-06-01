@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/24 14:31:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:06:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,40 @@ char	*expnd_heredoc(char *input, t_env *env)
 	return (result);
 }
 
-static void	lines(int fd, char *limiter, int flag, t_env *env)
+void	ft_close(t_file *files)
+{
+	if (!files)
+		return ;
+	while (files)
+	{
+		if (files->here_doc)
+			close(files->here_doc);
+		files = files->next;
+	}
+}
+
+static int	lines(int *fd, char *limiter, int flag, t_env *env)
 {
 	char	*next;
 
 	while (1)
 	{
-		here_doc_helper = 42;
+		g_here_doc_helper = 42;
 		next = readline("here_doc >> ");
-		if (!next || here_doc_helper == 20)
+		if (!next || g_here_doc_helper == 20)
 		{
-			if (here_doc_helper == 20)
-				fprintf(stderr, "\n");
-			break ;
+			close(fd[0]);
+			close(fd[1]);
+			return (0);
 		}
 		if (pick_limiter(next, limiter) == 0)
 			break ;
 		next = ft_strjoin(next, "\n");
 		if (ft_strchr(next, '$') && flag == 0)
 			next = take_token(next, env, 0);
-		write(fd, next, ft_strlen(next));
+		write(fd[1], next, ft_strlen(next));
 	}
+	return (1);
 }
 
 char	*ft_handel_qoute(char *exp)
@@ -101,15 +114,23 @@ char	*ft_handel_qoute(char *exp)
 	return (result);
 }
 
-int	heredoc(char *limiter, t_env *env)
+void	helper_check(int*pipfd, t_file *file)
+{
+	if (g_here_doc_helper == 20)
+	{
+		close(pipfd[0]);
+		ft_close(file);
+	}
+}
+
+int	heredoc(char *limiter, t_env *env, t_file *file)
 {
 	int		pipfd[2];
 	char	*str;
 	int		expande;
 	int		i;
 
-	expande = 0;
-	i = 0;
+	(1) && (expande = 0, i = 0);
 	while (limiter[i])
 	{
 		if (limiter[i] == '\'' || limiter[i] == '"')
@@ -125,7 +146,8 @@ int	heredoc(char *limiter, t_env *env)
 		perror("pipe");
 		return (-1);
 	}
-	lines(pipfd[1], str, expande, env);
+	lines(pipfd, str, expande, env);
 	close(pipfd[1]);
+	helper_check(pipfd, file);
 	return (pipfd[0]);
 }

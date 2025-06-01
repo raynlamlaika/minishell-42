@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   fork_pipe_h.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 20:47:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:02:50 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/06/01 13:32:04 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/06/01 13:32:32 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char *r, char *w)
+int	pipecheck(int *pipefd)
 {
-	int		i;
-	int		j;
-	char	*str;
+	if (pipe(pipefd) == -1)
+	{
+		fprintf(stderr, "minishell :`Pipe` can't open\n");
+		return (0);
+	}
+	return (1);
+}
+
+int	forkfaild(pid_t pid, int*pipefd)
+{
+	int	i;
 
 	i = 0;
-	j = 0;
-	if (!r && !w)
-		return (NULL);
-	if (!r)
-		return (ft_strdup(w));
-	if (!w)
-		return (ft_strdup(r));
-	str = (char *)ft_malloc(sizeof(char) * \
-	((ft_strlen(r) + ft_strlen(w)) + 1), 1);
-	if (!str)
-		return (NULL);
-	while (r[i])
+	if (pid == -1)
 	{
-		str[i] = r[i];
+		close(pipefd[0]);
+		close(pipefd[1]);
 		i++;
 	}
-	while (w[j])
-		str[i++] = w[j++];
-	str[i] = '\0';
-	return (str);
+	return (i);
 }

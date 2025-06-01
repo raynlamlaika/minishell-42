@@ -98,7 +98,7 @@ t_token	*lexer(char *input, t_token*last, int i)
 	head = NULL;
 	while (input[i] && input[i] != '\n')
 	{
-		if (input[i] == ' ')
+		if (input[i] == ' ' || input[i] == '\t')
 			;
 		else if (input[i] == '|')
 			append_token(&head, &last, TOKEN_PIPE, "|");

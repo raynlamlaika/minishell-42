@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 20:47:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:02:50 by rlamlaik         ###   ########.fr       */
+/*   Created: 2025/05/28 08:13:07 by rlamlaik          #+#    #+#             */
+/*   Updated: 2025/05/28 10:51:04 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char *r, char *w)
+int	putchar(int c)
 {
-	int		i;
-	int		j;
-	char	*str;
+	write(1, &c, 1);
+	return (1);
+}
+
+int	putstr(char *string)
+{
+	int	i;
 
 	i = 0;
-	j = 0;
-	if (!r && !w)
-		return (NULL);
-	if (!r)
-		return (ft_strdup(w));
-	if (!w)
-		return (ft_strdup(r));
-	str = (char *)ft_malloc(sizeof(char) * \
-	((ft_strlen(r) + ft_strlen(w)) + 1), 1);
-	if (!str)
-		return (NULL);
-	while (r[i])
+	if (!string)
+		return (0);
+	else
 	{
-		str[i] = r[i];
-		i++;
+		while (*string)
+		{
+			i += putchar(*string);
+			string++;
+		}
 	}
-	while (w[j])
-		str[i++] = w[j++];
-	str[i] = '\0';
-	return (str);
+	return (i);
 }

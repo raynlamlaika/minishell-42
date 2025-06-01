@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:42:51 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:35:34 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:37:41 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	handle_signal(int sig)
 {
-	if (here_doc_helper == 1 && sig == SIGINT)
+	printf("this i sthe %d\n", g_here_doc_helper);
+	if (g_here_doc_helper == 1 && sig == SIGINT)
 	{
-		if (here_doc_helper != 20)
-			write(1, "\n", 1);
+		if (g_here_doc_helper != 42)
+			write(2, "^C\n", 3);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		exit_status(1, 130);
 	}
-	if (here_doc_helper == 42 && sig == SIGINT)
+	if (g_here_doc_helper == 42 && sig == SIGINT)
 	{
-		here_doc_helper = 20;
+		g_here_doc_helper = 20;
 		close(0);
+		exit_status(1, 130);
 	}
-	if (sig == SIGQUIT)
+	if (g_here_doc_helper == 133 && sig == SIGINT)
 	{
-		if (here_doc_helper == 1337)
-		{
-			here_doc_helper = 0;
-			printf ("Quit (core dumped)\n");
-			signal(SIGQUIT, SIG_DFL);
-		}
-		else
-			signal(SIGQUIT, SIG_IGN);
+		write (2, "\n", 1);
+	}
+	if ((SIGQUIT == sig) && g_here_doc_helper == 133)
+	{
+		printf("hhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 	}
 }

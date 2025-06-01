@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:21:19 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/26 15:33:13 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:00:37 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 void	get_current_dir(t_env *env_list)
 {
-	env_list->pwd_d = getcwd(NULL, 0);
+	char *tmp ;
+
+	tmp = getcwd(NULL, 0);
+	env_list->pwd_d = ft_strdup(tmp);
+	free (tmp);
 }
 
 void	ft_pwd(t_env *env)

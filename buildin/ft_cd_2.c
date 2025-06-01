@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:27:45 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/26 15:32:40 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:35:20 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	update_env_value(char *key, char *value, t_env *env)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
 			tmp->value = ft_strdup(value);
 			return ;
 		}
