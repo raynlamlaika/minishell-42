@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 15:43:25 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:02:30 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	helper_loop(char*line, t_token*tks, int*exit_s, t_env*env)
 	(1) && (last = NULL, here_doc = 0);
 	while (1)
 	{
-		printf("this si s    s %d\n", g_here_doc_helper);
 		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 			return (1);
 		(1) && (g = 0, g_here_doc_helper = 1, line = readline("realSHELL $> "));
@@ -121,8 +120,8 @@ int	helper_loop(char*line, t_token*tks, int*exit_s, t_env*env)
 				if (!passed(tks, env, exit_s))
 					continue ;
 		}
-		// g_here_doc_helper = 0;
-		// free(line);
+		g_here_doc_helper = 0;
+		free(line);
 	}
 }
 

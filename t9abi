@@ -30,8 +30,21 @@ $ > ls <<
 
 HANDEL the fd leaks
 
+======================================================================
+ cat $""
 
 export +=aaaa
+
+> $USERUSER
+rlamlaik@e1r4p3:~/Desktop/realshell$ cat << $USER 
+> '$USER'
+> $USER
+'rlamlaik'
+sh-5.2$ expor't' c=$a
+
+this si s    s 42
+realSHELL $> << $USER$""USER
+=============================================================================
 
 
 hing to be done for 'all'.

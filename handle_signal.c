@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:42:51 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 15:37:41 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:04:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_signal(int sig)
 {
-	printf("this i sthe %d\n", g_here_doc_helper);
 	if (g_here_doc_helper == 1 && sig == SIGINT)
 	{
 		if (g_here_doc_helper != 42)
@@ -33,9 +32,5 @@ void	handle_signal(int sig)
 	if (g_here_doc_helper == 133 && sig == SIGINT)
 	{
 		write (2, "\n", 1);
-	}
-	if ((SIGQUIT == sig) && g_here_doc_helper == 133)
-	{
-		printf("hhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 	}
 }
