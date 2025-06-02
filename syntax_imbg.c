@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_imbg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 04:52:53 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/31 21:36:09 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:26:46 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ tokens->type != TOKEN_EOF && tokens->value[0] == '\0')
 		{
 			tokens = tokens->next;
 			if (tokens->hlep == 1312)
-				return (fprintf(stderr, "%s: ambiguous\
-redirect\n", tokens->ambiguous), *exit_s = 1, 1);
+				return (print_error_arg("", tokens->ambiguous, " : ambiguous \
+redirect\n"), *exit_s = 1, 1);
 			if (tokens->ambiguous)
 			{
 				tokens = tokens->next;
 				if (tokens->ambiguous)
-					return (fprintf(stderr, "%s: ambiguous\
-redirect\n", tokens->ambiguous), *exit_s = 1, 1);
+					return (print_error_arg("", tokens->ambiguous, " : ambiguous \
+redirect\n"), *exit_s = 1, 1);
 			}
 		}
 		tokens = tokens->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 12:22:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 13:06:51 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:03:10 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	path_null(char*arg)
 {
-	fprintf(stderr, "minishell:%s : command not found\n", arg);
+	print_error_arg("minishell:", arg, " : command not found\n");
 	ft_malloc(0, 0);
 	exit(127);
 }
 
 void	null_cmd(char*arg)
 {
-	fprintf(stderr, "minishell:%s : command not found\n", arg);
+	print_error_arg("minishell:", arg, " : command not found\n");
 	ft_malloc(0, 0);
 	exit(127);
 }

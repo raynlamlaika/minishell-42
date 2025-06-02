@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:36:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:04:01 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:05:15 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int	check_empty(char **args, int *i, int *j)
 	flag = 0;
 	if (args[*i][0] == '\0')
 	{
-		fprintf(stderr, "minihel: export: `': not a valid identifier\n");
+		printf_error("minihel: export: `': not a valid identifier\n");
 		flag = 1;
 		return (flag);
 	}
 	if (ft_strlen(args[*i]) == 0)
 	{
-		fprintf(stderr, "export : `%c`: not a valid identifier\n", args[*i][*j]);
+		print_error_arg("export : ", &args[*i][*j], " : not a valid identifier\n");
 		(*i)++;
 		flag = 1;
 	}

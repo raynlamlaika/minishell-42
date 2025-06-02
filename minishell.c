@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:31:42 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:23:32 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ int	passed(t_token *tokens, t_env*env_list, int*exit_s)
 	}
 	exectution(f, &env_list, exit_s);
 	return (1);
-}
-
-void	print_token(t_token *token)
-{
-	while (token)
-	{
-		fprintf(stderr, "value : %s\n", token->value);
-		token = token->next;
-	}
 }
 
 int	helper_looop(t_token *tks, int*exit_s, int here_doc)

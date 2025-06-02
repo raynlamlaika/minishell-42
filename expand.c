@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 07:46:37 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:22:20 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	expand(t_token *token, t_env *env, int *exit_s)
 	{
 		if (ft_strcmp(token->value, "~") == 0)
 			replace_token(&token->value, expnd_cd("HOME", env));
-		if ((ft_strcmp("export", token->value) == 0 && export_h == 0)) //check
+		if ((ft_strcmp("export", token->value) == 0 && export_h == 0))
 			one = 1337;
 		if (ft_strchr(token->value, '=') == NULL ||(ft_strcmp("export", \
 			hendel_qoutes(token->value)) == 0 && export_h == 0))

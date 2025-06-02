@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 23:10:10 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:27:55 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	syntax_2(t_token **tokens, int *exit_s)
 			|| is_redirection((*tokens)->next))
 		{
 			*exit_s = 2;
-			fprintf(stderr, "minishell: \
+			printf_error("minishell: \
 syntax error near unexpected token `newline'\n");
 			return (1);
 		}
@@ -37,7 +37,7 @@ syntax error near unexpected token `newline'\n");
 		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
 		{
 			*exit_s = 2;
-			fprintf(stderr, "minishell: \
+			printf_error("minishell: \
 syntax error near unexpected token `newline'\n");
 			return (1);
 		}
@@ -70,7 +70,7 @@ int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 	}
 	if (tokens->type == TOKEN_PIPE)
 		return (*exit_s = 2, \
-fprintf(stderr, "minishell: syntax error near unexpected token `|'\n"), 1);
+printf_error("minishell: syntax error near unexpected token `|'\n"), 1);
 	while (tokens)
 	{
 		if (tokens->type == TOKEN_HEREDOC)
@@ -78,7 +78,7 @@ fprintf(stderr, "minishell: syntax error near unexpected token `|'\n"), 1);
 			max_here_doc++;
 			if (max_here_doc > 16)
 			{
-				fprintf(stderr, "bash: maximum here-document count exceeded\n");
+				printf_error("bash: maximum here-document count exceeded\n");
 				*exit_s = 2;
 				return (1);
 			}

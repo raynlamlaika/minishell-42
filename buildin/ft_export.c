@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:43:32 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:05:07 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	parse_export_arg(t_export *expo, char *arg)
 				return (expo->key = take_key_exp(arg, j), \
 expo->value = takee_value(arg, j + 2), expo->flag = 1, 1);
 			else if (arg[j] != '=')
-				return (fprintf(stderr, "export : \
-`%c`: not a valid identifier\n", arg[j]), 1);
+				return (print_error_arg("export : ",\
+&arg[j], " : not a valid identifier\n"), 1);
 			else
 			{
 				expo->key = take_key_exp(arg, j);
@@ -123,8 +123,8 @@ void expo_loop(char**args, t_export	*expo, int i, t_env**env)
 			{
 				if (ft_strlen(args[i]) == 1 || args[i][0] == '=')
 				{
-					fprintf(stderr, "export : `%s`: not a valid i\
-dentifier\n", args[i]);
+					print_error_arg("export : ", args[i], " : not a valid i\
+dentifier\n");
 					i++;
 					continue ;
 				}

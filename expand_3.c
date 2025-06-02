@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 05:03:41 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:21:51 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	helper(t_split *split, char *embg, t_token **token, char *result)
 
 void	loop_spliting(t_split	*split, char *result, t_token *token)
 {
-	// print_token(token);
 	while (result[split->i])
 	{
 		split->a = 0;

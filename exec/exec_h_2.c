@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_h_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:16:45 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 15:25:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:15:58 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	helper_s(t_finished *helper)
 {
 	if (ft_strlen(helper->args[0]) == 1)
 	{
-		fprintf(stderr, "minishell %s: Is a directory\n", helper->args[0]);
+		print_error_arg("minishell ", helper->args[0], " : Is a directory\n");
 		ft_malloc(0, 0);
 		exit(126);
 	}
@@ -28,7 +28,7 @@ int	helper_s(t_finished *helper)
 
 void	null_arg(void)
 {
-	fprintf(stderr, "minishell: : command not found\n");
+	printf_error("minishell: : command not found\n");
 	ft_malloc(0, 0);
 	exit(127);
 }
@@ -43,7 +43,7 @@ void	execute_command_s(t_finished *helper, int *exit_s)
 	{
 		execve(helper->args[0], helper->args, helper->env->env_v);
 		if (ft_strrchr(helper->args[0], '$') == NULL)
-			fprintf(stderr, "%s: command not found\n", helper->args[0]);
+			print_error_arg("", helper->args[0], " : command not found\n");
 		*exit_s = 127;
 		ft_malloc(0, 0);
 		exit(*exit_s);
@@ -55,7 +55,7 @@ void	execute_command_s(t_finished *helper, int *exit_s)
 	execve(helper->bin, helper->args, helper->env->env_v);
 	if (ft_strchr(helper->args[0], '/'))
 		helper_s(helper);
-	fprintf(stderr, "%s: command not found\n", helper->args[0]);
+	print_error_arg("", helper->args[0], " : command not found\n");
 	ft_malloc(0, 0);
 	exit(126);
 }

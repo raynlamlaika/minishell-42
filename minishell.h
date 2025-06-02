@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:38:10 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:24:02 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,6 @@ void	check_line_null(int*exit_s, char*line);
 char	*take_replace(int i, char *input, int *help, t_env *env);
 void	expand_exits_s(int *exit_s, char *result, int *a, int *i);
 char	*expaned_ed(char*string, t_env *env, int i);
-void	print_token(t_token *token);
 char	*add_quotessss( char *input);
 void	initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env);
 void	buitin(t_finished	*helper, int *exit_s);

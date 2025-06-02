@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:11:01 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:17:02 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:19:47 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 	pid = fork();
 	if (pid == -1)
 	{
-		fprintf(stderr, "minishell: `fork' failed to create a Child\n");
+		printf_error("minishell: `fork' failed to create a Child\n");
 		ft_malloc(0, 0);
 		return ;
 	}

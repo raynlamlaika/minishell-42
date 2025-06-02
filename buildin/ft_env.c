@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/28 10:40:18 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 01:00:40 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	**env_arr(t_env *env)
 			array[i] = ft_malloc(len, 1);
 			if (!array[i])
 				return (NULL);
-			snprintf(array[i], len, "%s=%s", env->key, env->value);
 			i++;
 		}
 		env = env->next;

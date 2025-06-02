@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 00:25:30 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:22:39 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 		next = readline("here_doc >> ");
 		if (!next || g_here_doc_helper == 20)
 		{
-			g_here_doc_helper = 9;
 			close(fd[0]);
 			close(fd[1]);
 			return (0);

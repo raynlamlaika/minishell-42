@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ulitls2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:57:31 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 13:34:59 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:18:03 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	inf_helper(int *inf, t_file *files)
 		{
 			if (files->infile[0] == '\0')
 			{
-				fprintf(stderr, "minishell: \
-%s: No such file or directory\n", files->infile);
+				print_error_arg("minishell: ", \
+files->infile, " : No such file or directory\n");
 				*inf = -5;
 				return (0);
 			}
@@ -54,8 +54,8 @@ int	helper_outf(int *outf, t_file *files)
 	{
 		if (files->outfile[0] == '\0')
 		{
-			fprintf(stderr, "minishell: %s: \
-No such file or directory\n", files->outfile);
+			print_error_arg("minishell: ", files->outfile, \
+" :No such file or directory\n");
 			*outf = -5;
 			return (0);
 		}

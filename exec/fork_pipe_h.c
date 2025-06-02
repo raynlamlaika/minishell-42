@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_pipe_h.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:32:04 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 13:32:32 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:20:21 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	pipecheck(int *pipefd)
 {
 	if (pipe(pipefd) == -1)
 	{
-		fprintf(stderr, "minishell :`Pipe` can't open\n");
+		printf_error("minishell :`Pipe` can't open\n");
 		return (0);
 	}
 	return (1);

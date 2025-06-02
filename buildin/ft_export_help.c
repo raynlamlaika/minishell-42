@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_help.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:32:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:55:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:05:26 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ int	is_valid_varname(char *name)
 	i = 1;
 	if ((!name || !ft_isalpha(name[0])) && name[0] != '_')
 	{
-		fprintf(stderr, "export : `%c`: not a valid identifier\n", name[0]);
+		print_error_arg("export : ", &name[0], ": not a valid identifier\n");
 		return (0);
 	}
 	while (name[i])
 	{
 		if (!isalnum(name[i]) && name[i] != '_')
 		{
-			fprintf(stderr, "export : `%c`: not a valid identifier\n", name[i]);
+			print_error_arg("export : ", &name[i], ": not a valid identifier\n");
 			return (0);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 22:45:22 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 00:59:15 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_args(char **args)
 {
 	if (args[1] && args[2])
 	{
-		fprintf(stderr, "cd: too many arguments\n");
+		printf_error("cd: too many arguments\n");
 		exit_status(1, 1);
 		return (1);
 	}

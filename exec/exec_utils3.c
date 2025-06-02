@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:04:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:19:15 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 		if (!cmd->args[1])
 			ft_env(*env);
 		else
-			fprintf(stderr, "minishell: env: env with no options\n");
+			printf_error("minishell: env: env with no options\n");
 	}
 	else if (is_passed(cmd->args[0], "unset"))
 		ft_unset(cmd->args, env);
