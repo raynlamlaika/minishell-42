@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:32:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/27 03:27:54 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 03:55:48 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	ft_print_env(t_env *env)
 	while (env)
 	{
 		if (env->key)
-			printf("declare -x %s", env->key);
+			print_error_arg("declare -x ", env->key, "");
 		if (env->value)
-			printf("=\"%s\"", env->value);
+			print_error_arg("=\"", env->value, "\"");
 		if (env->key)
-			printf("\n");
+			putstr("\n");
 		env = env->next;
 		if (!env)
 			break ;

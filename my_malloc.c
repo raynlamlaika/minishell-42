@@ -6,13 +6,13 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/31 21:34:23 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 00:45:33 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_free(t_malloc **head)
+void	ft_free(t_malloc **head)
 {
 	t_malloc	*helper;
 

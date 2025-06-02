@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:15:19 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 03:36:52 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ t_exec *exec, int *count)
 	pid_t		pid;
 	t_context	ctx;
 
-	ctx.env = env;
+	(1) && (ctx.env = env, ctx.exec = exec, ctx.exec = exec);
 	ctx.exit_s = exit_status(0, 0);
-	ctx.exec = exec;
 	ctx.perv_pipe = -1;
 	while (full)
 	{

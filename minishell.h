@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 22:54:44 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 03:38:10 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 # endif
 
-extern int	g_here_doc_helper;
+extern int g_here_doc_helper;
 
 typedef struct s_export
 {
@@ -63,6 +63,7 @@ typedef struct s_split
 	int		a;
 	int		size;
 	int		add;
+	char	*embg;
 }			t_split;
 
 typedef enum e_token_type
@@ -169,7 +170,7 @@ typedef struct s_takes
 	char	*line;
 }			t_takes;
 
-typedef struct	s_expand_state
+typedef struct s_expand_state
 {
 	int		i;
 	int		a;
@@ -185,13 +186,31 @@ typedef struct s_context
 	int		perv_pipe;
 }		t_context;
 
+typedef struct s_expans
+{
+	char	*result;
+	char	*tmp;
+	int		i;
+	int		quote;
+	int		a;
+	int		size;
+	int		t;
+}			t_expans;
+
+int		*exit_status(int more, int value);
+void	disconnect_flagged_nodes(t_token **head);
+void	check_line_null(int*exit_s, char*line);
+char	*take_replace(int i, char *input, int *help, t_env *env);
+void	expand_exits_s(int *exit_s, char *result, int *a, int *i);
+char	*expaned_ed(char*string, t_env *env, int i);
+void	print_token(t_token *token);
 char	*add_quotessss( char *input);
 void	initialize_helper(t_finished *helper, t_cmd *cmd, t_env **env);
 void	buitin(t_finished	*helper, int *exit_s);
 void	close_inf_out(t_finished	*helper, t_cmd *cmd);
 void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s);
 void	path_null(char*arg);
-void	null_cmd(char* arg);
+void	null_cmd(char*arg);
 void	ft_exec(char *pathh, t_env **env, char	**cmd);
 void	take_child(t_cmd *full, char **path, int *exit_s, t_env **env);
 void	save_exit_s(int count, int *exit_s);

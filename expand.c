@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:08:14 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 07:46:37 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*take_replace(int i, char *input, int *help, t_env *env)
-{
-	int		start;
-	int		len;
-	char	*val;
-	char	*key;
-
-	len = 0;
-	start = i + 1;
-	if (!ft_isalpha(input[start]) && input[start] != '_')
-		return (*help = start, ft_strdup("$"));
-	while (ft_isalnum(input[start + len]) || input[start + len] == '_')
-		len++;
-	*help = start + len;
-	key = ft_substr(input, start, len);
-	val = ft_strdup("");
-	while (env)
-	{
-		if (ft_strcmp(env->key, key) == 0)
-		{
-			val = ft_strdup(env->value);
-			break ;
-		}
-		env = env->next;
-	}
-	return (val);
-}
 
 char	*add_quotes(char *str)
 {
@@ -71,7 +43,7 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 	token->hlep = 0;
 	if (one == 1337)
 		token->value = add_quotes(token->value);
-	res = take_token(token->value, env, exit_s);
+	res = add_quotessss(take_token(token->value, env, exit_s));
 	if (res[0] == '\0')
 		token->ambiguous = " ";
 	if (env->emg_flag)
@@ -110,10 +82,10 @@ int	expand(t_token *token, t_env *env, int *exit_s)
 	{
 		if (ft_strcmp(token->value, "~") == 0)
 			replace_token(&token->value, expnd_cd("HOME", env));
-		if (ft_strcmp("export", token->value) == 0 && export_h == 0)
+		if ((ft_strcmp("export", token->value) == 0 && export_h == 0)) //check
 			one = 1337;
-		else if (ft_strcmp("export", \
-			hendel_qoutes(token->value)) == 0 && export_h == 0)
+		if (ft_strchr(token->value, '=') == NULL ||(ft_strcmp("export", \
+			hendel_qoutes(token->value)) == 0 && export_h == 0))
 			one = 42;
 		if (token->type == TOKEN_HEREDOC)
 		{

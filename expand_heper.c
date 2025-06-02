@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 00:55:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/19 09:48:18 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 01:56:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,10 @@ t_token	*create_token(char *value, char *help_red)
 	return (new);
 }
 
-void	insert_token_after(t_token *current, t_token *new_token)
+void	insert_token_after(t_token *current, t_token *new_node)
 {
-	t_token	*old_next;
-
-	if (!current || !new_token)
-		return ;
-	old_next = current->next;
-	current->next = new_token;
-	new_token->next = old_next;
+	new_node->next = current->next;
+	current->next = new_node;
 }
 
 char	*ft_replace(char *check, t_env *env)

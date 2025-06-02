@@ -6,49 +6,11 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:31:34 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 11:57:55 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 03:08:44 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_expans
-{
-	char	*result;
-	char	*tmp;
-	int		i;
-	int		quote;
-	int		a;
-	int		size;
-	int		t;
-}			t_expans;
-
-void	expand_exits_s(int *exit_s, char *result, int *a, int *i)
-{
-	char	*ext_s;
-	int		you;
-
-	ext_s = ft_itoa(*exit_s);
-	you = 0;
-	while (ext_s[you])
-		result[(*a)++] = ext_s[you++];
-	(*i)++;
-}
-
-char	*expaned_ed(char*string, t_env *env, int i)
-{
-	char	*tmp;
-
-	tmp = ft_take(string, &i, env);
-	if (!tmp)
-	{
-		env->emg_flag = 1;
-		tmp = ft_strdup("");
-	}
-	if (tmp[0] == '\0')
-		env->emg_flag = 1;
-	return (tmp);
-}
 
 void	handle_quote_state(char c, int *quote)
 {
@@ -58,31 +20,38 @@ void	handle_quote_state(char c, int *quote)
 		*quote = 0;
 }
 
-int	handle_dollar_case(char *str, char *result, t_expand_state *st)
+int	check_valid(char h)
+{
+	if (h && (ft_isalpha(h) || ft_isdigit(h) || h == '_'))
+		return (1);
+	return (0);
+}
+
+int	handle_dollar_case(char *l, char *result, t_expand_state *st)
 {
 	char	*tmp;
 	int		t;
 
-	if (str[st->i] && (ft_isalpha(str[st->i]) || ft_isdigit(str[st->i]) || str[st->i] == '_'))
+	if (check_valid(l[st->i]))
 	{
-		(1) && (tmp = ft_take(str, &st->i, st->env), t = 0);
+		(1) && (tmp = ft_take(l, &st->i, st->env), t = 0);
 		if (tmp[0] == '\0')
 			st->env->emg_flag = 1;
 		while (tmp[t])
 			result[st->a++] = tmp[t++];
 	}
-	else if (str[st->i] == '?')
+	else if (l[st->i] == '?')
 		expand_exits_s(st->exit_s, result, &st->a, &st->i);
-	else if (str[st->i] == '$')
+	else if (l[st->i] == '$')
 	{
-		if (str[st->i++] == '$')
+		if (l[st->i++] == '$')
 			result[st->a++] = '$';
 	}
 	else
 	{
 		result[st->a++] = '$';
-		if (str[st->i])
-			result[st->a++] = str[st->i++];
+		if (l[st->i])
+			result[st->a++] = l[st->i++];
 	}
 	return (0);
 }

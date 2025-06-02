@@ -3,63 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:28:08 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 03:31:42 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
-
-int	g_here_doc_helper = 0;
-
-int	*exit_status(int more, int value)
-{
-	static int	status;
-
-	if (more == 1)
-		status = value;
-	return (&status);
-}
-
-void	disconnect_flagged_nodes(t_token **head)
-{
-	t_token	*current;
-	t_token	*prev;
-	t_token	*next_node;
-
-	prev = NULL;
-	current = *head;
-	while (current)
-	{
-		next_node = current->next;
-		if (current->rm_node == 10)
-		{
-			if (prev)
-				prev->next = current->next;
-			else
-				*head = current->next;
-			current->next = NULL;
-		}
-		else
-			prev = current;
-		current = next_node;
-	}
-}
-
-void	check_line_null(int*exit_s, char*line)
-{
-	char	**args;
-
-	if (!line)
-	{
-		args = ft_split("exit", ' ');
-		ft_exit(args, *exit_s);
-		free(line);
-		rl_clear_history();
-	}
-}
 
 int	passed(t_token *tokens, t_env*env_list, int*exit_s)
 {
@@ -80,7 +31,7 @@ void	print_token(t_token *token)
 {
 	while (token)
 	{
-		fprintf(stderr, "Ambiguous: %s\n", token->value);
+		fprintf(stderr, "value : %s\n", token->value);
 		token = token->next;
 	}
 }

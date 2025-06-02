@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:04:36 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 23:04:38 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 00:46:59 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	printf_error(char *s)
 
 void	print_error_arg(char *line_1, char *arg, char *line_2)
 {
-	write (2, line_1, strlen(line_1));
-	write (2, arg, strlen(arg));
-	write (2, line_2, strlen(line_2));
+	write (2, line_1, ft_strlen(line_1));
+	write (2, arg, ft_strlen(arg));
+	write (2, line_2, ft_strlen(line_2));
 }

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 21:29:11 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/02 05:03:41 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,22 @@ int	split_alloc(char *result)
 	return (size);
 }
 
-void	helper(t_split *split, char *embg, t_token *token, char *result)
+void	helper(t_split *split, char *embg, t_token **token, char *result)
 {
 	t_token	*new_node;
 
 	split->str[split->a] = '\0';
 	if (split->add == 0)
 	{
-		token->value = ft_handel_qoute(split->str);
-		token->ambiguous = ft_strdup(embg);
+		(*token)->value = ft_handel_qoute(split->str);
+		(*token)->ambiguous = ft_strdup(embg);
 		split->add = 1;
 	}
 	else
 	{
 		new_node = create_token(split->str, embg);
-		insert_token_after(token, new_node);
-		token = new_node;
+		insert_token_after(*token, new_node);
+		*token = new_node;
 	}
 	if (result[split->i])
 	{
@@ -65,14 +65,9 @@ void	helper(t_split *split, char *embg, t_token *token, char *result)
 	}
 }
 
-char	*s_split(char *result, t_token *token, char *embg)
+void	loop_spliting(t_split	*split, char *result, t_token *token)
 {
-	t_split	*split;
-
-	split = ft_malloc(sizeof(t_split), 1);
-	(1) && (split->a = 0, split->y = 0, split->i = 0, split->m = 0, \
-split->i = 0, split->n = 0, split->add = 0, split->size = split_alloc(result));
-	split->str = ft_malloc(split->size + 1, 1);
+	// print_token(token);
 	while (result[split->i])
 	{
 		split->a = 0;
@@ -95,7 +90,19 @@ split->i = 0, split->n = 0, split->add = 0, split->size = split_alloc(result));
 				}
 			}
 		}
-		helper(split, embg, token, result);
+		helper(split, split->embg, &token, result);
 	}
+}
+
+char	*s_split(char *result, t_token *token, char *embg)
+{
+	t_split	*split;
+
+	split = ft_malloc(sizeof(t_split), 1);
+	(1) && (split->a = 0, split->y = 0, split->i = 0, split->m = 0, \
+split->i = 0, split->n = 0, split->add = 0, split->size = split_alloc(result));
+	split->embg = ft_strdup(embg);
+	split->str = ft_malloc(split->size + 1, 1);
+	loop_spliting(split, result, token);
 	return (hendel_qoutes(result));
 }

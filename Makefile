@@ -1,7 +1,7 @@
 NAME = minishell
 
-SRC =	env_heloper.c expand_3.c ft_heredoc.c my_malloc.c tokens.c handel_quote.c\
-		env_null_helper.c expand.c handle_signal.c syntax.c syntax_imbg.c \
+SRC =	env_heloper.c expand_3.c ft_heredoc.c my_malloc.c minishell_2.c tokens.c handel_quote.c\
+		env_null_helper.c expand.c expand_h.c handle_signal.c syntax.c syntax_imbg.c exec/expande_helper.c \
 		envr.c expand_heper.c parce.c parse_helper.c \
 		expand_2.c expand_token.c minishell.c \
 		buildin/ft_cd_2.c buildin/ft_echo.c buildin/ft_exit.c buildin/ft_export.c buildin/ft_pwd.c \
