@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_help.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:32:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:05:26 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 00:48:52 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,6 @@ int	ft_isdigit(int c)
 	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
-}
-
-void	ft_print_env(t_env *env)
-{
-	if (!env)
-		return ;
-	while (env)
-	{
-		if (env->key)
-			print_error_arg("declare -x ", env->key, "");
-		if (env->value)
-			print_error_arg("=\"", env->value, "\"");
-		if (env->key)
-			putstr("\n");
-		env = env->next;
-		if (!env)
-			break ;
-	}
-	return ;
 }
 
 void	add_to_env_list(t_env **env_list, t_env *new_node)

@@ -3,19 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ulitls2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:57:31 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:18:03 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 02:48:30 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	inf_helper(int *inf, t_file *files)
+void	close_inf(int *inf)
 {
 	if (*inf > -1)
 		close(*inf);
+}
+
+int	inf_helper(int *inf, t_file *files)
+{
+	close_inf(inf);
 	if (files->here_doc)
 		*inf = files->here_doc;
 	else

@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:08:34 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 00:29:44 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	replace_token(char **token_value, char *exp)
-{
-	if (!token_value || !exp)
-		return ;
-	*token_value = ft_strdup(exp);
-	if (!*token_value)
-		return ;
-}
 
 char	*tmp_null(char*tmp, t_env*env)
 {

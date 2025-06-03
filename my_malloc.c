@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 00:45:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:04:33 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_free(t_malloc **head)
 	*head = NULL;
 }
 
-void *ft_malloc(unsigned int size, int flag)
+void	*ft_malloc(unsigned int size, int flag)
 {
 	static t_malloc	*head;
 	t_malloc		*to_save;
@@ -39,15 +39,13 @@ void *ft_malloc(unsigned int size, int flag)
 		if (!to_save)
 		{
 			ft_free(&head);
-			write(2, "malloc failed\n", 14);
-			return NULL;
+			return (NULL);
 		}
 		to_save->toalloc = malloc(size);
 		if (!to_save->toalloc)
 		{
 			free(to_save);
 			ft_free(&head);
-			write(2, "malloc failed\n", 14);
 			return (NULL);
 		}
 		to_save->next = head;

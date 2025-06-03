@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:05:07 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:07:00 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	parse_export_arg(t_export *expo, char *arg)
 				return (expo->key = take_key_exp(arg, j), \
 expo->value = takee_value(arg, j + 2), expo->flag = 1, 1);
 			else if (arg[j] != '=')
-				return (print_error_arg("export : ",\
+				return (print_error_arg("export : ", \
 &arg[j], " : not a valid identifier\n"), 1);
 			else
 			{
@@ -53,49 +53,7 @@ expo->value = takee_value(arg, j + 2), expo->flag = 1, 1);
 	return (0);
 }
 
-void	update_environment(t_export *expo, t_env **env)
-{
-	t_env	*existing;
-	t_env	*new;
-	char	*o;
-
-	existing = search_node(expo->key, *env);
-	if (existing && expo->flag == 0)
-	{
-		if ((ft_strcmp(expo->key, "_") != 0) && expo->value)
-			existing->value = expo->value;
-	}
-	else if (expo->flag && expo->key)
-	{
-		if (!existing)
-		{
-			if (ft_strcmp(expo->key, "_") != 0)
-			{
-				new = new_node(expo->key, NULL);
-				append_node(env, new);
-			}
-		}
-		else
-		{
-			if (ft_strcmp(expo->key, "_") != 0)
-			{
-				o = ft_strjoin(existing->value, expo->value);
-				existing->value = o;
-			}
-		}
-	}
-	else
-	{
-		if (ft_strcmp(expo->key, "_") != 0)
-		{
-			new = new_node(expo->key, expo->value);
-			append_node(env, new);
-		}
-	}
-}
-
-
-int only_export(char**args, t_env**env)
+int	only_export(char**args, t_env**env)
 {
 	int	i;
 
@@ -112,7 +70,7 @@ int only_export(char**args, t_env**env)
 	return (1);
 }
 
-void expo_loop(char**args, t_export	*expo, int i, t_env**env)
+void	expo_loop(char**args, t_export	*expo, int i, t_env**env)
 {
 	while (args[i])
 	{
@@ -141,7 +99,7 @@ dentifier\n");
 	}
 }
 
-void	ft_export(char **args, t_env **env)
+void	ft_export(char**args, t_env **env)
 {
 	t_export	*expo;
 

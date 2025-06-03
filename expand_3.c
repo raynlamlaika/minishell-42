@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:21:51 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:03:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,30 +65,29 @@ void	helper(t_split *split, char *embg, t_token **token, char *result)
 	}
 }
 
-void	loop_spliting(t_split	*split, char *result, t_token *token)
+void	loop_spliting(t_split *split, char *result, t_token *token)
 {
 	while (result[split->i])
 	{
+		while (result[split->i] == ' ')
+			split->i++;
 		split->a = 0;
+		split->y = 0;
 		while (result[split->i])
 		{
 			if (result[split->i] == '\"' && split->m % 2 == 0)
 				(1) && (split->n++, split->y = split->n);
-			if (result[split->i] == '\'' && split->n % 2 == 0)
+			else if (result[split->i] == '\'' && split->n % 2 == 0)
 				(1) && (split->m++, split->y = split->m);
-			if (split->y % 2 != 0)
-				split->str[split->a++] = result[split->i++];
-			else
+			split->str[split->a++] = result[split->i++];
+			if ((split->y % 2 == 0) && result[split->i] == ' ')
 			{
-				split->str[split->a++] = result[split->i++];
-				if (result[split->i] == ' ')
-				{
-					while (result[split->i] == ' ')
-						split->i++;
-					break ;
-				}
+				while (result[split->i] == ' ')
+					split->i++;
+				break ;
 			}
 		}
+		split->str[split->a] = '\0';
 		helper(split, split->embg, &token, result);
 	}
 }

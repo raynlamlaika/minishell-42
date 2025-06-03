@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:24:02 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:07:45 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 # endif
 
-extern int g_here_doc_helper;
+extern int	g_here_doc_helper;
 
 typedef struct s_export
 {
@@ -197,6 +197,24 @@ typedef struct s_expans
 	int		t;
 }			t_expans;
 
+typedef struct s_stat
+{
+	struct stat	stat_in;
+	struct stat	stat_stdin;
+	struct stat	stat_out;
+	struct stat	stat_stdout;
+}				t_stat;
+
+void	update_environment(t_export *expo, t_env **env);
+void	replace_token(char **token_value, char *exp);
+int		pick_limiter(char *next, char *limiter);
+char	*expnd_heredoc(char *input, t_env *env);
+int		check_valid(char h);
+void	size_helper(int *exit_s, char *string, int i, int *size);
+int		expnd_size(char*string, int *i, t_env *env);
+int		handle_dollar_case(char *l, char *result, t_expand_state *st);
+char	*take_token_doc(char *string, t_env *env, int *exit_s);
+void	handle_quote_state(char c, int *quote);
 int		*exit_status(int more, int value);
 void	disconnect_flagged_nodes(t_token **head);
 void	check_line_null(int*exit_s, char*line);

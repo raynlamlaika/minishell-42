@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:22:20 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 02:41:38 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 	token->hlep = 0;
 	if (one == 1337)
 		token->value = add_quotes(token->value);
-	res = add_quotessss(take_token(token->value, env, exit_s));
+	res = take_token(token->value, env, exit_s);
 	if (res[0] == '\0')
 		token->ambiguous = " ";
 	if (env->emg_flag)
@@ -68,7 +68,8 @@ void	check(t_token *token, t_env *env, int export_h, int *one)
 {
 	if (ft_strcmp(token->value, "~") == 0)
 		replace_token(&token->value, expnd_cd("HOME", env));
-	if (ft_strcmp("export", token->value) == 0 && export_h == 0)
+	if (ft_strcmp("export", token->value) \
+	== 0 && export_h == 0 && ft_strchr(token->value, '=') == NULL)
 		*one = 1337;
 }
 
@@ -84,9 +85,6 @@ int	expand(t_token *token, t_env *env, int *exit_s)
 			replace_token(&token->value, expnd_cd("HOME", env));
 		if ((ft_strcmp("export", token->value) == 0 && export_h == 0))
 			one = 1337;
-		if (ft_strchr(token->value, '=') == NULL ||(ft_strcmp("export", \
-			hendel_qoutes(token->value)) == 0 && export_h == 0))
-			one = 42;
 		if (token->type == TOKEN_HEREDOC)
 		{
 			token = token->next;

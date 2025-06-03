@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:22:39 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 00:28:26 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	pick_limiter(char *next, char *limiter)
-{
-	int	result;
-
-	if (!next[0] && !limiter[0])
-		return (0);
-	result = ft_strcmp(next, limiter);
-	return (result);
-}
-
-char	*expnd_heredoc(char *input, t_env *env)
-{
-	int		help;
-	int		i ;
-	int		start;
-	char	*repl;
-	char	*result;
-
-	start = 0;
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '$')
-		{
-			if (i > start)
-				result = ft_strjoin(result, ft_substr(input, start, i - start));
-			repl = take_replace(i, input, &help, env);
-			result = ft_strjoin(result, repl);
-			i = help;
-			start = i;
-		}
-		else
-			i++;
-	}
-	if (i > start)
-		result = ft_strjoin(result, ft_substr(input, start, i - start));
-	return (result);
-}
 
 void	ft_close(t_file *files)
 {
@@ -81,7 +42,7 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 			break ;
 		next = ft_strjoin(next, "\n");
 		if (ft_strchr(next, '$') && flag == 0)
-			next = take_token(next, env, 0);
+			next = take_token_doc(next, env, 0);
 		write(fd[1], next, ft_strlen(next));
 	}
 	return (1);

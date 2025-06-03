@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:11:01 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:19:47 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 22:03:43 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,25 @@ void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 
 void	exectution_helper(t_exec *exec, t_cmd *full, int perv_pipe)
 {
-	struct stat	stat_in, stat_stdin, stat_out, stat_stdout;
+	t_stat	stat;
 
 	get_redirections(&exec->inf, &exec->outf, full);
 	if (exec->inf == -5 || exec->outf == -5)
 		exit(1);
 	if (exec->inf > -1 && fstat(exec->inf, \
-	&stat_in) == 0 && fstat(STDIN_FILENO, &stat_stdin) \
- == 0 && !(stat_in.st_ino == stat_stdin.st_ino \
-&& stat_in.st_dev == stat_stdin.st_dev))
+	&stat.stat_in) == 0 && fstat(STDIN_FILENO, &stat.stat_stdin) \
+	== 0 && !(stat.stat_in.st_ino == stat.stat_stdin.st_ino \
+	&& stat.stat_in.st_dev == stat.stat_stdin.st_dev))
 	{
 		dup2(exec->inf, STDIN_FILENO);
 		close(exec->inf);
 	}
 	else if (perv_pipe != -1)
 		dup2(perv_pipe, STDIN_FILENO);
-	if (exec->outf > -1 &&
-		fstat(exec->outf, &stat_out) == 0 &&
-		fstat(STDOUT_FILENO, &stat_stdout) \
-	== 0 &&!(stat_out.st_ino == stat_stdout.st_ino \
-	&& stat_out.st_dev == stat_stdout.st_dev))
+	if (exec->outf > -1 && fstat(exec->outf, \
+&stat.stat_out) == 0 && fstat(STDOUT_FILENO, &stat.stat_stdout) \
+	== 0 &&!(stat.stat_out.st_ino == stat.stat_stdout.st_ino \
+	&& stat.stat_out.st_dev == stat.stat_stdout.st_dev))
 		(1) && (dup2(exec->outf, STDOUT_FILENO), close(exec->outf));
 	else if (full->next)
 		dup2(exec->pipefd[1], STDOUT_FILENO);

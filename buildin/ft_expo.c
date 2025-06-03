@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:36:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:05:15 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/02 22:15:14 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	check_empty(char **args, int *i, int *j)
 	}
 	if (ft_strlen(args[*i]) == 0)
 	{
-		print_error_arg("export : ", &args[*i][*j], " : not a valid identifier\n");
+		print_error_arg("export : ", &args[*i][*j], \
+		" : not a valid identifier\n");
 		(*i)++;
 		flag = 1;
 	}
