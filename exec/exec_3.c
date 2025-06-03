@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:00:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 23:02:36 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:37:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,19 @@ void	save_exit_s(int count, int *exit_s)
 {
 	int	status;
 	int	exit_status;
+	int	signal_h;
 
+	signal_h = 0;
 	while (count > 0)
 	{
 		wait(&status);
 		count--;
-		if (WIFEXITED(status))
+		if (WIFSIGNALED(status) && signal_h == 0)
+		{
+			write(2, "\n", 2);
+			signal_h++;
+		}
+		else if (WIFEXITED(status))
 		{
 			exit_status = WEXITSTATUS(status);
 			*exit_s = exit_status;

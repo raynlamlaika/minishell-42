@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:11:01 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 22:03:43 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:42:36 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 {
 	pid_t	pid;
+	int		signal_h;
+	int		exit_status;
 
-	pid = fork();
+	(1) && (signal_h = 0, pid = fork());
 	if (pid == -1)
 	{
 		printf_error("minishell: `fork' failed to create a Child\n");
-		ft_malloc(0, 0);
-		return ;
+		return ((void)ft_malloc(0, 0));
 	}
 	if (pid == 0)
 	{
@@ -33,6 +34,10 @@ void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 	}
 	else
 		waitpid(pid, status, 0);
+	if (WIFSIGNALED(*status) && signal_h == 0)
+		(write(2, "\n", 2), signal_h++);
+	else if (WIFEXITED(*status))
+		(1) && (exit_status = WEXITSTATUS(*status), *exit_s = exit_status);
 }
 
 void	exectution_helper(t_exec *exec, t_cmd *full, int perv_pipe)

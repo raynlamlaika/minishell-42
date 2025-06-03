@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 00:28:26 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:58:25 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ void	ft_close(t_file *files)
 static int	lines(int *fd, char *limiter, int flag, t_env *env)
 {
 	char	*next;
+	char	*tmp;
 
 	while (1)
 	{
 		g_here_doc_helper = 42;
 		next = readline("here_doc >> ");
+		tmp = next;
 		if (!next || g_here_doc_helper == 20)
 		{
 			close(fd[0]);
@@ -41,10 +43,12 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 		if (pick_limiter(next, limiter) == 0)
 			break ;
 		next = ft_strjoin(next, "\n");
+		free(tmp);
 		if (ft_strchr(next, '$') && flag == 0)
 			next = take_token_doc(next, env, 0);
 		write(fd[1], next, ft_strlen(next));
 	}
+	free(tmp);
 	return (1);
 }
 

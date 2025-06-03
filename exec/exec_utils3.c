@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:19:15 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 03:36:11 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 	if (is_passed(cmd->args[0], "echo"))
 		ft_echo(cmd->args, *exit_s);
 	if (is_passed(cmd->args[0], "exit"))
+	{
+		ft_close(cmd->file);
 		ft_exit(cmd->args, *exit_s);
+	}
 	else if (is_passed(cmd->args[0], "export"))
 		ft_export(cmd->args, env);
 	else if (is_passed(cmd->args[0], "cd"))

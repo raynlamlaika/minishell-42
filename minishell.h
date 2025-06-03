@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 01:07:45 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 03:35:48 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ typedef struct s_stat
 	struct stat	stat_stdout;
 }				t_stat;
 
+void	ft_close(t_file *files);
 void	update_environment(t_export *expo, t_env **env);
 void	replace_token(char **token_value, char *exp);
 int		pick_limiter(char *next, char *limiter);
