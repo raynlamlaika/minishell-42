@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:45:50 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/02 00:59:15 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/03 02:53:13 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static int	check_args(char **args)
 {
-	if (args[1] && args[2])
+	if (args[1])
 	{
-		printf_error("cd: too many arguments\n");
-		exit_status(1, 1);
-		return (1);
+		if (args[2])
+		{
+			printf_error("cd: too many arguments\n");
+			exit_status(1, 1);
+			return (1);
+		}
 	}
 	return (0);
 }
