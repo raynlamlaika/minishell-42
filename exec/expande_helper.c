@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expande_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:07:53 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:32:12 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:22:25 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	expand_exits_s(int *exit_s, char *result, int *a, int *i)
 	char	*ext_s;
 	int		you;
 
-	ext_s = ft_itoa(*exit_s);
+	(void) exit_s;
+	if (exit_status(0, 0) == NULL)
+		ext_s = ft_strdup("0");
+	else
+		ext_s = ft_itoa(*exit_status(0, 0));
 	you = 0;
 	while (ext_s[you])
 		result[(*a)++] = ext_s[you++];

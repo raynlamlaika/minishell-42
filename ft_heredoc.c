@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 14:58:25 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:49:02 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int	heredoc(char *limiter, t_env *env, t_file *file)
 		perror("pipe");
 		return (-1);
 	}
-	lines(pipfd, str, expande, env);
+	if (lines(pipfd, str, expande, env) == 0)
+		return (-15);
 	close(pipfd[1]);
-	helper_check(pipfd, file);
-	return (pipfd[0]);
+	return (helper_check(pipfd, file), pipfd[0]);
 }

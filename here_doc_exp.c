@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:05:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 00:29:10 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:22:16 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*take_token_doc(char *string, t_env *env, int *exit_s)
 	if (!string)
 		return (NULL);
 	size = size_help_doc(string, env, exit_s);
-	printf("thi sis the sie %d\n", size);
 	result = ft_malloc(size + 2, 1);
 	return (helpe_str_c(string, result, env, exit_s));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:00:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 14:37:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 22:16:23 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	save_exit_s(int count, int *exit_s)
 void	execute_child_process(t_cmd *full, t_context *ctx)
 {
 	exectution_helper(ctx->exec, full, ctx->perv_pipe);
+	if (full->file->here_doc == -15)
+		exit(0);
 	if (full->args && ctx->exec->inf != -5 && ctx->exec->outf != -5)
 		take_child(full, ctx->exec->path, ctx->exit_s, ctx->env);
 	else if (!full->args)

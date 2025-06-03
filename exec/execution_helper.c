@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execution_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:11:01 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 14:42:36 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 22:30:14 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	helper_check(t_finished *helper)
+{
+	if (helper)
+	{
+		if (helper->cmd->file->here_doc == -15)
+			exit(0);
+	}
+}
 
 void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 {
@@ -26,6 +35,7 @@ void	execute_forked_cmd(t_finished *helper, int *exit_s, int *status)
 	}
 	if (pid == 0)
 	{
+		helper_check(helper);
 		g_here_doc_helper = 133;
 		signal(SIGQUIT, handle_signal);
 		handle_redirections(helper->inf, helper->outf);

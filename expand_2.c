@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 00:29:44 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:21:38 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,18 @@ int	expnd_size(char*string, int *i, t_env *env)
 
 void	size_helper(int *exit_s, char *string, int i, int *size)
 {
+	(void)exit_s;
+	if (!string)
+		return ;
 	if (string[i] == '$')
 		*size += 1;
 	else if (string[i] == '?')
-		*size += ft_strlen(ft_itoa(*exit_s));
+	{
+		if (exit_status(0, 0) == NULL)
+			*size += 1;
+		else
+			*size += ft_strlen(ft_itoa(*exit_status(0, 0)));
+	}
 	else
 		(*size)++;
 }
