@@ -9,7 +9,7 @@ SRC =	env_heloper.c expand_3.c ft_heredoc.c my_malloc.c minishell_2.c tokens.c h
 		buildin/utils.c buildin/sort_export.c buildin/updat_env.c\
 		exec/exec_ulitls2.c exec/exec_ultils.c exec/exec_utils3.c exec/exec_2.c exec/exec_1.c\
 		exec/execution.c exec/execution_helper.c  exec/exec_3.c exec/exec_h_2.c exec/fork_pipe_h.c\
-		ulits/ft_itoa.c ulits/ft_strchr.c ulits/ft_strjoin.c ulits/ft_strndup.c ulits/utils.c \
+		ulits/ft_itoa.c ulits/ft_strchr.c ulits/ft_strcpy.c ulits/ft_strjoin.c ulits/ft_strndup.c ulits/utils.c \
 		ulits/ft_split_h.c ulits/ft_strdup.c ulits/ft_strncmp.c ulits/ft_strrchr.c \
 		ft_print_error.c
 

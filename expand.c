@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 02:41:38 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:17:24 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char	*add_quotes(char *str)
 	if (!equal_sign)
 		return (ft_strdup(add_quotessss(str)));
 	key_len = equal_sign - str;
-	value_len = strlen(equal_sign + 1);
+	value_len = ft_strlen(equal_sign + 1);
 	result = ft_malloc(key_len + 1 + 1 + value_len + 1 + 1, 1);
 	if (!result)
 		return (NULL);
-	strncpy(result, str, key_len);
+	ft_strncpy(result, str, key_len);
 	result[key_len] = '=';
 	result[key_len + 1] = '"';
-	strcpy(result + key_len + 2, equal_sign + 1);
+	ft_strcpy(result + key_len + 2, equal_sign + 1);
 	result[key_len + 2 + value_len] = '"';
 	result[key_len + 2 + value_len + 1] = '\0';
 	return (result);
@@ -46,7 +46,8 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 	res = take_token(token->value, env, exit_s);
 	if (res[0] == '\0')
 		token->ambiguous = " ";
-	if (env->emg_flag)
+	if (env->emg_flag && ft_strchr(token->value, '\'') \
+	== NULL && ft_strchr(token->value, '\"') == NULL)
 	{
 		token->ambiguous = token->value;
 		token->hlep = 1312;

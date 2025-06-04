@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 03:35:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:19:15 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,8 @@ typedef struct s_stat
 	struct stat	stat_stdout;
 }				t_stat;
 
+char	*ft_strcpy(char *dest, char *src);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
 void	ft_close(t_file *files);
 void	update_environment(t_export *expo, t_env **env);
 void	replace_token(char **token_value, char *exp);

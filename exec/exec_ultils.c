@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ultils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:49:18 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 22:47:42 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:05:35 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ char	**takepaths(t_env **env)
 	1 && (take = NULL, env_lnk = *env);
 	if (!env_lnk)
 		return (NULL);
-	while (env_lnk)
+	 while (env_lnk)
 	{
 		if (env_lnk->key && (ft_strcmp(env_lnk->key, "PATH") == 0))
 		{
 			take = ft_strdup(env_lnk->value);
 			break ;
 		}
-		env_lnk = env_lnk->next;
+		env_lnk= env_lnk->next;
 	}
 	if (!take)
 		return (NULL);
