@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:43:48 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/01 22:42:31 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:25:43 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ void	exit_with_error(char *args)
 	exit(2);
 }
 
-void	ft_exit(char **args, int exit_status)
+void	ft_exit(char **args, int exit_status, t_cmd *cmd)
 {
 	long long	value;
 	int			overflow;
 
-	printf("exit\n");
+	if (cmd->exit_flag == 42)
+		printf("exit\n");
 	if (!args[1])
 	{
 		ft_malloc(0, 0);

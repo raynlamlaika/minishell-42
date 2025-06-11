@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:30:00 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:30:12 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:33:06 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@ void	disconnect_flagged_nodes(t_token **head)
 void	check_line_null(int*exit_s, char*line)
 {
 	char	**args;
+	t_cmd	*cmd;
 
+	cmd = ft_malloc(sizeof(t_cmd), 1);
+	cmd->exit_flag = 42;
 	if (!line)
 	{
 		args = ft_split("exit", ' ');
-		ft_exit(args, *exit_s);
+		ft_exit(args, *exit_s, cmd);
+		ft_malloc(0, 0);
 		free(line);
 		rl_clear_history();
 	}

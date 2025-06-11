@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:36:52 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:38:45 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_exec *exec, int *count)
 	t_context	ctx;
 
 	(1) && (ctx.env = env, ctx.exec = exec, ctx.exec = exec);
-	ctx.exit_s = exit_status(0, 0);
 	ctx.perv_pipe = -1;
+	ctx.exit_s = exit_status(0, 0);
 	while (full)
 	{
 		pipecheck(exec->pipefd);

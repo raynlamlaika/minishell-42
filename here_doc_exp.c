@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:05:46 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 00:29:10 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:31:21 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*take_token_doc(char *string, t_env *env, int *exit_s)
 	if (!string)
 		return (NULL);
 	size = size_help_doc(string, env, exit_s);
-	printf("thi sis the sie %d\n", size);
 	result = ft_malloc(size + 2, 1);
 	return (helpe_str_c(string, result, env, exit_s));
 }

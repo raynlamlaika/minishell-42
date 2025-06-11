@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 12:21:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/01 22:28:10 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:26:07 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,23 @@ void	buitin(t_finished *helper, int *exit_s)
 	int	saved_stdin;
 	int	saved_stdout;
 
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
+	if (ft_strcmp(helper->cmd->args[0], "exit"))
+	{
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
+	}
 	if (helper->inf != -1)
 		(1) && (dup2(helper->inf, STDIN_FILENO), close(helper->inf));
 	if (helper->outf != -1)
 		(1) && (dup2(helper->outf, STDOUT_FILENO), close(helper->outf));
 	buildin(helper->cmd, &helper->env, exit_s);
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
+	if (ft_strcmp(helper->cmd->args[0], "exit"))
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
+	}
 }
 
 void	close_inf_out(t_finished *helper, t_cmd *cmd)
@@ -56,6 +62,7 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 	int			status;
 
 	status = 0;
+	cmd->exit_flag = 42;
 	helper = ft_malloc(sizeof(t_finished), 1);
 	initialize_helper(helper, cmd, env);
 	if (!helper->args || !helper->args[0])

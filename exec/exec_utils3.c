@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:00:54 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 03:36:11 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:54:40 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	buildin(t_cmd *cmd, t_env **env, int *exit_s)
 	if (is_passed(cmd->args[0], "exit"))
 	{
 		ft_close(cmd->file);
-		ft_exit(cmd->args, *exit_s);
+		ft_exit(cmd->args, *exit_s, cmd);
 	}
 	else if (is_passed(cmd->args[0], "export"))
 		ft_export(cmd->args, env);

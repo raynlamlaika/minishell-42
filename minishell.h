@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 03:35:48 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/11 00:32:28 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_file
 
 typedef struct s_cmd
 {
+	int				exit_flag;
 	char			**args;
 	struct s_cmd	*next;
 	int				*exit_s;
@@ -251,7 +252,8 @@ void	*ft_malloc(unsigned int size, int flag);
 void	get_redirections(int*inf, int *outf, t_cmd*full);
 int		forkfaild(pid_t pid, int*pipefd);
 int		ft_isalpha(int c);
-void	ft_exit(char **args, int exit_status);
+// void	ft_exit(char **args, int exit_status);
+void	ft_exit(char **args, int exit_status, t_cmd *cmd);
 char	*ft_handel_qoute(char *exp);
 void	handle_word(t_token **head, t_token **last, char *input, int*i);
 t_token	*lexer(char *input, t_token*last, int i);
