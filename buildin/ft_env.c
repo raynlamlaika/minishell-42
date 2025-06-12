@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 01:00:40 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:38:40 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	ft_env(t_env *env)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
+	exit_status(1, 0);
 }

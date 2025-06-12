@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/04 03:51:27 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:45:51 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	main(int ac, char**av, char**env)
 	t_env	*env_list;
 
 	(void)av;
-	(void)ac;
+	if (ac > 1)
+		return (print_error_arg("minishell no options :`", av[1], "`\n"), 1);
 	exit_s = exit_status(0, 0);
 	line = NULL;
 	tokens = NULL;

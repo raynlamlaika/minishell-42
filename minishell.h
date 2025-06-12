@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 00:32:28 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:38:03 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ typedef struct s_stat
 	struct stat	stat_stdout;
 }				t_stat;
 
+int		helper_mltp_dlar(int *i, char*string);
 void	ft_close(t_file *files);
 void	update_environment(t_export *expo, t_env **env);
 void	replace_token(char **token_value, char *exp);
@@ -252,7 +253,6 @@ void	*ft_malloc(unsigned int size, int flag);
 void	get_redirections(int*inf, int *outf, t_cmd*full);
 int		forkfaild(pid_t pid, int*pipefd);
 int		ft_isalpha(int c);
-// void	ft_exit(char **args, int exit_status);
 void	ft_exit(char **args, int exit_status, t_cmd *cmd);
 char	*ft_handel_qoute(char *exp);
 void	handle_word(t_token **head, t_token **last, char *input, int*i);

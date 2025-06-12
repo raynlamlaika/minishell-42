@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 00:48:13 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 01:05:49 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:58:47 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_env	*env_new(char *key, char *value)
 	if (!node)
 		return (NULL);
 	if (key != NULL)
-		node->key = strdup(key);
+		node->key = ft_strdup(key);
 	else
 		node->key = NULL;
 	if (value != NULL)
-		node->value = strdup(value);
+		node->value = ft_strdup(value);
 	else
 		node->value = NULL;
 	node->next = NULL;
@@ -35,14 +35,14 @@ void	env_insert_sorted(t_env **sorted, t_env *new_node)
 {
 	t_env	*curr;
 
-	if (!*sorted || strcmp(new_node->key, (*sorted)->key) < 0)
+	if (!*sorted || ft_strcmp(new_node->key, (*sorted)->key) < 0)
 	{
 		new_node->next = *sorted;
 		*sorted = new_node;
 		return ;
 	}
 	curr = *sorted;
-	while (curr->next && strcmp(new_node->key, curr->next->key) > 0)
+	while (curr->next && ft_strcmp(new_node->key, curr->next->key) > 0)
 		curr = curr->next;
 	new_node->next = curr->next;
 	curr->next = new_node;

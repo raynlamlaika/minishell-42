@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:00:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 14:37:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:49:43 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	save_exit_s(int count, int *exit_s)
 		count--;
 		if (WIFSIGNALED(status) && signal_h == 0)
 		{
-			write(2, "\n", 2);
+			if (status == 2)
+				write(2, "\n", 2);
 			signal_h++;
 		}
 		else if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:31:34 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 22:54:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:25:06 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*helpe_str(char *string, char *result, t_env *env, int *exit_s)
 			st.i++;
 			handle_dollar_case(string, result, &st);
 		}
-		else
+		else if (string[st.i])
 			result[st.a++] = string[st.i++];
 	}
 	result[st.a] = '\0';

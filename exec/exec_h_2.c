@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_h_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:16:45 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:15:58 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:10:46 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,27 @@
 
 int	helper_s(t_finished *helper)
 {
-	if (ft_strlen(helper->args[0]) == 1)
+	struct stat	sb;
+
+	if (ft_strchr(helper->args[0], '/'))
 	{
-		print_error_arg("minishell ", helper->args[0], " : Is a directory\n");
-		ft_malloc(0, 0);
-		exit(126);
+		if (stat(helper->args[0], &sb) == 0)
+		{
+			if (S_ISDIR(sb.st_mode))
+			{
+				print_error_arg("minishell: ", helper->args[0], \
+					": Is a directory\n");
+				ft_malloc(0, 0);
+				exit(126);
+			}
+		}
+		else
+			print_error_arg("", helper->args[0], \
+				" : command not found\n");
 	}
-	fprintf(stderr, "minishell \
-%s:No such file or directory \n", helper->args[0]);
+	else
+		print_error_arg("minishell ", helper->args[0], \
+			":No such file or directory \n");
 	ft_malloc(0, 0);
 	exit(127);
 }

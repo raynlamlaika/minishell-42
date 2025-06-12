@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:50:08 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/30 23:27:04 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:41:14 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	ft_unset(char **args, t_env **env_list)
 			i++;
 		}
 	}
+	exit_status(1, 0);
 }

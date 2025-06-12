@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 00:29:44 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:37:47 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,25 @@ int	expnd_size(char*string, int *i, t_env *env)
 	char	*search;
 	char	*result;
 
-	help = *i;
-	while (ft_isalpha(string[help]) || ft_isdigit(string[help]))
-		help++;
-	search = ft_substr(string, *i, help);
-	result = ft_replace(search, env);
-	size = ft_strlen(result);
-	*i = help;
+	help = 0;
+	while (string[help])
+	{
+		if (string[help] == '$')
+			help++;
+		else
+			break ;
+	}
+	if (help % 2 != 0)
+	{
+		help = *i;
+		while (ft_isalpha(string[help]) || ft_isdigit(string[help]))
+			help++;
+		search = ft_substr(string, *i, help);
+		result = ft_replace(search, env);
+		(1) && (size = ft_strlen(result), *i = help);
+	}
+	else
+		return (helper_mltp_dlar(i, string));
 	return (size);
 }
 

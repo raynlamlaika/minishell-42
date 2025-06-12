@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:02:07 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/31 00:06:07 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:40:15 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@ void	ft_echo(char **args, int exit_s)
 		if (args[++i])
 			putchar(' ');
 	}
-	exit_status(0, 1);
+	exit_status(1, 0);
 	if (flag == 1)
 		return ;
 	putstr("\n");
-	exit_status(0, 1);
 }

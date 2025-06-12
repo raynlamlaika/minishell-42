@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 01:07:09 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 02:47:22 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:11:39 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	helper_d(t_env	*existing, t_export *expo, t_env **env)
 	{
 		if (ft_strcmp(expo->key, "_") != 0)
 		{
-			new = new_node(expo->key, NULL);
+			if (expo->value)
+				new = new_node(expo->key, expo->value);
+			else
+				new = new_node(expo->key, NULL);
 			append_node(env, new);
 		}
 	}

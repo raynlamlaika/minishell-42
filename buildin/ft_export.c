@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 01:07:00 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:03:02 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	parse_export_arg(t_export *expo, char *arg)
 	{
 		if (arg[j] == '=' || arg[j] == '+')
 		{
-			if (arg[j] == '+' && arg[j + 1] == '=')
+			if ((arg[j] == '+' && arg[j + 1] == '=') && ft_isalpha(arg[0]))
 				return (expo->key = take_key_exp(arg, j), \
 expo->value = takee_value(arg, j + 2), expo->flag = 1, 1);
-			else if (arg[j] != '=')
+			else if (arg[j] != '=' || !ft_isalpha(arg[0]))
 				return (print_error_arg("export : ", \
 &arg[j], " : not a valid identifier\n"), 1);
 			else

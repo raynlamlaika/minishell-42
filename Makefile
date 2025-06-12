@@ -11,20 +11,20 @@ SRC =	env_heloper.c expand_3.c ft_heredoc.c my_malloc.c minishell_2.c tokens.c h
 		exec/execution.c exec/execution_helper.c  exec/exec_3.c exec/exec_h_2.c exec/fork_pipe_h.c\
 		ulits/ft_itoa.c ulits/ft_strchr.c ulits/ft_strjoin.c ulits/ft_strndup.c ulits/utils.c \
 		ulits/ft_split_h.c ulits/ft_strdup.c ulits/ft_strncmp.c ulits/ft_strrchr.c \
-		ft_print_error.c
+		ft_print_error.c expandmltpdolr.c
 
 
 DEP= minishell.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 HEADER = minishell.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -lreadline $(CFLAGS) $^ -o $(NAME)
+	$(CC)  $(CFLAGS) $^ -o $(NAME) -lreadline
 
 
 %.o: %.c $(HEADER)
