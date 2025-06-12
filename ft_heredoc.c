@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/04 03:52:07 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:38:19 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 	while (1)
 	{
 		g_here_doc_helper = 42;
-		next = readline("here_doc >> ");
-		tmp = next;
+		(1) && (next = readline("here_doc >> "), tmp = next);
 		if (!next || g_here_doc_helper == 20)
 		{
 			close(fd[0]);
 			close(fd[1]);
+			print_error_arg("minishell: \
+unexpected EOF while looking for matching `", limiter, "`\n");
 			return (0);
 		}
 		if (pick_limiter(next, limiter) == 0)

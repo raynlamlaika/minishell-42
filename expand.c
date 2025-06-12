@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 00:02:58 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:26:34 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	expand(t_token *token, t_env *env, int *exit_s)
 	{
 		if (ft_strcmp(token->value, "~") == 0)
 			replace_token(&token->value, expnd_cd("HOME", env));
-		if ((ft_strcmp("export", token->value) == 0 && export_h == 0) && ft_strrchr(token->value, '='))
+		if (helper_valid(token->value, export_h))
 			one = 1337;
 		if (token->type == TOKEN_HEREDOC)
 		{
