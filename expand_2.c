@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 10:37:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:05:47 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ int	expnd_size(char*string, int *i, t_env *env)
 	char	*search;
 	char	*result;
 
-	help = 0;
-	while (string[help])
+	(1) && (help = *i, size = 0);
+	while (string[help] && help > 0)
 	{
 		if (string[help] == '$')
-			help++;
+			(1) && (help--, size++);
 		else
 			break ;
 	}
-	if (help % 2 != 0)
+	if (size % 2 == 0)
 	{
 		help = *i;
 		while (ft_isalpha(string[help]) || ft_isdigit(string[help]))

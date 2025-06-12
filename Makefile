@@ -38,3 +38,6 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+
+# export a="ls '-la'" | echo "$HOME" | echo "'$HOME'" | export a="ls > gf
