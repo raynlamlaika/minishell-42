@@ -18,7 +18,7 @@ DEP= minishell.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 HEADER = minishell.h
 all: $(NAME)
@@ -40,4 +40,4 @@ fclean: clean
 re: fclean all
 
 
-# export a="ls '-la'" | echo "$HOME" | echo "'$HOME'" | export a="ls > gf
+# < '' | ls > file | export a="ls '-la'" | echo "$HOME" | echo "'$HOME'" | export a="ls > gf

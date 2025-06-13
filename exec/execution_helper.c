@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:11:01 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 15:52:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:19:11 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ void	exectution_helper(t_exec *exec, t_cmd *full, int perv_pipe)
 {
 	get_redirections(&exec->inf, &exec->outf, full);
 	if (exec->inf == -5 || exec->outf == -5)
+	{
+		close_fds();
+		ft_malloc(0, 0);
 		exit(1);
+	}
 	if (exec->inf > -1)
 	{
 		dup2(exec->inf, STDIN_FILENO);

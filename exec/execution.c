@@ -6,11 +6,23 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 15:58:54 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:21:09 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	close_fds(void)
+{
+	int	i;
+
+	i = 3;
+	while (i <= 2048)
+	{
+		close(i);
+		i++;
+	}
+}
 
 void	execute_parent_process(t_cmd *full, t_context *ctx, int *count)
 {

@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 20:25:25 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:21:39 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ typedef struct s_stat
 	struct stat	stat_stdout;
 }				t_stat;
 
+void	close_fds(void);
 int		helper_valid(char *str, int export);
 int		helper_mltp_dlar(int *i, char*string);
 void	ft_close(t_file *files);

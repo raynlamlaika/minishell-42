@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/02 08:27:55 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:36:49 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ syntax error near unexpected token `newline'\n");
 	}
 	if ((*tokens)->type == TOKEN_PIPE)
 	{
-		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF)
+		if (!(*tokens)->next || (*tokens)->next->type == TOKEN_EOF
+			|| (*tokens)->next->type == TOKEN_PIPE)
 		{
 			*exit_s = 2;
 			printf_error("minishell: \
