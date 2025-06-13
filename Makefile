@@ -4,9 +4,9 @@ SRC =	env_heloper.c expand_3.c ft_heredoc.c my_malloc.c minishell_2.c tokens.c h
 		env_null_helper.c expand.c expand_h.c handle_signal.c syntax.c syntax_imbg.c exec/expande_helper.c \
 		envr.c expand_heper.c parce.c parse_helper.c here_doc_exp.c \
 		expand_2.c expand_token.c minishell.c \
-		buildin/ft_cd_2.c buildin/ft_echo.c buildin/ft_exit.c buildin/ft_export.c buildin/ft_pwd.c \
-		buildin/ft_cd.c buildin/ft_env.c buildin/ft_expo.c buildin/ft_export_help.c buildin/ft_unset.c \
-		buildin/utils.c buildin/sort_export.c buildin/updat_env.c\
+		builtins/ft_cd_2.c builtins/ft_echo.c builtins/ft_exit.c builtins/ft_export.c builtins/ft_pwd.c \
+		builtins/ft_cd.c builtins/ft_env.c builtins/ft_expo.c builtins/ft_export_help.c builtins/ft_unset.c \
+		builtins/utils.c builtins/sort_export.c builtins/updat_env.c\
 		exec/exec_ulitls2.c exec/exec_ultils.c exec/exec_utils3.c exec/exec_2.c exec/exec_1.c\
 		exec/execution.c exec/execution_helper.c  exec/exec_3.c exec/exec_h_2.c exec/fork_pipe_h.c\
 		ulits/ft_itoa.c ulits/ft_strchr.c ulits/ft_strjoin.c ulits/ft_strndup.c ulits/utils.c \
@@ -38,6 +38,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-
-# < '' | ls > file | export a="ls '-la'" | echo "$HOME" | echo "'$HOME'" | export a="ls > gf
