@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 15:47:53 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 23:04:20 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ft_handel_qoute(char *exp)
 	sing_flag = 0;
 	double_flag = 0;
 	i = 0;
-	result = ft_malloc(sizeof(char) * (strlen(exp) + 1), 1);
+	result = ft_malloc(sizeof(char) * (ft_strlen(exp) + 1), 1);
 	while (exp[i])
 	{
 		if (exp[i] == '"' && sing_flag % 2 == 0)

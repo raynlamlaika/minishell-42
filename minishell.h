@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 21:21:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 23:16:01 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,4 +338,6 @@ void	update_pwd(char *oldpwd, char *newpwd, t_env *env);
 void	printf_error(char *s);
 int		*exit_status(int mode, int value);
 void	print_error_arg(char *line_1, char *arg, char *line_2);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strcpy(char *dest, const char *src);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_heloper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:08:52 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/05/24 13:55:27 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 23:02:33 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*take_key(char **env, int i, int j)
 	key = ft_malloc(i + 1, 1);
 	if (!key)
 		return (NULL);
-	strncpy(key, env[j], i);
+	ft_strncpy(key, env[j], i);
 	key[i] = '\0';
 	return (key);
 }
@@ -34,7 +34,7 @@ char	*take_value(char **env, int i, int j)
 	value = ft_malloc(len + 1, 1);
 	if (!value)
 		return (NULL);
-	strcpy(value, env[j] + i);
+	ft_strcpy(value, env[j] + i);
 	return (value);
 }
 

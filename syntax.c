@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/13 19:36:49 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 23:06:31 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ char	*add_quotessss(char *input)
 	int		len;
 	char	*quoted;
 
-	len = strlen(input);
+	len = ft_strlen(input);
 	quoted = ft_malloc(len + 3, 1);
 	if (!quoted)
 		return (NULL);
 	quoted[0] = '\"';
-	strcpy(quoted + 1, input);
+	ft_strcpy(quoted + 1, input);
 	quoted[len + 1] = '\"';
 	quoted[len + 2] = '\0';
 	return (quoted);
