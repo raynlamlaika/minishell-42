@@ -6,11 +6,20 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:00:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 15:49:43 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:59:48 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	helper_here(int var)
+{
+	if (var == 130)
+	{
+		ft_malloc(0, 0);
+		exit(0);
+	}
+}
 
 void	take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
 {
@@ -18,6 +27,7 @@ void	take_child(t_cmd *full, char **path, int *exit_s, t_env **env)
 	char	**cmd;
 
 	cmd = full->args;
+	helper_here(full->file->here_doc);
 	if (search_search(cmd[0]) == 1)
 	{
 		buildin(full, env, exit_s);

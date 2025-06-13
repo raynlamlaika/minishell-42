@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:45:49 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 15:20:44 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:58:54 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,10 @@ void	exectution(t_cmd *full, t_env **env, int *exit_s)
 		save_exit_s(count, exit_s);
 	}
 	else
-		execute_single_cmd(full, env, exit_s);
+	{
+		if (full->file->here_doc == 130)
+			exit_status(1, 0);
+		else
+			execute_single_cmd(full, env, exit_s);
+	}
 }

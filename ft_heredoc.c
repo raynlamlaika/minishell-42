@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 20:38:19 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:47:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int	heredoc(char *limiter, t_env *env, t_file *file)
 		perror("pipe");
 		return (-1);
 	}
-	lines(pipfd, str, expande, env);
-	close(pipfd[1]);
-	helper_check(pipfd, file);
-	return (pipfd[0]);
+	i = lines(pipfd, str, expande, env);
+	if (i == 0)
+		return (helper_check(pipfd, file), close(pipfd[1]), 0);
+	return (helper_check(pipfd, file), close(pipfd[1]), pipfd[0]);
 }

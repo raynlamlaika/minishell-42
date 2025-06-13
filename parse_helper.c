@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:35:11 by abouabba          #+#    #+#             */
-/*   Updated: 2025/05/29 17:20:28 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:48:35 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	token_heredoc(t_file **last_file,
 	if (!*last_file)
 	{
 		file->here_doc = heredoc(tokens->next->value, env, file);
+		if (file->here_doc == 0)
+			file->here_doc = 130;
 		*last_file = file;
 	}
 	else
