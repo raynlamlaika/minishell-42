@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 23:03:50 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:49:58 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	expand(t_token *token, t_env *env, int *exit_s)
 			one = 1337;
 		if (token->type == TOKEN_HEREDOC)
 		{
-			token = token->next;
+			token = token->next->next;
 			if (token)
-				token = token->next;
+				continue ;
 		}
 		if (ft_strchr(token->value, '$'))
 			process_token_dollar(token, env, exit_s, one);

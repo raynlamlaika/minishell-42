@@ -6,11 +6,20 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 10:45:51 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:41:20 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+
+void print_token(t_token *token) {
+    while (token) 
+    {
+        fprintf(stderr, "vaue : %s\n", token->value);
+        token = token->next;
+    }
+}
 
 int	passed(t_token *tokens, t_env*env_list, int*exit_s)
 {

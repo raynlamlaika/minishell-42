@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:04:36 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/13 23:16:45 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:16:56 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,23 @@ void	printf_error(char *s)
 	}
 }
 
+// void	print_error_arg(char *line_1, char *arg, char *line_2)
+// {
+// 	write (2, line_1, ft_strlen(line_1));
+// 	write (2, arg, ft_strlen(arg));
+// 	write (2, line_2, ft_strlen(line_2));
+// }
+
 void	print_error_arg(char *line_1, char *arg, char *line_2)
 {
-	write (2, line_1, ft_strlen(line_1));
-	write (2, arg, ft_strlen(arg));
-	write (2, line_2, ft_strlen(line_2));
+	char	*tmp;
+	char	*msg;
+
+	tmp = ft_strjoin(line_1, arg);
+	if (!tmp)
+		return ;
+	msg = ft_strjoin(tmp, line_2);
+	if (!msg)
+		return ;
+	write(2, msg, ft_strlen(msg));
 }
