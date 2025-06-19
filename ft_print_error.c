@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 23:04:36 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/18 19:16:56 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 05:54:20 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ void	printf_error(char *s)
 		i++;
 	}
 }
-
-// void	print_error_arg(char *line_1, char *arg, char *line_2)
-// {
-// 	write (2, line_1, ft_strlen(line_1));
-// 	write (2, arg, ft_strlen(arg));
-// 	write (2, line_2, ft_strlen(line_2));
-// }
 
 void	print_error_arg(char *line_1, char *arg, char *line_2)
 {

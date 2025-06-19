@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 00:48:13 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/18 19:25:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 05:54:59 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,6 @@ t_env	*sort_env(t_env *env)
 	return (sorted);
 }
 
-// void	ft_print_env(t_env *env)
-// {
-// 	if (!env)
-// 		return ;
-// 	env = sort_env(env);
-// 	while (env)
-// 	{
-// 		if (env->key && ft_strcmp(env->key, "_"))
-// 			print_error_arg("declare -x ", env->key, "");
-// 		if (env->value && ft_strcmp(env->key, "_"))
-// 			print_error_arg("=\"", env->value, "\"");
-// 		if (env->key && ft_strcmp(env->key, "_"))
-// 			putstr("\n");
-// 		env = env->next;
-// 		if (!env)
-// 			break ;
-// 	}
-// 	return ;
-// }
-
 void	ft_print_env(t_env *env)
 {
 	char	*tmp;
@@ -92,7 +72,6 @@ void	ft_print_env(t_env *env)
 
 	if (!env)
 		return ;
-
 	env = sort_env(env);
 	while (env)
 	{
@@ -100,9 +79,8 @@ void	ft_print_env(t_env *env)
 		{
 			if (env->value)
 			{
-				tmp = ft_strjoin("declare -x ", env->key);
-				line = ft_strjoin(tmp, "=\"");
-				tmp = ft_strjoin(line, env->value);
+				(1) && (tmp = ft_strjoin("declare -x ", \
+env->key), line = ft_strjoin(tmp, "=\""), tmp = ft_strjoin(line, env->value));
 				line = ft_strjoin(tmp, "\"\n");
 			}
 			else
