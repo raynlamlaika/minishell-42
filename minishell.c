@@ -6,13 +6,13 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:45:06 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 11:32:25 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:25:20 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	passed(t_token *tokens, t_env*env_list, int*exit_s)
+int	passed(t_token *tokens, t_env*env_list, int*exit_s, char*line)
 {
 	t_cmd	*f;
 
@@ -21,6 +21,7 @@ int	passed(t_token *tokens, t_env*env_list, int*exit_s)
 	if (g_here_doc_helper == 20)
 	{
 		dup2(2, 0);
+		free(line);
 		return (0);
 	}
 	exectution(f, &env_list, exit_s);
@@ -59,7 +60,7 @@ int	helper_loop(char*line, t_token*tks, int*exit_s, t_env*env)
 		{
 			(1) && (g = expand(tks, env, exit_s), g = synx_ambg(tks, exit_s));
 			if (g == 0)
-				if (!passed(tks, env, exit_s))
+				if (!passed(tks, env, exit_s, line))
 					continue ;
 		}
 		free(line);

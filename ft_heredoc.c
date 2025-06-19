@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 19:25:24 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:30:23 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	ft_close(t_file *files)
 		return ;
 	while (files)
 	{
-		if (files->here_doc)
+		if (files->here_doc != -1 && files->here_doc != 0)
+		{
 			close(files->here_doc);
+			files->here_doc = -1;
+		}
+		files->here_doc = -1;
 		files = files->next;
 	}
 }
@@ -35,11 +39,10 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 		(1) && (next = readline("here_doc >> "), tmp = next);
 		if (!next || g_here_doc_helper == 20)
 		{
-			close(fd[0]);
 			if (g_here_doc_helper != 20)
 				print_error_arg("minishell: \
 unexpected EOF while looking for matching `", limiter, "`\n");
-			return (close(fd[1]), 0);
+			return (0);
 		}
 		if (pick_limiter(next, limiter) == 0)
 			break ;
@@ -84,7 +87,12 @@ void	helper_check(int*pipfd, t_file *file)
 {
 	if (g_here_doc_helper == 20)
 	{
-		close(pipfd[0]);
+		if (pipfd[0] != -1)
+		{
+			close(pipfd[0]);
+			pipfd[0] = -1;
+		}
+		pipfd[0] = -1;
 		ft_close(file);
 	}
 }
