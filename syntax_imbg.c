@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_imbg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 04:52:53 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 08:26:46 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:17:24 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	synx_ambg(t_token *tokens, int *exit_s)
 {
 	while (tokens)
 	{
+		restore_hidden_q(tokens->value);
 		tokens->rm_node = 0;
 		if (tokens->ambiguous && \
 tokens->type != TOKEN_EOF && tokens->value[0] == '\0')
@@ -41,8 +42,6 @@ redirect\n"), *exit_s = 1, 1);
 			}
 		}
 		tokens = tokens->next;
-		if (!tokens)
-			return (0);
 	}
 	return (0);
 }

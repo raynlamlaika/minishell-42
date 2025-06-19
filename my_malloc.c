@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:17:16 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/03 01:04:33 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:22:35 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	*ft_malloc(unsigned int size, int flag)
 		if (!to_save)
 		{
 			ft_free(&head);
-			return (NULL);
+			exit(1);
 		}
 		to_save->toalloc = malloc(size);
 		if (!to_save->toalloc)
 		{
 			free(to_save);
 			ft_free(&head);
-			return (NULL);
+			exit(1);
 		}
 		to_save->next = head;
 		head = to_save;

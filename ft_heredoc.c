@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 11:36:57 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:25:24 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 		if (!next || g_here_doc_helper == 20)
 		{
 			close(fd[0]);
-			close(fd[1]);
-			print_error_arg("minishell: \
+			if (g_here_doc_helper != 20)
+				print_error_arg("minishell: \
 unexpected EOF while looking for matching `", limiter, "`\n");
-			return (0);
+			return (close(fd[1]), 0);
 		}
 		if (pick_limiter(next, limiter) == 0)
 			break ;
