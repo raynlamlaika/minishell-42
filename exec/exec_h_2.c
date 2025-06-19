@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_h_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:16:45 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 15:10:46 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:44:12 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	helper_s(t_finished *helper)
 	}
 	else
 		print_error_arg("minishell ", helper->args[0], \
-			":No such file or directory \n");
+			":No  \n");
 	ft_malloc(0, 0);
 	exit(127);
 }

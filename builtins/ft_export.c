@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:37:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 11:03:02 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:50:27 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ void	ft_export(char**args, t_env **env)
 
 	expo = init_export_struct(args);
 	if (only_export(args, env) == 0)
+	{
+		exit_status(1, 0);
 		return ;
+	}
 	expo_loop(args, expo, 1, env);
 }

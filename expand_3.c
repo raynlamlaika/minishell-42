@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:01:05 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 10:43:43 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:29:40 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	loop_spliting(t_split *split, char *result, t_token *token)
 char	*s_split(char *result, t_token *token, char *embg)
 {
 	t_split	*split;
+	char	*re;
 
 	split = ft_malloc(sizeof(t_split), 1);
 	(1) && (split->a = 0, split->y = 0, split->i = 0, split->m = 0, \
@@ -102,7 +103,7 @@ split->i = 0, split->n = 0, split->add = 0, split->size = split_alloc(result));
 	split->embg = ft_strdup(embg);
 	split->str = ft_malloc(split->size + 1, 1);
 	loop_spliting(split, result, token);
-	char *re = hendel_qoutes(result);
+	re = hendel_qoutes(result);
 	restore_hidden_q(re);
 	return (re);
 }

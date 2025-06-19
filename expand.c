@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 10:44:37 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:55:58 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,19 @@ int	is_inside_quotes(const char *str, int pos)
 	return (0);
 }
 
-void quote_helper_s_d(char *str)
+void	quote_helper_s_d(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str)
 		return ;
 	while (str[i])
 	{
-		if (str[i] == 39)        // 39 = single quote '
-			str[i] = 30;         // 30 = ASCII Record Separator
-		else if (str[i] == 34)   // 34 = double quote "
-			str[i] = 31;         // 31 = ASCII Unit Separator
+		if (str[i] == 39)
+			str[i] = 30;
+		else if (str[i] == 34)
+			str[i] = 31;
 		i++;
 	}
 }
@@ -92,27 +93,11 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 		token->ambiguous = token->value;
 		token->hlep = 1312;
 	}
-	printf("this is the re %s\n", res);
 	if (ft_strchr(res, ' ') && one != 1337)
 		s_split(res, token, hendel_qoutes(token->value));
 	else
 		replace_token(&token->value, \
 s_split(res, token, hendel_qoutes(token->value)));
-}
-
-void	process_token_quotes(t_token *token)
-{
-	if (ft_strchr(token->value, '\'') || ft_strchr(token->value, '\"'))
-		replace_token(&token->value, hendel_qoutes(token->value));
-}
-
-void	check(t_token *token, t_env *env, int export_h, int *one)
-{
-	if (ft_strcmp(token->value, "~") == 0)
-		replace_token(&token->value, expnd_cd("HOME", env));
-	if (ft_strcmp("export", token->value) \
-	== 0 && export_h == 0 && ft_strchr(token->value, '=') == NULL)
-		*one = 1337;
 }
 
 int	expand(t_token *token, t_env *env, int *exit_s)

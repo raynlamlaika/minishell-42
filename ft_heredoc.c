@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:31:33 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/18 19:33:54 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:36:57 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	lines(int *fd, char *limiter, int flag, t_env *env)
 	while (1)
 	{
 		g_here_doc_helper = 42;
-		printf("whyyyyyy expand %d\n", flag);
 		(1) && (next = readline("here_doc >> "), tmp = next);
 		if (!next || g_here_doc_helper == 20)
 		{

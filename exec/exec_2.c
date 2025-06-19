@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 12:21:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/11 00:26:07 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:48:32 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	execute_single_cmd(t_cmd *cmd, t_env **env, int *exit_s)
 	cmd->exit_flag = 42;
 	helper = ft_malloc(sizeof(t_finished), 1);
 	initialize_helper(helper, cmd, env);
-	if (!helper->args || !helper->args[0])
+	if (!helper->args || !helper->args[0] \
+	|| helper->inf == -5 || helper->outf == -5)
 	{
 		close_inf_out(helper, cmd);
+		exit_status(1, 1);
 		return ;
 	}
 	if (search_search(helper->args[0]) == 1)

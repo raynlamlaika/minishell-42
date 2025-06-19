@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   handel_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:27:12 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 10:45:39 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:35:25 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void restore_hidden_q(char *str)
+void	restore_hidden_q(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str)
-		return;
-
+		return ;
 	while (str[i])
 	{
 		if ((unsigned char)str[i] == 30)

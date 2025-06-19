@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_h.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:19:30 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/02 03:21:04 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:53:55 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ char	*take_replace(int i, char *input, int *help, t_env *env)
 		env = env->next;
 	}
 	return (val);
+}
+
+void	process_token_quotes(t_token *token)
+{
+	if (ft_strchr(token->value, '\'') || ft_strchr(token->value, '\"'))
+		replace_token(&token->value, hendel_qoutes(token->value));
+}
+
+void	check(t_token *token, t_env *env, int export_h, int *one)
+{
+	if (ft_strcmp(token->value, "~") == 0)
+		replace_token(&token->value, expnd_cd("HOME", env));
+	if (ft_strcmp("export", token->value) \
+	== 0 && export_h == 0 && ft_strchr(token->value, '=') == NULL)
+		*one = 1337;
 }
