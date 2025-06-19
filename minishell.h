@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:19:42 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/13 23:59:04 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:48:53 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,10 @@ typedef struct s_stat
 	struct stat	stat_stdout;
 }				t_stat;
 
+void restore_hidden_q(char *str);
+
+void quote_helper_s_d(char *str);
+char	*add_quotess_s(char *input);
 void	close_fds(void);
 int		helper_valid(char *str, int export);
 int		helper_mltp_dlar(int *i, char*string);

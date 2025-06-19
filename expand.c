@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 04:32:41 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/18 19:49:58 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:44:37 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,47 @@ char	*add_quotes(char *str)
 	return (result);
 }
 
+int	is_inside_quotes(const char *str, int pos)
+{
+	int		i;
+	char	quote;
+
+	if (!str || pos < 0)
+		return (0);
+	i = 0;
+	quote = 0;
+	while (str[i] && i <= pos)
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			if (quote == 0)
+				quote = str[i];
+			else if (quote == str[i])
+				quote = 0;
+		}
+		i++;
+	}
+	if (quote != 0)
+		return (1);
+	return (0);
+}
+
+void quote_helper_s_d(char *str)
+{
+	int i = 0;
+
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		if (str[i] == 39)        // 39 = single quote '
+			str[i] = 30;         // 30 = ASCII Record Separator
+		else if (str[i] == 34)   // 34 = double quote "
+			str[i] = 31;         // 31 = ASCII Unit Separator
+		i++;
+	}
+}
+
 void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 {
 	char	*res;
@@ -51,6 +92,7 @@ void	process_token_dollar(t_token *token, t_env *env, int *exit_s, int one)
 		token->ambiguous = token->value;
 		token->hlep = 1312;
 	}
+	printf("this is the re %s\n", res);
 	if (ft_strchr(res, ' ') && one != 1337)
 		s_split(res, token, hendel_qoutes(token->value));
 	else

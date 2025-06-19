@@ -6,7 +6,7 @@
 /*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 01:00:15 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/12 18:05:47 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:49:18 by rlamlaik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_take(char *string, int *i, t_env *env)
 	result = ft_replace(search, env);
 	*i = help;
 	result = tmp_null (result, env);
+	quote_helper_s_d(result);
 	return (result);
 }
 
