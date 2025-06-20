@@ -6,7 +6,7 @@
 /*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:16:45 by rlamlaik          #+#    #+#             */
-/*   Updated: 2025/06/19 11:44:12 by abouabba         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:54:00 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	helper_s(t_finished *helper)
 		}
 		else
 			print_error_arg("", helper->args[0], \
-				" : command not found\n");
+				" : \n");
 	}
 	else
 		print_error_arg("minishell ", helper->args[0], \
@@ -70,7 +70,7 @@ void	execute_command_s(t_finished *helper, int *exit_s)
 		helper_s(helper);
 	print_error_arg("", helper->args[0], " : command not found\n");
 	ft_malloc(0, 0);
-	exit(126);
+	exit(127);
 }
 
 void	handle_redirections(int inf, int outf)

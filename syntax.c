@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlamlaik <rlamlaik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouabba <abouabba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:31:19 by abouabba          #+#    #+#             */
-/*   Updated: 2025/06/19 19:21:05 by rlamlaik         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:58:39 by abouabba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ char	*add_quotess_s(char *input)
 int	syntax(t_token *tokens, int *exit_s, int max_here_doc)
 {
 	if (!tokens || !tokens->value)
-	{
-		*exit_s = 2;
 		return (1);
-	}
 	if (tokens->type == TOKEN_PIPE)
 		return (*exit_s = 2, \
 printf_error("minishell: syntax error near unexpected token `|'\n"), 1);
@@ -96,8 +93,7 @@ printf_error("minishell: syntax error near unexpected token `|'\n"), 1);
 			if (max_here_doc > 16)
 			{
 				printf_error("bash: maximum here-document count exceeded\n");
-				*exit_s = 2;
-				return (1);
+				exit(2);
 			}
 		}
 		if (syntax_2(&tokens, exit_s))
